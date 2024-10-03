@@ -24,7 +24,7 @@ def register():
         # on essaie d'insérer l'utilisateur dans la base de données
         if username and password:
             try:
-                db.execute("INSERT INTO users (username, password) VALUES (?, ?)",(username, generate_password_hash(password)))
+                db.execute("INSERT INTO Utilisateurs (nom, mot_de_passe) VALUES (?, ?)",(username, generate_password_hash(password)))
                 # db.commit() permet de valider une modification de la base de données
                 db.commit()
                 # On ferme la connexion à la base de données pour éviter les fuites de mémoire
@@ -63,7 +63,7 @@ def login():
         
         # On récupère l'utilisateur avec le username spécifié (une contrainte dans la db indique que le nom d'utilisateur est unique)
         # La virgule après username est utilisée pour créer un tuple contenant une valeur unique
-        user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        user = db.execute('SELECT * FROM Utilisateurs WHERE nom = ?', (username,)).fetchone()
 
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()
@@ -73,14 +73,13 @@ def login():
         error = None
         if user is None:
             error = "Nom d'utilisateur incorrect"
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash(user['mot_de_passe'], password):
             error = "Mot de passe incorrect"
-
         # S'il n'y pas d'erreur, on ajoute l'id de l'utilisateur dans une variable de session
         # De cette manière, à chaque requête de l'utilisateur, on pourra récupérer l'id dans le cookie session
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user['id_utilisateurs']
             # On redirige l'utilisateur vers la page principale une fois qu'il s'est connecté
             return redirect("/")
         
@@ -119,7 +118,7 @@ def load_logged_in_user():
     else:
          # On récupère la base de données et on récupère l'utilisateur correspondant à l'id stocké dans le cookie session
         db = get_db()
-        g.user = db.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+        g.user = db.execute('SELECT * FROM Utilisateurs WHERE id_utilisateurs = ?', (user_id,)).fetchone()
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()
 
