@@ -9,17 +9,20 @@
         <nav id="header-nav">
             <div id="header-nav-logo">
                 <a href="{{url_for('home.landing_page')}}">
-                    <img src="{{url_for('static', filename='imgs/logo-csud.svg')}}" alt="logo-csud"/>
+                    <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
             </div>
             <ul id="header-nav-menu">
+                    <li class="titre_menu"> MEMBRES</li>
+                    <li class="titre_menu"> ENTRAÎNEMENT</li>
+                    <li class="titre_menu"> TOURNOI</li>
+                    <li class="titre_menu"> INFOS</li>
                 {% if g.user %}
                     <li><span>{{ g.user['username'] }}</span>
                     <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
                     <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('auth.register') }}">S'enregistrer</a>
-                    <li><a href="{{ url_for('auth.login') }}">Se connecter</a>
+                    <li><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
                 {% endif %}
             </ul>
         </nav>
@@ -32,13 +35,9 @@
     <footer id="footer">
         <div id="footer-nav">
             <div>
-                <p>Template de base TM</p>
-            </div>
-            <div>
-                <p>Collège du Sud, 1630, Bulle </p>
-            </div>
-            <div>
-                <p>Johan Jobin</p>
+                <p id="contacts">CONTACTS</p>
+                <p class="infos_contacts">Président du Club : Thürler Timo</p>
+                <p class="infos_contacts">Numéro : 079 000 00 00</p>
             </div>
         </div>
     </footer>

@@ -98,7 +98,7 @@ header{
 }
 
 #footer-nav {
-    background-color: #2235a5;
+    background-color: #d9d9d9;
     height: 100px;
     display: flex;
     flex-direction: row;
@@ -107,9 +107,6 @@ header{
     gap: 100px;
 }
 
-#footer-nav p{
-    color: white;
-}
 
 .content-index, .content-404, .content-register, .content-profile{
     height:80vh;
@@ -127,5 +124,40 @@ header{
 }
 
 
-
-
+body{
+  font-family: Arial, sans-serif;
+    background-color: #F8F3E3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+.titre_menu{
+  color: #8D493A;
+}
+#bienvenue{
+  color: #8D493A;
+  position: absolute;
+  top:200px;
+  left:20%;
+}
+#club-echecs-csud{
+  color: #76453B;
+  position: absolute;
+  top:250px;
+  left:20%;
+}
+#fond-accueil{
+  position: absolute;
+  top:0px;
+}
+#logo{
+  width: 100px !important;
+  height: auto;
+}
+#footer .infos_contacts{
+  color:#A2845E;
+}
+#contacts{
+  color:#8D493A;
+}

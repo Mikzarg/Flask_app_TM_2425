@@ -5,11 +5,9 @@
 {% endblock %}
 
 {% block content%}
+<img id = "fond-accueil"src="{{url_for('static', filename='imgs/echecs-accueil.jpg')}}" alt="logo-csud"/>
   <div class="content-index">
-    {% if g.user %}
-      <h1>Vous êtes connectés</h1>
-    {% else %}
-      <h1>Bienvenue sur le template de base de votre TM :)</h1>
-    {% endif %}
+    <h2 id="bienvenue">Bienvenue sur le site du</h2>
+    <h1 id="club-echecs-csud">Club d'échecs du CSUD!</h1>
   </div>
 {% endblock %}
