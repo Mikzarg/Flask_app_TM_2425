@@ -7,6 +7,7 @@
 {% block content %}
   <div class="content-register">
     <div>
+      <h2>Se connecter</h2>
       <form method="post">
         <label for="username">Nom / Prénom ou Adresse mail</label>
         <input name="username" id="username" required>
@@ -14,6 +15,11 @@
         <input type="password" name="password" id="password" required>
         <input type="submit" value="Se connecter">
       </form>
+      <img id="check-se-souvenir-de-moi" src="{{url_for('static', filename='imgs/check-se-souvenir-de-moi.png')}}" alt="check-se-souvenir-de-moi">
+      <img id="oeil" src="{{url_for('static', filename='imgs/oeil.png')}}" alt="oeil">
+      <h4>Se souvenir de moi</h4>
+      <h3>S'inscrire</h3>
+      <h3>Mot de passe oublié</h3>
 
       {% for message in get_flashed_messages() %}
         <div>{{ message }}</div>

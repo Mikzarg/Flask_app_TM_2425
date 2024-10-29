@@ -49,6 +49,7 @@
 
 header{
     height: 100px;
+    z-index: 10;
 }
 
 #header-nav{
@@ -75,10 +76,7 @@ header{
     width: 100%;
 }
 
-#header-nav-menu{
-    width: 80%;
-    padding-right: 100px;
-}
+
 
 #header-nav>ul{
     display: flex;
@@ -95,16 +93,20 @@ header{
 #header-nav a{
     color: #797a7a;
     text-decoration: none;
+    width: 30%;
 }
 
 #footer-nav {
-    background-color: #d9d9d9;
     height: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 100px;
+    position: absolute;
+    right: 0%;
+    margin-top: auto;
+    z-index: 100000;
 }
 
 
@@ -132,32 +134,89 @@ body{
     align-items: center;
     min-height: 100vh;
 }
+
+#logo{
+  width: 8% !important;
+  height: auto;
+  left: 5%;
+  position: absolute;
+  top:2%;
+}
+#header-nav-menu{
+    width: 80%;
+    padding-right: 100px;
+}
 .titre_menu{
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   color: #8D493A;
+}
+#menu_connecter{
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-decoration: underline;
+  text-decoration-color: #797a7a;
+}
+#carres-top-right{
+  position: absolute;
+  right:0%;
+  top: 0%;
+  height: 25%;
+  width: auto;
 }
 #bienvenue{
   color: #8D493A;
   position: absolute;
-  top:200px;
-  left:20%;
+  top:40%;
+  left:13%;
+  font-family: "Bakbak One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 200%;
 }
 #club-echecs-csud{
   color: #76453B;
   position: absolute;
-  top:250px;
-  left:20%;
+  top:45%;
+  left:8%;
+  font-family: "Bakbak One", sans-serif;
+  font-weight: 400;
+  font-style:normal;
+  font-size: 450%;
 }
 #fond-accueil{
   position: absolute;
   top:0px;
+  left:0px;
 }
-#logo{
-  width: 100px !important;
-  height: auto;
-}
+
 #footer .infos_contacts{
   color:#A2845E;
+  font-family: "Bakbak One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 110%;
 }
 #contacts{
   color:#8D493A;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 130%;
+}
+#carres-bottom-left{
+  position: absolute;
+  left: 0%;
+  bottom:0%;
+  height: 20%;
+  width: auto;
+}
+#cercle-contacts{
+  position: absolute;
+  right: 0%;
+  bottom:0%;
+  height: 40%;
+  width: auto;
 }

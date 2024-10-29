@@ -1,10 +1,13 @@
 <!doctype html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Bakbak+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body >
     <header id="header">
         <nav id="header-nav">
             <div id="header-nav-logo">
@@ -12,17 +15,18 @@
                     <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
             </div>
+            <img id="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres-top-right"">
             <ul id="header-nav-menu">
-                    <li class="titre_menu"> MEMBRES</li>
-                    <li class="titre_menu"> ENTRAÎNEMENT</li>
-                    <li class="titre_menu"> TOURNOI</li>
-                    <li class="titre_menu"> INFOS</li>
+                    <li class="titre_menu" id="menu_membres"> MEMBRES</li>
+                    <li class="titre_menu" id="menu_entrainement"> ENTRAÎNEMENT</li>
+                    <li class="titre_menu" id="menu_tournoi"> TOURNOI</li>
+                    <li class="titre_menu" id="menu_infos"> INFOS</li>
                 {% if g.user %}
                     <li><span>{{ g.user['username'] }}</span>
                     <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
                     <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
+                    <li id="menu_connecter"><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
                 {% endif %}
             </ul>
         </nav>
@@ -33,6 +37,8 @@
     </main>
 
     <footer id="footer">
+        <img id="carres-bottom-left" src="{{url_for('static', filename='imgs/carres-bottom-left.png')}}" alt="carres-bottom-left">
+        <img id="cercle-contacts" src="{{url_for('static', filename='imgs/cercle-contacts.png')}}" alt="cercle-contacts">
         <div id="footer-nav">
             <div>
                 <p id="contacts">CONTACTS</p>
