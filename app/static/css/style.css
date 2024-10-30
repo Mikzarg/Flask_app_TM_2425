@@ -48,7 +48,7 @@
 */
 
 header{
-    height: 100px;
+    height: 20%;
     z-index: 10;
 }
 
@@ -59,31 +59,12 @@ header{
     flex-direction: row;
 }
 
-#header-nav-logo{
-    width:20%;
-    display: flex;
-}
-
-#header-nav-logo>a{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-#header-nav-logo img{
-    width: 100%;
-}
-
-
-
 #header-nav>ul{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    gap: 100px;
+    gap: 12%;
 }
 
 #header-nav li a:hover{
@@ -93,22 +74,7 @@ header{
 #header-nav a{
     color: #797a7a;
     text-decoration: none;
-    width: 30%;
 }
-
-#footer-nav {
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 100px;
-    position: absolute;
-    right: 0%;
-    margin-top: auto;
-    z-index: 100000;
-}
-
 
 .content-index, .content-404, .content-register, .content-profile{
     height:80vh;
@@ -127,26 +93,48 @@ header{
 
 
 body{
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #F8F3E3;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
 }
+main {
+  flex: 1;
+}
+#header-nav-logo{
+  width:20%;
+  display: flex;
+}
+
+#header-nav-logo>a{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#header-nav-logo img{
+  width:40%;
+  position: relative;
+}
 
 #logo{
-  width: 8% !important;
   height: auto;
-  left: 5%;
-  position: absolute;
-  top:2%;
+  left: 15%;
+  top:10%;
+  z-index: 100;
 }
 #header-nav-menu{
     width: 80%;
-    padding-right: 100px;
+    padding-right: 16%;
+    display: flex;
 }
 .titre_menu{
+  position: relative;
+  top:10%;
   font-family: "Aldrich", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -158,6 +146,7 @@ body{
   font-style: normal;
   text-decoration: underline;
   text-decoration-color: #797a7a;
+  white-space: nowrap;
 }
 #carres-top-right{
   position: absolute;
@@ -165,6 +154,11 @@ body{
   top: 0%;
   height: 25%;
   width: auto;
+}
+body.accueil {
+  background-image: url("../imgs/echecs-accueil.jpg");
+  background-size: cover;
+  background-position: center;
 }
 #bienvenue{
   color: #8D493A;
@@ -191,7 +185,17 @@ body{
   top:0px;
   left:0px;
 }
-
+#footer{
+  position: relative;
+  width: 100%;
+}
+#footer-nav{
+  position: absolute; /* Permet de placer les contacts où l'on veut */
+  bottom: 5%; /* Ajuste la position verticale */
+  right: 5%; /* Ajuste la position horizontale */
+  text-align: right;
+  z-index: 30; /* Plus élevé pour s'assurer que le texte soit au-dessus du cercle */
+}
 #footer .infos_contacts{
   color:#A2845E;
   font-family: "Bakbak One", sans-serif;
@@ -199,24 +203,37 @@ body{
   font-style: normal;
   font-size: 110%;
 }
-#contacts{
+#footer #contacts{
   color:#8D493A;
   font-family: "Aldrich", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 130%;
 }
-#carres-bottom-left{
+#carres-bottom-left {
   position: absolute;
-  left: 0%;
-  bottom:0%;
-  height: 20%;
-  width: auto;
+  left: 0;
+  bottom: 0;
+  width: 100px; 
+  height: 100px; 
+  z-index: 1;
 }
-#cercle-contacts{
+#cercle-contacts {
   position: absolute;
-  right: 0%;
-  bottom:0%;
-  height: 40%;
-  width: auto;
+  right: 0;
+  bottom: 0;
+  height: auto; /* Ajuste selon la taille souhaitée */
+  width: 20%; /* Taille relative pour s'adapter à l'écran */
+  z-index: 10;
+}
+#footer-nav {
+  background-color: rgba(255, 0, 0, 0.3); /* Rouge transparent pour visualisation */
+}
+
+#carres-bottom-left {
+  background-color: rgba(0, 255, 0, 0.3); /* Vert transparent pour visualisation */
+}
+
+#cercle-contacts {
+  background-color: rgba(0, 0, 255, 0.3); /* Bleu transparent pour visualisation */
 }

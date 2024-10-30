@@ -15,18 +15,18 @@
                     <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
             </div>
-            <img id="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres-top-right"">
+            <img id="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres-top-right" >
             <ul id="header-nav-menu">
                     <li class="titre_menu" id="menu_membres"> MEMBRES</li>
                     <li class="titre_menu" id="menu_entrainement"> ENTRAÎNEMENT</li>
                     <li class="titre_menu" id="menu_tournoi"> TOURNOI</li>
                     <li class="titre_menu" id="menu_infos"> INFOS</li>
                 {% if g.user %}
-                    <li><span>{{ g.user['username'] }}</span>
-                    <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
+                    <li><span>{{ g.user['username'] }}</span></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a></li>
                     <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
                 {% else %}
-                    <li id="menu_connecter"><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
+                    <li class="titre_menu" id="menu_connecter"><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
                 {% endif %}
             </ul>
         </nav>
