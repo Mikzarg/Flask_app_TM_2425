@@ -12,19 +12,21 @@ def register():
 
     # Si des données de formulaire sont envoyées vers la route /register (ce qui est le cas lorsque le formulaire d'inscription est envoyé)
     if request.method == 'POST':
-
         # On récupère les champs 'username' et 'password' de la requête HTTP
-        username = request.form['username']
+        e_mail = request.form['e_mail']
         password = request.form['password']
+        name = request.form['name']
+        first_name = request.form['first_name']
+        classe = request.form['classe']
 
         # On récupère la base de donnée
         db = get_db()
 
         # Si le nom d'utilisateur et le mot de passe ont bien une valeur
         # on essaie d'insérer l'utilisateur dans la base de données
-        if username and password:
+        if e_mail and password and name and first_name and classe:
             try:
-                db.execute("INSERT INTO Utilisateurs (nom, mot_de_passe) VALUES (?, ?)",(username, generate_password_hash(password)))
+                db.execute(""" INSERT INTO Utilisateurs (e_mail, mot_de_passe, nom, prenom, classe) VALUES (?, ?, ?, ?, ?) """, (e_mail, generate_password_hash(password), name, first_name, classe)) 
                 # db.commit() permet de valider une modification de la base de données
                 db.commit()
                 # On ferme la connexion à la base de données pour éviter les fuites de mémoire
@@ -34,7 +36,7 @@ def register():
 
                 # La fonction flash dans Flask est utilisée pour stocker un message dans la session de l'utilisateur
                 # dans le but de l'afficher ultérieurement, généralement sur la page suivante après une redirection
-                error = f"Utilisateur {username} déjà enregistré."
+                error = f"Utilisateur {e_mail} déjà enregistré."
                 flash(error)
                 return redirect(url_for("auth.register"))
             
@@ -55,7 +57,7 @@ def login():
     if request.method == 'POST':
 
         # On récupère les champs 'username' et 'password' de la requête HTTP
-        username = request.form['username']
+        e_mail = request.form['e_mail']
         password = request.form['password']
 
         # On récupère la base de données
@@ -63,7 +65,7 @@ def login():
         
         # On récupère l'utilisateur avec le username spécifié (une contrainte dans la db indique que le nom d'utilisateur est unique)
         # La virgule après username est utilisée pour créer un tuple contenant une valeur unique
-        user = db.execute('SELECT * FROM Utilisateurs WHERE nom = ?', (username,)).fetchone()
+        user = db.execute('SELECT * FROM Utilisateurs WHERE e_mail = ?', (e_mail,)).fetchone()
 
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()

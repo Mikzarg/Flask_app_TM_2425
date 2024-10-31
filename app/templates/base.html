@@ -15,18 +15,22 @@
                     <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
             </div>
-            <img id="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres-top-right" >
+            
             <ul id="header-nav-menu">
                     <li class="titre_menu" id="menu_membres"> MEMBRES</li>
                     <li class="titre_menu" id="menu_entrainement"> ENTRAÎNEMENT</li>
                     <li class="titre_menu" id="menu_tournoi"> TOURNOI</li>
                     <li class="titre_menu" id="menu_infos"> INFOS</li>
                 {% if g.user %}
-                    <li><span>{{ g.user['username'] }}</span></li>
-                    <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a></li>
-                    <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
+                    <img class="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right-2.png')}}" alt="carres-top-right-2" >
+                    <li class="nom-prenom" id="nom_personne"><span>{{ g.user['nom'] }}</span></li>
+                    <li class="nom-prenom" id="prenom_personne"><span>{{ g.user['prenom'] }}</span></li>
+                    <li><span>{{ g.user['photo_de_profil'] }}</span></li>
+                    <!--<li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a></li>
+                    <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>-->
                 {% else %}
                     <li class="titre_menu" id="menu_connecter"><a href="{{ url_for('auth.login') }}">SE CONNECTER</a>
+                    <img class="carres-top-right" src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres-top-right" >
                 {% endif %}
             </ul>
         </nav>
@@ -40,11 +44,9 @@
         <img id="carres-bottom-left" src="{{url_for('static', filename='imgs/carres-bottom-left.png')}}" alt="carres-bottom-left">
         <img id="cercle-contacts" src="{{url_for('static', filename='imgs/cercle-contacts.png')}}" alt="cercle-contacts">
         <div id="footer-nav">
-            <div>
-                <p id="contacts">CONTACTS</p>
-                <p class="infos_contacts">Président du Club : Thürler Timo</p>
-                <p class="infos_contacts">Numéro : 079 000 00 00</p>
-            </div>
+            <p id="contacts">CONTACTS</p>
+            <p class="infos_contacts">Président du Club : Thürler Timo</p>
+            <p class="infos_contacts" id="numero">Numéro : 079 000 00 00</p>
         </div>
     </footer>
 

@@ -1,29 +1,30 @@
 {% extends 'base.html' %}
-
-{% block title %}
-  Se connecter
-{% endblock %}
-
+{% block title %}  Se connecter{% endblock %}
 {% block content %}
-  <div class="content-register">
-    <div>
-      <h2>Se connecter</h2>
+<body class="se-connecter">
+  <div class="container">
+    <div class="content-register">
+      <h2 class="titre-se-connecter">Se connecter</h2>
       <form method="post">
-        <label for="username">Nom / Prénom ou Adresse mail</label>
-        <input name="username" id="username" required>
+        <label for="e_mail">Adresse mail</label>
+        <input name="e_mail" id="e_mail" required>
         <label for="password">Mot de passe</label>
         <input type="password" name="password" id="password" required>
-        <input type="submit" value="Se connecter">
+        <input class="bouton-se-connecter" type="submit" value="Se connecter">
       </form>
-      <img id="check-se-souvenir-de-moi" src="{{url_for('static', filename='imgs/check-se-souvenir-de-moi.png')}}" alt="check-se-souvenir-de-moi">
       <img id="oeil" src="{{url_for('static', filename='imgs/oeil.png')}}" alt="oeil">
-      <h4>Se souvenir de moi</h4>
-      <h3>S'inscrire</h3>
-      <h3>Mot de passe oublié</h3>
-
+      <div class="parent-container">
+        <div class="souvenir-container">
+          <img id="check-se-souvenir-de-moi" src="{{url_for('static', filename='imgs/check-se-souvenir-de-moi.png')}}" alt="check-se-souvenir-de-moi">
+          <label for="souvenir">Se souvenir de moi</label>
+        </div>
+      </div>
+      <h3 class="boutons-sinscrire-mdp" id="bouton-sinscrire"><a href="{{ url_for('auth.register') }}">S'inscrire</a>
+      <h3 class="boutons-sinscrire-mdp" id="bouton-mdp-oublié">Mot de passe oublié</h3>
       {% for message in get_flashed_messages() %}
         <div>{{ message }}</div>
       {% endfor %}
     </div>
   </div>
+</body>
 {% endblock %}
