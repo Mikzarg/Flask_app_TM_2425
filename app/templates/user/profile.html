@@ -10,6 +10,7 @@
       <div class="content-profile-title">
         <h2>Profil de l'utilisateur connecté</h2>
       </div>
+      <form action="{{ url_for('logout') }}" method="get"> <button type="submit">Se Déconnecter</button> </form>
       <ul>
         <li>Nom d'utilisateur: {{g.user.username}}</li>
         <li>Mot de passe: {{g.user.password}}</li>

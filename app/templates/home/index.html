@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Template de base
+  Page d'accueil
 {% endblock %}
 
 
 {% block content%}
-<img id = "fond-accueil"src="{{url_for('static', filename='imgs/echecs-accueil.jpg')}}" alt="logo-csud"/>
-  <div class="content-index">
+  <img id ="fond-accueil" src="{{url_for('static', filename='imgs/echecs-accueil.jpg')}}" alt="image d'un échiquier"/>
+  <div id="content-index">
     <h2 id="bienvenue">Bienvenue sur le site du</h2>
     <h1 id="club-echecs-csud">Club d'échecs du CSUD!</h1>
   </div>

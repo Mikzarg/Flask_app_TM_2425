@@ -46,7 +46,28 @@ ul{
 /*
 -----------------   ADD YOUR CSS RULES BELOW ------------------
 */
-
+/*
+-------------------------    General   ------------------------
+*/
+html, body{
+  height: 100%;
+  margin:0;
+  }
+  body{
+    font-family: Arial, sans-serif;
+    background-color: #F8F3E3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  main {
+  flex: 1;
+  }
+/*
+----------------------   Barre du menu   ----------------------
+*/
 header{
   height: 25%;
   z-index: 10;
@@ -74,7 +95,67 @@ header{
   color: #797a7a;
   text-decoration: none;
 }
+#header-nav-logo{
+  width:20%;
+  display: flex;
+  }
+  
+#header-nav-logo>a{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+  
+#header-nav-logo img{
+  width:40%;
+  position: relative;
+}
+  
+#logo{
+  height: auto;
+  left: 15%;
+  top:10%;
+  z-index: 100;
+}
+#header-nav-menu{
+    width: 80%;
+    display: flex;
+}
 
+.titre_menu{
+  position: relative;
+  top:10%;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #8D493A;
+}
+#menu_connecter{
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-decoration: underline;
+  text-decoration-color: #797a7a;
+  white-space: nowrap;
+}
+#carres_top_right_1{
+    position: relative;
+    top:100vh;
+    height:10%;
+    width:auto;
+}
+  #carres-top-right-2{
+    position: relative;
+    display: flex;
+    top:2vh;
+    height: 120%;
+    width: auto;
+}
+/*
+----------------------   Content   ----------------------
+*/
 .content-index, .content-404, .content-register, .content-profile{
   height:80vh;
   display: flex;
@@ -89,80 +170,62 @@ header{
   display: block; 
   text-align:center;
 }
-
-html, body{
-height: 100%;
-margin:0;
-}
-body{
-  font-family: Arial, sans-serif;
-  background-color: #F8F3E3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-}
-main {
-flex: 1;
-}
-#header-nav-logo{
-width:20%;
-display: flex;
-}
-
-#header-nav-logo>a{
-width: 100%;
-height: 100%;
-display: flex;
-flex-direction: row;
-align-items: center;
-}
-
-#header-nav-logo img{
-width:40%;
-position: relative;
-}
-
-#logo{
-height: auto;
-left: 15%;
-top:10%;
-z-index: 100;
-}
-#header-nav-menu{
-  width: 80%;
-  display: flex;
-}
-.titre_menu{
-position: relative;
-top:10%;
-font-family: "Aldrich", sans-serif;
-font-weight: 400;
-font-style: normal;
-color: #8D493A;
-}
-#menu_connecter{
-font-family: "Aldrich", sans-serif;
-font-weight: 400;
-font-style: normal;
-text-decoration: underline;
-text-decoration-color: #797a7a;
-white-space: nowrap;
-}
-#carres_top_right_1{
+/*
+----------------------   Barre des contacts   ----------------------
+*/
+#footer{
   position: relative;
-  top:100vh;
-  height:10%;
-  width:auto;
-}
-#carres-top-right-2{
-  position: relative;
-  display: flex;
-  top:2vh;
-  height: 120%;
-  width: auto;
+  width: 100%;
+  margin-top: auto;
+  bottom:0;
   }
+  #footer-nav{
+  position: relative;
+  right: 2%; 
+  bottom:0;
+  text-align: right;
+  padding-top: 18vh;
+  z-index: 30; 
+  }
+  
+  #footer .infos_contacts{
+  color:#A2845E;
+  font-family: "Bakbak One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 110%;
+  }
+  #numero{
+  padding-bottom: 6vh;
+  }
+  #footer #contacts{
+  color:#8D493A;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 140%;
+  margin-bottom: 5vh;
+  padding-right: 4vh;
+  }
+  #carres-bottom-left {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: auto; 
+  height: 19vh; 
+  z-index: 1;
+  }
+  #cercle-contacts {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: auto; 
+  width: 27%; 
+  z-index: 10;
+  }
+/*
+----------------------   Page d'accueil   ----------------------
+*/
 #bienvenue{
 color: #8D493A;
 position: absolute;
@@ -189,57 +252,9 @@ width: 100%;
 top:0;
 left:0;
 }
-#footer{
-position: relative;
-width: 100%;
-margin-top: auto;
-bottom:0;
-}
-#footer-nav{
-position: relative;
-right: 2%; 
-bottom:0;
-text-align: right;
-padding-top: 18vh;
-z-index: 30; 
-}
-
-#footer .infos_contacts{
-color:#A2845E;
-font-family: "Bakbak One", sans-serif;
-font-weight: 400;
-font-style: normal;
-font-size: 110%;
-}
-#numero{
-padding-bottom: 6vh;
-}
-#footer #contacts{
-color:#8D493A;
-font-family: "Aldrich", sans-serif;
-font-weight: 400;
-font-style: normal;
-font-size: 140%;
-margin-bottom: 5vh;
-padding-right: 4vh;
-}
-#carres-bottom-left {
-position: absolute;
-left: 0;
-bottom: 0;
-width: auto; 
-height: 19vh; 
-z-index: 1;
-}
-#cercle-contacts {
-position: absolute;
-right: 0;
-bottom: 0;
-height: auto; 
-width: 27%; 
-z-index: 10;
-}
-
+/*
+----------------------   Page se connecter   ----------------------
+*/
 .se-connecter{
 background-image: url("/static/imgs/echecs-se-connecter.JPG");
 background-size: cover;
@@ -308,14 +323,6 @@ height:20%;
 font-size: 110%;
 }
 
-#oeil{
-position:absolute;
-top:39%;
-left:82%;
-height:5vh;
-width:auto;
-}
-
 .souvenir-container { 
 display: flex; 
 align-items: center; 
@@ -353,7 +360,9 @@ right:55%;
   color: inherit;
 } 
 
-form label, form input:not([type="submit"]) { width: 80%; }
+form label, form input:not([type="submit"]) { 
+  width: 80%; 
+}
 #nom{
   width:38%;
   margin-left:7%;
@@ -374,20 +383,7 @@ form label, form input:not([type="submit"]) { width: 80%; }
   margin-left: 70%;
   height:18%;
 }
-#oeil1{
-  position:absolute;
-  top:52.5%;
-  left:82%;
-  height:5vh;
-  width:auto;
-}
-#oeil2{
-  position:absolute;
-  top:64.5%;
-  left:82%;
-  height:5vh;
-  width:auto;
-}
+
 #nom_personne{
   position: absolute;
   z-index: 50;

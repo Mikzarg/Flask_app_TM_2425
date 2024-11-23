@@ -30,8 +30,6 @@
           <input >
         <input class="bouton-se-connecter" id ="sinscrire" type="submit" value="S'inscrire">
       </form>
-      <img id="oeil1" src="{{url_for('static', filename='imgs/oeil.png')}}" alt="oeil">
-      <img id="oeil2" src="{{url_for('static', filename='imgs/oeil.png')}}" alt="oeil">
       {% for message in get_flashed_messages() %}
         <div class="flash">{{ message }}</div>
       {% endfor %}
