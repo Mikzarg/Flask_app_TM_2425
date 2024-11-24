@@ -5,33 +5,33 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Bakbak+One&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style - Copie - Copie.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
 
-    <body >
+    <body>
         <header id="header">
             <div id="header-div">              
                 <a href="{{url_for('home.landing_page')}}" id="lien-accueil">
                     <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
                 <div id="header-titres-menu">
-                    <h4 class="titre_menu" id="menu_membres"> MEMBRES</h4>
+                    <a href="{{ url_for('members.show_members') }}" class="titre_menu" > MEMBRES</a>
                     <h4 class="titre_menu" id="menu_entrainement"> ENTRAÎNEMENT</h4>
                     <h4 class="titre_menu" id="menu_tournoi"> TOURNOI</h4>
                     <h4 class="titre_menu" id="menu_infos"> INFOS</h4>
                     {% if not g.user %}
-                        <a href="{{ url_for('auth.login') }}" class="titre_menu" id="menu_connecter"></class=>SE CONNECTER</a>
+                        <a href="{{ url_for('auth.login') }}" class="titre_menu" id="menu_connecter">SE CONNECTER</a>
                     {% endif %}
                 </div>
                 {% if  g.user %}
-                    <div>
-                        <a href="{{ url_for('user.show_profile') }}">
-                            <img src="{{url_for('static', filename='imgs/carres-top-right-2.png')}}" alt="carres_top_right_2" >
-                            <li class="nom-prenom" id="nom_personne"><span>{{ g.user['nom'] }}</span></li>
-                            <li class="nom-prenom" id="prenom_personne"><span>{{ g.user['prenom'] }}</span></li>
+                    <div id="top-right-co">
+                        <a href="{{ url_for('user.show_profile') }}" id="lien-profil">
+                            <img id="carres_top_right_2" src="{{url_for('static', filename='imgs/carres-top-right-2.png')}}" alt="carres_top_right_2" >
+                            <h5 class="nom-prenom" id="nom_personne"><span>{{ g.user['nom'] }}</span></h5>
+                            <h5 class="nom-prenom" id="prenom_personne"><span>{{ g.user['prenom'] }}</span></h5>
                         </a>
                     </div>
-                    <a href="{{ url_for('auth.logout') }}">Se deco</a>
+                    <a id ="deco" href="{{ url_for('auth.logout') }}">Se deco</a>
                 {% else %}
                     <img src="{{url_for('static', filename='imgs/carres-top-right.png')}}" alt="carres_top_right_1" id="carres_top_right_1">
                 {% endif %} 
@@ -43,12 +43,14 @@
         </main>
 
         <footer id="footer">
-            <img id="carres-bottom-left" src="{{url_for('static', filename='imgs/carres-bottom-left.png')}}" alt="carres-bottom-left">
-            <img id="cercle-contacts" src="{{url_for('static', filename='imgs/cercle-contacts.png')}}" alt="cercle-contacts">
-            <div id="footer-nav">
-                <p id="contacts">CONTACTS</p>
-                <p class="infos_contacts">Président du Club : Thürler Timo</p>
-                <p class="infos_contacts" id="numero">Numéro : 079 000 00 00</p>
+            <div id="footer-div">
+                <img id="carres-bottom-left" src="{{url_for('static', filename='imgs/carres-bottom-left.png')}}" alt="carres-bottom-left">
+                <img id="cercle-contacts" src="{{url_for('static', filename='imgs/cercle-contacts.png')}}" alt="cercle-contacts">
+                <div id="footer-texte-div">
+                    <p id="contacts">CONTACTS</p>
+                    <p class="infos_contacts">Président du Club : Thürler Timo</p>
+                    <p class="infos_contacts" id="numero">Numéro : 079 000 00 00</p>
+                </div>
             </div>
         </footer>
 
