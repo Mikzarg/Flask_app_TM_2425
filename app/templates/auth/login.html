@@ -2,23 +2,23 @@
 {% block title %}  Se connecter{% endblock %}
 {% block content %}
 <body class="se-connecter">
-  <div class="container">
+  <div id="container-se-connecter">
     <div class="content-register">
       <h2 class="titre-se-connecter">Se connecter</h2>
       <form method="post">
         <label for="e_mail">Adresse mail</label>
-        <input name="e_mail" id="e_mail" required>
+        <input name="e_mail" id="e_mail" required placeholder="test@example.com">
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" required placeholder="***************">
         <input class="bouton-se-connecter" type="submit" value="Se connecter">
       </form>
       <div class="parent-container">
         <div class="souvenir-container">
           <img id="check-se-souvenir-de-moi" src="{{url_for('static', filename='imgs/check-se-souvenir-de-moi.png')}}" alt="check-se-souvenir-de-moi">
-          <label for="souvenir">Se souvenir de moi</label>
+          <label  id="se-souvenir-de-moi" for="souvenir">Se souvenir de moi</label>
         </div>
       </div>
-      <h3 class="boutons-sinscrire-mdp" id="bouton-sinscrire"><a href="{{ url_for('auth.register') }}">S'inscrire</a>
+      <a class="boutons-sinscrire-mdp" id="bouton-sinscrire" href="{{ url_for('auth.register') }}">S'inscrire</a>
       <h3 class="boutons-sinscrire-mdp" id="bouton-mdp-oublié">Mot de passe oublié</h3>
       {% for message in get_flashed_messages() %}
         <div>{{ message }}</div>
