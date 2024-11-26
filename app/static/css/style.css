@@ -231,6 +231,25 @@ font-size: 450%;
   height:130%;
   width: 150%;
 }
+#nom_personne{
+  position: absolute;
+  z-index: 50;
+  top:20%;
+  left:90%;
+  
+}
+#prenom_personne{
+  position: absolute;
+  z-index: 50;
+  top:25%;
+  left:90%;
+}
+.nom-prenom{
+  font-family: "Bakbak One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 110%;
+}
 /*
 ----------------------   Page se connecter   ----------------------
 */
@@ -396,24 +415,4 @@ right:55%;
   width:20%;
   margin-left: 70%;
   height:10%;
-}
-
-#nom_personne{
-  position: absolute;
-  z-index: 50;
-  top:20%;
-  left:90%;
-  
-}
-#prenom_personne{
-  position: absolute;
-  z-index: 50;
-  top:25%;
-  left:90%;
-}
-.nom-prenom{
-  font-family: "Bakbak One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 110%;
 }
