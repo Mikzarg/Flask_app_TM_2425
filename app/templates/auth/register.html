@@ -7,28 +7,28 @@
 {% block content %}
 <body class="se-connecter">
   <div id="big-container-sinscrire">
-    <div class="content-register" id="container-sinscrire">
+    <div class="box-gris" id="container-sinscrire">
       <h2 class="titre-se-connecter">S'inscrire</h2>
       <form method="post">
         <div id="container-sinscrire-3">
           <div id="nom">
-            <label for="name" class="sinscrire-nom-3">Nom</label>
+            <label for="name" class="sinscrire-nom-3" class="label-connection">Nom</label>
             <input name="name" id="input-nom" class ="sinscrire-input-3" required placeholder="Dupont">
           </div>
           <div id="prenom">
-            <label for="first_name" class="sinscrire-nom-3">Prénom</label>
+            <label for="first_name" class="sinscrire-nom-3" class="label-connection">Prénom</label>
             <input name="first_name" id="input-prenom" class ="sinscrire-input-3" required placeholder="Jean">
           </div>
           <div id="Classe">
-            <label for="classe" class="sinscrire-nom-3">Classe</label>
+            <label for="classe" class="sinscrire-nom-3" class="label-connection">Classe</label>
             <input name="classe" id="input-classe" class ="sinscrire-input-3" required placeholder="1GY1">
           </div>
         </div>
-        <label for="e_mail">Adresse mail</label>
+        <label for="e_mail" class="label-connection">Adresse mail</label>
         <input name="e_mail" id="e_mail" required placeholder="test@example.com">
-        <label for="password">Mot de passe</label>
+        <label for="password" class="label-connection">Mot de passe</label>
         <input type="password" name="password" id="password" required placeholder="***************">
-        <label >Confirmez le mot de passe</label>
+        <label  class="label-connection">Confirmez le mot de passe</label>
         <input placeholder="***************">
         <input class="bouton-se-connecter" id ="sinscrire" type="submit" value="S'inscrire">
       </form>

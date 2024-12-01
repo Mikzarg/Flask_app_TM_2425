@@ -5,16 +5,83 @@
 {% endblock %}
 
 {% block content %}
-  <div class="content-profile">
-    <div>
-      <div class="content-profile-title">
-        <h2>Profil de l'utilisateur connecté</h2>
+  <div class="box-gris"  id="content-profile">
+    <div id="content-profile-titre">
+      <h1 id="titre-profil">Profil </h1>
+      <div id="content-profile-titre-boutons">
+        <form action="{{ url_for('auth.logout') }}" method="get"> 
+          <button type="submit" id="bouton-se-deco">
+            <span>Se déconnecter</span>
+            <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/deconnecter.png')}}" alt="Logo du bouton se déconnecter"/>
+          </button> 
+        </form>
+        <form action="{{ url_for('auth.logout') }}" method="get">         
+          <button type="submit" id="bouton-modifier">
+            <span>Modifier</span>
+            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
+          </button>
+        </form>
       </div>
-      <form action="{{ url_for('auth.logout') }}" method="get"> <button type="submit">Se Déconnecter</button> </form>
-      <ul>
-        <li>Nom d'utilisateur: {{g.user.username}}</li>
-        <li>Mot de passe: {{g.user.password}}</li>
-      </ul>
+    </div>
+    <div id="container-profile-profil">
+      <div id="container-profile-profil-gauche">
+        <div id="q-r-tournoi">
+          <label for="tournoi" class="questions-gauche-texte">Tournoi :</label>
+          <input name="tournoi" id="reponses-gauche-boutons-tournoi" class="reponses-gauche-boutons" placeholder="Pas inscrit"> 
+        </div>
+        <div id="q-r-langue">
+          <label for="langue" class="questions-gauche-texte">Langue :</label>
+          <input name="langue"class="reponses-gauche-boutons" id="reponses-gauche-bouton-langue" placeholder="Français"> 
+        </div>
+      </div>
+      <div id="container-profile-profil-droite">
+        <div class="q-r-droite">
+          <h3 class="question-droite">Photo :</h3>
+          <img id="profile-photo" src="{{url_for('static', filename='imgs/no-profile-picture.png')}}" alt="Photo de profil"/>
+        </div>
+        <div class="q-r-droite">
+          <h3 class="question-droite">Nom :</h3>
+          <h3 id="profile-nom">{{g.user.prenom}}</h3>
+        </div>
+        <div class="q-r-droite">
+          <h3 class="question-droite">Classe :</h3>
+          <h3 id="profile-classe">{{g.user.classe}}</h3>
+        </div>
+        <div class="q-r-droite">
+          <label for="sexe" class="question-droite">Sexe :</label>
+          <input name="sexe" id="profile-sexe" placeholder="      -">
+        </div>
+      </div>
+    </div>
+    <h2 class="titre-profile-contacts-tournois"> CONTACTS</h2>
+    <div id="container-profile-contacts">
+      <label for="contacts" class="contacts-label" >N° téléphone :</label>
+      <input name="contacts" id = "telephone-input" class="contacts-input"  placeholder="   -">
+      <label for="contacts" class="contacts-label" >Mail :</label>
+      <input name="contacts" id="mail-input" class="contacts-input"  placeholder="   -">
+      <label for="contacts" class="contacts-label" >Chess.com :</label>
+      <input name="contacts" class="contacts-input"  placeholder="   -">
+      <label for="contacts"  class="contacts-label" >Lichess :</label>
+      <input name="contacts" id="lichess-input" class="contacts-input"  placeholder="   -">
+    </div>
+    <h2 class="titre-profile-contacts-tournois">TOURNOIS</h2>
+    <div id="container-profile-tournois">
+      <div id="container-profile-tournois-années">
+          <label for="année" id="année-label" >Année</label>
+        <ol>
+          <li><input name="année" class="année-input"  placeholder="   -"></li>
+          <li><input name="année" class="année-input"  placeholder="   -"></li>
+          <li><input name="année" class="année-input"  placeholder="   -"></li>
+          <li><input name="année" class="année-input"  placeholder="   -"></li>
+        </ol>
+      </div>
+      <div id="container-profile-tournois-résultat">
+        <label for="résultat" id="résultat-label" >Résultat</label>
+        <input name="résultat" class="résultat-input"  placeholder="      -">
+        <input name="résultat" class="résultat-input"  placeholder="      -">
+        <input name="résultat" class="résultat-input"  placeholder="      -">
+        <input name="résultat" class="résultat-input"  placeholder="      -">
+      </div>
     </div>
   </div>  
 {% endblock %}
