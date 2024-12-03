@@ -6,18 +6,24 @@
 
 {% block content%}
 <body>
-  <h1 id="infos-titre"> Infos</h1>
-  <div id="infos-container">
-    <div>
-      <h2>Le club réunit sur une période par
-        semaine, le lundi de 12h30 à 13h20, dans 
-        la salle 004.
-        Durant cette période, on mange, on parle,
+  <div id="infos-big-container">
+    <h1 id="infos-titre"> Infos</h1>
+    <div class="infos-container" id="infos-container-dessus">
+      <h2>Le club se réunit sur une période par
+        semaine, le <span class="infos-texte-evidence">lundi de 12h30 à 13h20</span>, dans 
+        la <span class="infos-texte-evidence">salle 004</span>.
+        <br>Durant cette période, on mange, on parle,
         et on joue!
-        Il est facile de                    , et il n’y a aucune obligation de venir une fois inscrit.
+        <br>Il est facile de <a href="{{ url_for('auth.register') }}" id="infos-texte-sinscrire" class="infos-texte-evidence">s'inscrire</a>, et il n’y a aucune obligation de venir une fois inscrit.
         
-        Tout le monde est le bienvenu dans le club,
+        <br><br>Tout le monde est le bienvenu dans le club,
         débutants ou avancés !</h2>
+      
+      <img id="image-infos" src="{{url_for('static', filename='imgs/infos.JPG')}}"/>
+    </div>
+    <div class="infos-container" id="infos-container-dessous">
+      <h2>Si vous avez des questions concernant le club, vous pouvez contacter le <span class="infos-texte-evidence">président
+      du Club</span>, <span class="infos-texte-evidence">Thürler Timo</span>, à l’adresse adresse.mail@mail.com . </h2>
     </div>
   </div>
 </body>
