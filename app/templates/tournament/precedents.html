@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Tournois précédents
+{% endblock %}
+
+{% block content %}
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier le bouton</title>
+    <style>
+        /* Centrage global du body */
+        body {
+          margin: 0;
+          display: flex;
+          justify-content: center; /* Centrer horizontalement */
+          align-items: center;     /* Centrer verticalement */
+          height: 100vh;           /* Prend toute la hauteur de la fenêtre */
+          background-color: beige; /* Remet la couleur de fond beige */
+        }
+
+        /* Style initial du bouton */
+        .tournoi-bouton-script {
+          z-index: 10;
+          border-radius: 5vh;
+          background-color: #8D493A;
+          height: 13vh;
+          width: 22vw;
+          font-size: medium;
+          display: flex;
+          flex-direction: column;
+          color: #F8F3E3;
+          font-family: "Aldrich", sans-serif;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease; /* Transition douce pour le changement de taille */
+        }
+
+        /* Style du bouton après avoir cliqué */
+        .tournoi-bouton-script.clicked {
+          height: 35vh;
+          width: 32vw;
+        }
+
+        /* Agrandissement du texte avec taille plus raisonnable */
+        .tournoi-bouton-script.clicked h3 {
+          font-size: 2.5rem;
+          transition: font-size 0.3s ease;
+        }
+
+        /* Centrer le texte "S'INSCRIRE" */
+        .tournoi-bouton-script h3 {
+          margin: 0;               /* Évite l'espace autour du texte */
+          padding: 0;
+          display: flex;           /* Utilise Flexbox pour centrer */
+          justify-content: center; /* Centre le texte horizontalement */
+          align-items: center;     /* Centre le texte verticalement */
+          height: 100%;            /* Occupe toute la hauteur du bouton */
+          width: 100%;             /* Occupe toute la largeur du bouton */
+        }
+
+        #div-test {
+          display: flex;
+          flex-direction: row;
+          justify-content: center; 
+          gap: 1vw; 
+          align-items: center; 
+        }
+
+        #text-test {
+          color: #DFD3C3;
+        }
+
+        .bouton-test {
+          margin-top: 2vh;
+          display: flex; 
+          flex-direction: row;
+          align-items: center; 
+          justify-content: flex-start;
+          width: 15vw;
+          color: white;
+        }
+
+        .image-logo {
+          height: 50%;
+          width: auto;
+          margin-left: 1vw;
+        }
+
+        #bouton-test-confirmer {
+          background-color: #34C759;
+        }
+
+        #bouton-test-annuler {
+          background-color: #FF3B30;
+        }
+    </style>
+</head>
+<body>
+  <!-- Bouton centré grâce au flexbox sur body -->
+  <button class="tournoi-bouton-script" id="btnConnect" onclick="changerBouton()">
+    <h3 id="sinscrire">S'INSCRIRE</h3>
+  </button>
+
+  <script>
+      function changerBouton() {
+          var button = document.getElementById("btnConnect");
+
+          // Vérifie si le bouton a déjà été cliqué
+          if (button.classList.contains("clicked")) {
+              // Réinitialise l'état du bouton
+              button.classList.remove("clicked");
+              button.innerHTML = '<h3 id="sinscrire">S\'INSCRIRE</h3>';
+          } else {
+              // Ajoute l'état "cliqué"
+              button.classList.add("clicked");
+
+              // Ajouter du texte ou d'autres boutons à l'intérieur du bouton
+              var addedContent = `
+                  <h3 id="sinscrire">S'INSCRIRE</h3>
+                  <p id="text-test">Souhaitez-vous participer au <br>Tournoi d’échecs CSUD 2024?</p>
+                  <div id="div-test">
+                    <button class="bouton-test" id="bouton-test-confirmer" onclick="alert('Premier bouton cliqué!')">
+                      <img class="image-logo" src="{{url_for('static', filename='imgs/vu.png')}}" alt="vu">
+                      <span>CONFIRMER</span>
+                    </button>
+                    <button class="bouton-test" id="bouton-test-annuler" onclick="alert('Deuxième bouton cliqué!')">
+                      <img class="image-logo" src="{{url_for('static', filename='imgs/croix.png')}}" alt="croix">
+                      <span>ANNULER</span>
+                    </button>
+                  </div>
+              `;
+              button.innerHTML = addedContent; // Ajoute les nouveaux éléments dans le bouton
+          }
+      }
+  </script>
+
+  <button class="tournoi-bouton-script" id="btnConnect" onclick="changerBouton2()">
+    <h3>LISTE DES PARTICIPANTS</h3>
+  </button>
+</body>
+</html>
+
+{% endblock %}

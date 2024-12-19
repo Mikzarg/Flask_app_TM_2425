@@ -6,5 +6,27 @@
 
 
 {% block content%}
-<a id ="deco" href="{{ url_for('auth.logout') }}">Se deco</a>
+<body>
+  <div id="membres-container">
+    <h1 class="titre-page" id="membres-titre">Membres</h1>
+    
+    <div class="membres-container" id="membres-container-admin">
+      <div class="membres-barre" id="membres-container-admin-barre">
+        <div class="ligne ligne-gauche"></div>
+        <h2 class="membres-barre-titre">Admin</h2>
+        <div class="ligne" id="ligne-droite1"></div>
+        <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+      </div>
+    </div>
+    <div class="membres-container" id="membres-container-membres">
+      <div class="membres-barre" id="membres-container-membres-barre">
+        <div class="ligne ligne-gauche" ></div>
+        <h2 class="membres-barre-titre">Membres</h2>
+        <div class="ligne" id="ligne-droite2"></div>
+        <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+      </div>
+    </div>
+
+  </div>
+</body>
 {% endblock %}

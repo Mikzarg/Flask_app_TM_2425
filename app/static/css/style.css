@@ -68,7 +68,10 @@ html, body{
     justify-content: center; 
     align-items: center; 
   }
-
+  a {
+    color: inherit;
+    text-decoration: none; 
+  }
 /*
 ----------------------   Barre du menu   ----------------------
 */
@@ -360,6 +363,10 @@ right:55%;
 /*
 ----------------------   Page s'inscrire  ----------------------
 */
+.titre-page{
+  color: #76453B;
+  font-size: 350%;
+}
 #big-container-sinscrire{
   position: relative;
   display: flex;
@@ -411,8 +418,178 @@ right:55%;
 }
 
 /*
+----------------------   Page Membres   ----------------------
+*/
+
+#membres-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:90vw;
+  height:200vh;
+}
+#membres-titre{
+  margin-top: 16vh;
+  color: #76453B;
+  font-size: 350%;
+  position: relative;
+}
+.membres-barre{
+  width:90vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.membres-container{
+  margin-top: 15vh;
+}
+.membres-barre-titre{
+  font-family: "Aldrich", sans-serif;
+  font-size:220%;
+  font-weight: normal;
+  color: #8D493A;
+  margin-right: 2vw;
+}
+.ligne{
+  width:30vw;
+  height:2px;
+  background-color: #8D493A;
+  margin-right: 2vw;
+}
+.ligne-gauche{
+  width:8vw;
+
+}
+#ligne-droite1{
+  width:60vw;
+}
+#ligne-droite2{
+  width:55.3vw;
+}
+.image-pion{
+  height:10vh;
+  width: auto;
+}
+
+/*
+----------------------   Page Tournoi  --------------------
+*/
+
+#tournoi-container{
+  height: 200vh;
+  width:100vw;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+#tournoi-container-titre{
+  position: relative;
+  left:5vw;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height:30vh;
+  width:40vw;
+  margin-bottom: 5vh;
+}
+#tournoi-titre{
+  margin-right: 6vw;
+  font-size:380%;
+}
+#tournoi-container-dessous{
+  display: flex;
+  flex-direction: row;
+}
+#tournoi-container-infos{
+  height:140vh;
+  background-color:#D9D9D9;
+  width:55vw;
+  margin-left: 5vw;
+  border-radius: 30px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#tournoi-infos-titre{
+  margin-top: 8vh;
+  font-family: "Aldrich", sans-serif; 
+  color: #8D493A;
+  font-size: 175%;
+  margin-bottom: 10vh;
+}
+#tournoi-infos-tableau{
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #E5E5EA;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+tr:nth-child(even) {
+  background-color: #AEAEB2;
+}
+tr:nth-child(odd) {
+  background-color: #E5E5EA;
+}
+th{
+  width:20%;
+  text-align: left;
+  padding-left: 20px;
+  font-weight: lighter;
+}
+td {
+  font-family:"Aldrich", sans-serif;
+  padding: 12px 15px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+td:first-child {
+  font-weight: bold;
+  background-color: #AEAEB2;
+  width: 25%;
+  text-align: left;
+}
+
+#tournoi-container-boutons{
+  width:40vw;
+  height:150vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.image-roi{
+  transform: rotate(90deg);
+  position: absolute;
+  top: 77%;
+  height:35%;
+  width: auto;
+}
+.tournoi-bouton{
+  z-index: 10;
+  border-radius: 5vh;
+  background-color:#8D493A;
+  height:13vh;
+  width:22vw;
+  margin-top: 6vh;
+  font-size: medium;
+  display: flex;
+  flex-direction: row;
+  color:#F8F3E3;
+  font-family: "Aldrich", sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
 ----------------------   Page Infos  ----------------------
 */
+
 #infos-big-container{
   display: flex;
   flex-direction: column;

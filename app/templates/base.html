@@ -15,9 +15,9 @@
                     <img id="logo" src="{{url_for('static', filename='imgs/logo-echecs-csud.png')}}" alt="logo-csud"/>
                 </a>
                 <div id="header-titres-menu">
-                    <a href="{{ url_for('members.show_members') }}" class="titre_menu" > MEMBRES</a>
+                    <a href="{{ url_for('members.show_members') }}" class="titre_menu"> MEMBRES</a>
                     <h4 class="titre_menu" id="menu_entrainement"> ENTRAÎNEMENT</h4>
-                    <a href="{{ url_for('tournament.show_tournament') }}" class="titre_menu" > TOURNOI</a>
+                    <a href="{{ url_for('tournament.show_tournament') }}" class="titre_menu"> TOURNOI</a>
                     <a href="{{ url_for('infos.show_infos') }}" class="titre_menu" > INFOS</a>
                     {% if not g.user %}
                         <a href="{{ url_for('auth.login') }}" class="titre_menu" id="menu_connecter">SE CONNECTER</a>
