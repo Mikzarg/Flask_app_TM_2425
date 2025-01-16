@@ -126,9 +126,11 @@ html, body{
 ----------------------   Barre des contacts   ----------------------
 */
 #footer{
+  margin-top: 10%;
   width:100%;
   height:40%;
   z-index: 10;
+  flex-shrink: 0;
 }
 #footer-div{
   height: 100%;
@@ -200,7 +202,7 @@ font-size: 200%;
 color: #76453B;
 position: relative;
 margin-top: -1%;
-margin-bottom: 15.8%;
+margin-bottom: 5.8%;
 right:10%;
 font-size: 450%;
 }
@@ -261,7 +263,7 @@ background-size: cover;
   position: relative;
   width: 150vh;
   flex-direction: column;
-  margin-bottom: 20vh;
+  margin-bottom: 10vh;
   margin-top: 30vh;
 }
 #content-register{
@@ -372,7 +374,6 @@ right:55%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10vh;
   height:220vh;
   }
 #container-sinscrire{
@@ -425,8 +426,7 @@ right:55%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width:90vw;
-  height:200vh;
+  width:100vw;
 }
 #membres-titre{
   margin-top: 16vh;
@@ -439,9 +439,13 @@ right:55%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom:8vh ;
 }
-.membres-container{
+.membres-containers{
   margin-top: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .membres-barre-titre{
   font-family: "Aldrich", sans-serif;
@@ -467,10 +471,145 @@ right:55%;
   width:55.3vw;
 }
 .image-pion{
+  margin-left: 2vw;
   height:10vh;
   width: auto;
 }
 
+/*--------  Bouton page membres   ---------*/
+
+.membres-cases{ 
+  display: flex;
+  flex-direction: row;
+  margin-left: 6vw;
+  gap: 3vw; 
+  width: 100vw; 
+  flex-wrap: wrap;
+}
+.membres-ligne{
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  gap:0 3vw;
+}
+button.membres-case {
+  all: unset;
+  font-family: "Aldrich", sans-serif; 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 2vw;
+  height:33vh;
+  width:27vw;
+  background-color: #D9D9D9;
+  border-radius: 50px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.membres-case-photo {
+  width:9vw;
+  height:auto;
+}
+
+.membres-case-infos {
+  font-weight: lighter;
+  margin-left: 1.5vw;
+}
+
+.membres-nom-prenom {
+  line-height: 1.2;
+}
+
+.membres-annee {
+  margin-top: 3vh;
+  font-size: 90%;
+}
+
+/*--------  Bouton ouvert page membres   ---------*/
+
+.membres-case.big-grey-rectangle{
+  display: flex;
+  flex-direction: row;
+  margin-left: 2vw;
+  width: 88vw;
+  height: 85vh ;
+    transition: all 0.3s ease; /* Transition douce pour le changement de taille */
+}
+.membre-carte-gauche{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 35vw;
+  margin-right: 1.6vw;
+}
+.membre-carte-photo{
+  margin-top:10%;
+  height:50vh;
+  width:auto;
+}
+.membre-carte-nom-prenom{
+  margin-top: 4%;
+  font-size:180%;
+  font-weight:larger;
+}
+.membre-carte-classe{
+  font-size:140%;
+  font-weight: large;
+
+}
+.membre-carte-droite{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width:55vw ;
+}
+.membre-container-brun{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 97%;
+  background-color: #D0B8A8;
+  border-radius: 15px;
+}
+#membre-container-brun1{
+  margin-top: 3%;
+  height:40%;
+}
+#membre-container-brun2{
+  margin-top:5%;
+  height:45%;
+}
+.membre-container-brun-tot{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 4%;
+}
+.membre-container-brun-cote{
+  display: flex;
+  flex-direction: column;
+  font-size: larger;
+}
+.membre-container-brun-gauche{
+  margin-left: 6%;
+  width: 55%;
+}
+.membre-container-brun-droite{
+  width: 30%;
+}
+.membre-case-titre{
+  text-align: center;
+  margin-top: 3.5%;
+  line-height: 100%;
+  color: #8D493A;
+  font-size: 165%;
+  text-wrap: wrap;
+}
+.tabulation_droite{
+  margin-left: 3vw;
+}
 /*
 ----------------------   Page Tournoi  --------------------
 */
@@ -537,19 +676,19 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
   background-color: #E5E5EA;
 }
-th{
+.th-infos{
   width:20%;
   text-align: left;
   padding-left: 20px;
   font-weight: lighter;
 }
-td {
+.td-infos{
   font-family:"Aldrich", sans-serif;
   padding: 12px 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
 }
 
-td:first-child {
+.td-infos:first-child {
   font-weight: bold;
   background-color: #AEAEB2;
   width: 25%;
@@ -557,6 +696,7 @@ td:first-child {
 }
 
 #tournoi-container-boutons{
+  margin-top: 10vh;
   width:40vw;
   height:150vh;
   display: flex;
@@ -584,6 +724,173 @@ td:first-child {
   font-family: "Aldrich", sans-serif;
   align-items: center;
   justify-content: center;
+}
+/*--------  Bouton tournoi sinscrire   ---------*/
+
+/* Style initial du bouton */
+.tournoi-bouton-script {
+  z-index: 10;
+  border-radius: 5vh;
+  background-color: #8D493A;
+  height: 13vh;
+  width: 22vw;
+  font-size: medium;
+  display: flex;
+  flex-direction: column;
+  color: #F8F3E3;
+  font-family: "Aldrich", sans-serif;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease; /* Transition douce pour le changement de taille */
+}
+
+/* Style du bouton après avoir cliqué */
+.tournoi-bouton-script.clicked {
+  height: 40vh;
+  width: 32vw;
+}
+
+/* Agrandissement du texte avec taille plus raisonnable */
+.tournoi-bouton-script.clicked h3 {
+  font-size: 2.5rem;
+  transition: font-size 0.3s ease;
+}
+
+/* Centrer le texte "S'INSCRIRE" */
+.tournoi-bouton-script h3 {
+  margin: 0;             
+  padding: 0;
+  display: flex;           
+  justify-content: center; 
+  align-items: center;     
+  height: 100%;            
+  width: 100%;            
+}
+
+#div-test {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; 
+  width: 100%;
+  gap: 1vw; 
+  align-items: center; 
+}
+
+#text-test {
+  color: #DFD3C3;
+  font-size: medium;
+}
+
+.bouton-test {
+  margin-top: 2vh;
+  display: flex; 
+  flex-direction: row;
+  align-items: center; 
+  margin-bottom: 3vh;
+  justify-content: flex-start;
+  width: 15vw;
+  color: white;
+}
+
+.image-logo {
+  height: 50%;
+  width: auto;
+  margin-left: 1vw;
+}
+
+#bouton-test-confirmer {
+  background-color: #34C759;
+}
+
+#bouton-test-annuler {
+  background-color: #FF3B30;
+}
+#sinscriree{
+  margin-top: 2vh;
+  font-size: 2rem;
+}
+
+/*--------  Bouton tournoi sinscrire   ---------*/
+
+.tournoi-bouton-liste{
+  z-index: 10;
+  border-radius: 5vh;
+  background-color: #8D493A;
+  height: 13vh;
+  width: 22vw;
+  font-size: medium;
+  display: flex;
+  flex-direction: column;
+  color: #F8F3E3;
+  font-family: "Aldrich", sans-serif;
+  transition: all 0.3s ease;
+}
+.tournoi-bouton-liste.clicked {
+  height: 90vh;
+  width: 32vw;
+}
+#tournoi-liste-tableau{
+  height:60vh;
+  width: 95%;
+  border-collapse: collapse;
+  background-color: #E5E5EA;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.td-liste{
+  text-align: start;
+  height:6vh;
+  color:black;
+  font-size: 110%;
+}
+.th-liste{
+  color:black;
+  font-weight: lighter;
+  width:20%;
+  text-align: left;
+  padding-left: 20px;
+  font-size: 110%;
+}
+#fleche-droite{
+  position: relative;
+  left: 30%;
+}
+/*
+----------------  Page Tournois précédants   ---------------
+*/
+#precedants-container{
+  height: 200vh;
+  width:100vw;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+#precedants-container-titre{
+  margin-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height:30vh;
+  width:100vw;
+  margin-bottom: 5vh;
+  white-space:nowrap;
+}
+#precedants-lien-tournoi{
+  position:relative;
+  right:33vw;
+  color: #D0B8A8;
+  font-size: 1.5rem;
+  margin-bottom: -2vh;
+}
+#precedants-titre{
+  position:relative;
+  right:16vw;
+}
+#precedants-texte{
+  align-self: center;
+  font-size: 130%;
 }
 
 /*

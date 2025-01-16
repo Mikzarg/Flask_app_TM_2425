@@ -17,36 +17,36 @@
           <h2 id="tournoi-infos-titre">Informations</h2>
           <table id="tournoi-infos-tableau">
             <tr>
-              <th>Lieu :</th>
-              <td>Collège du Sud, Salle d’exposition</td>
+              <th class="th-infos">Lieu :</th>
+              <td class="td-infos">Collège du Sud, Salle d’exposition</td>
             </tr>
             <tr>
-              <th>Date :</th>
-              <td>Jeudi 26 septembre 2024</td>
+              <th class="th-infos">Date :</th>
+              <td class="td-infos">Jeudi 26 septembre 2024</td>
             </tr>
             <tr>
-              <th>Heure :</th>
-              <td>De 13h20 à 16h00</td>
+              <th class="th-infos">Heure :</th>
+              <td class="td-infos">De 13h20 à 16h00</td>
             </tr>
             <tr>
-              <th>Rondes :</th>
-              <td>5 rondes au système suisse <br>(1 ronde de départage, si nécessaire)</td>
+              <th class="th-infos">Rondes :</th>
+              <td class="td-infos">5 rondes au système suisse <br>(1 ronde de départage, si nécessaire)</td>
             </tr>
             <tr>
-              <th>Cadence :</th>
-              <td>10’ + 5” d’incrément par coup</td>
+              <th class="th-infos">Cadence :</th>
+              <td class="td-infos">10’ + 5” d’incrément par coup</td>
             </tr>
             <tr>
-              <th>Arbitre :</th>
-              <td>Nom de l’arbitre</td>
+              <th class="th-infos">Arbitre :</th>
+              <td class="td-infos">Nom de l’arbitre</td>
             </tr>
             <tr>
-              <th>Résultats :</th>
-              <td>Les résultats sont disponibles en direct sur le site du Club d’échecs du CSUD</td>
+              <th class="th-infos">Résultats :</th>
+              <td class="td-infos">Les résultats sont disponibles en direct sur le site du Club d’échecs du CSUD</td>
             </tr>
             <tr>
-              <th><strong>Prix :</strong></th>
-              <td>
+              <th class="th-infos">Prix :</th>
+              <td class="td-infos">
                 1er prix : Médaille d’or et inscription du nom sur la coupe du CSUD<br>
                 2ème prix : Médaille d’argent<br>
                 3ème prix : Médaille de bronze<br>
@@ -58,13 +58,13 @@
       </div>
       <div id="tournoi-container-boutons">
         <img class="image-roi" src="{{url_for('static', filename='imgs/roi.png')}}" alt="roi">
-        <button class="tournoi-bouton">
-          <h3>S'INSCRIRE</h3>
+        <button class="tournoi-bouton-script" id="btnConnect" onclick="changerBoutonSinscrire()">
+          <h3 id="sinscrireee">S'INSCRIRE</h3>
         </button>
         <button class="tournoi-bouton">
           <a href="{{url_for('tournament.show_precedents')}}"><h3>TOURNOIS PRECEDENTS</h3></a>
         </button>
-        <button class="tournoi-bouton">
+        <button class="tournoi-bouton-liste tournoi-bouton" id="bouton-sinscrire-tournoi" onclick="changerBoutonListe()">
           <h3>LISTE DES PARTICIPANTS</h3>
         </button>
       </div>

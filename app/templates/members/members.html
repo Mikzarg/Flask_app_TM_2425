@@ -4,29 +4,130 @@
   Membres
 {% endblock %}
 
-
-{% block content%}
+{% block content %}
 <body>
   <div id="membres-container">
     <h1 class="titre-page" id="membres-titre">Membres</h1>
     
-    <div class="membres-container" id="membres-container-admin">
+    <div class="membres-containers" id="membres-container-admin">
       <div class="membres-barre" id="membres-container-admin-barre">
         <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Admin</h2>
         <div class="ligne" id="ligne-droite1"></div>
-        <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+        <img class="image-pion" src="{{ url_for('static', filename='imgs/pion.png') }}" alt="pion">
+      </div>
+      <div class="membres-cases">
+        {% for admin in admins %}
+          <div class="membres-case"> 
+            <img class="membres-case-photo" src="{{ url_for('static', filename=admin.photo_de_profil) }}" alt="Photo de profil"/> 
+            <div class="membres-case-infos"> 
+              <h2 class="membres-nom-prenom">{{ admin.nom }} <br> {{ admin.prenom }}</h2> 
+              <h3 class="membres-annee">{{ admin.classe }}</h3> 
+            </div> 
+          </div> 
+        {% endfor %}
       </div>
     </div>
-    <div class="membres-container" id="membres-container-membres">
+    
+    <div class="membres-containers" id="membres-container-membres">
       <div class="membres-barre" id="membres-container-membres-barre">
-        <div class="ligne ligne-gauche" ></div>
+        <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Membres</h2>
         <div class="ligne" id="ligne-droite2"></div>
-        <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+        <img class="image-pion" src="{{ url_for('static', filename='imgs/pion.png') }}" alt="pion">
+      </div>
+      <div class="membres-cases">
+        {% for membre in members %}
+          <button class="membres-case" id="membre-{{ membre.id_utilisateurs }}" 
+                  data-url-base="{{ url_for('static', filename='') }}"
+                  data-photo="{{ membre.photo_de_profil }}"
+                  data-nom="{{ membre.nom }}" data-prenom="{{ membre.prenom }}" 
+                  data-classe="{{ membre.classe }}"
+                  data-numero="{{ membre.numero_de_telephone }}" 
+                  data-mail="{{ membre.mail }}"
+                  data-chesscom="{{ membre.chess_com }}" 
+                  data-lichess="{{ membre.lichess }}"
+                  onclick="changerBoutonMembres(this)"> 
+            <img class="membres-case-photo" 
+                 src="{{ url_for('static', filename=membre.photo_de_profil) }}" 
+                 alt="Photo de profil"/> 
+            <div class="membres-case-infos"> 
+              <h2 class="membres-nom-prenom">{{ membre.nom }} <br> {{ membre.prenom }}</h2> 
+              <h3 class="membres-annee">{{ membre.classe }}</h3> 
+            </div> 
+          </button>
+        {% endfor %}
       </div>
     </div>
-
   </div>
+
+  <script>
+    function changerBoutonMembres(button) {
+      // Vérifier si le bouton cliqué a déjà la classe 'big-grey-rectangle'
+      var isButtonActivated = button.classList.contains('big-grey-rectangle');
+
+      // Retirer la classe 'big-grey-rectangle' de tous les boutons
+      var buttons = document.querySelectorAll('.membres-case');
+      buttons.forEach(function(btn) {
+        btn.classList.remove('big-grey-rectangle');
+
+        // Restaurer le texte original
+        if (btn.dataset.originalText) {
+          btn.innerHTML = btn.dataset.originalText;
+        }
+      });
+
+      // Si le bouton cliqué était déjà activé, ne rien faire de plus
+      if (isButtonActivated) {
+        return;
+      }
+
+      // Si le bouton cliqué n'était pas activé, ajouter la classe et changer le texte
+      // Stocker le texte original
+      button.dataset.originalText = button.innerHTML;
+
+      // Récupérer les données du membre à partir des attributs de données
+      var urlBase = button.dataset.urlBase;
+      var memberPhoto = button.dataset.photo;
+      var memberNom = button.dataset.nom;
+      var memberPrenom = button.dataset.prenom;
+      var memberClasse = button.dataset.classe;
+      var memberNumero = button.dataset.numero;
+      var memberMail = button.dataset.mail;
+      var memberChesscom = button.dataset.chesscom;
+      var memberLichess = button.dataset.lichess;
+
+      // Changer le texte du bouton
+      var addedContent = `
+          <div class="membre-carte-gauche">
+            <img class="membre-carte-photo" src="${urlBase}${memberPhoto}" alt="Photo de profil"/>
+            <h3 class="membre-carte-nom-prenom">${memberNom} ${memberPrenom}</h3>
+            <h4 class="membre-carte-classe">${memberClasse}</h4>
+          </div>
+          <div class="membre-carte-droite">
+            <div class="membre-container-brun" id="membre-container-brun1">
+              <h4 class="membre-case-titre">TOURNOIS<br>PRECEDENTS</h4>
+            </div>
+            <div class="membre-container-brun" id="membre-container-brun2">
+              <h3 class="membre-case-titre">INFOS</h3>
+              <div class="membre-container-brun-tot">
+                <div class="membre-container-brun-cote membre-container-brun-gauche">
+                  <h4>Num. : <br><span class="tabulation_droite"> ${memberNumero}</span></h4>
+                  <h4>Mail : <br><span class="tabulation_droite"> ${memberMail}</span></h4>
+                </div>
+                <div class="membre-container-brun-cote membre-container-brun-droite">
+                  <h4>Chess.com : <br><span class="tabulation_droite"> ${memberChesscom}</span></h4>
+                  <h4>Lichess : <br><span class="tabulation_droite"> ${memberLichess}</span></h4>
+                </div>
+              </div>
+            </div>
+          </div>
+      `;
+      button.innerHTML = addedContent;
+
+      // Ajouter la classe 'big-grey-rectangle'
+      button.classList.add('big-grey-rectangle');
+    }
+  </script>
 </body>
 {% endblock %}
