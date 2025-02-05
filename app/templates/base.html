@@ -26,10 +26,13 @@
                 </div>
                 {% if  g.user %}
                     <div id="top-right-co">
+                        <img id="carres_top_right_2" src="{{url_for('static', filename='imgs/carres-top-right-2.png')}}" alt="carres_top_right_2" >
                         <a href="{{ url_for('user.show_profile') }}" id="lien-profil">
-                            <img id="carres_top_right_2" src="{{url_for('static', filename='imgs/carres-top-right-2.png')}}" alt="carres_top_right_2" >
-                            <h5 class="nom-prenom" id="nom_personne"><span>{{ g.user['nom'] }}</span></h5>
-                            <h5 class="nom-prenom" id="prenom_personne"><span>{{ g.user['prenom'] }}</span></h5>
+                            <div id="menu-co-profil">
+                                <img id="photo-barre-menu" src="{{url_for('static', filename=g.user['photo_de_profil'])}}" alt ="photo de profil de l'utilisateur">
+                                <h5 class="nom-prenom" id="prenom_personne">{{ g.user['prenom'] }}</h5>
+                                <h5 class="nom-prenom" id="nom_personne">{{ g.user['nom'] }}</h5>
+                            </div>
                         </a>
                     </div>
                 {% else %}

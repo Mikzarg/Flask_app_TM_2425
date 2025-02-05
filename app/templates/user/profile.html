@@ -37,7 +37,7 @@
       <div id="container-profile-profil-droite">
         <div class="q-r-droite">
           <h3 class="question-droite">Photo :</h3>
-          <img id="profile-photo" src="{{url_for('static', filename='imgs/no-profile-picture.png')}}" alt="Photo de profil"/>
+          <img id="profile-photo" src="{{url_for('static', filename=g.user['photo_de_profil'])}}" alt="Photo de profil"/>
         </div>
         <div class="q-r-droite">
           <h3 class="question-droite">Nom :</h3>

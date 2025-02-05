@@ -18,13 +18,24 @@
       </div>
       <div class="membres-cases">
         {% for admin in admins %}
-          <div class="membres-case"> 
-            <img class="membres-case-photo" src="{{ url_for('static', filename=admin.photo_de_profil) }}" alt="Photo de profil"/> 
+          <button class="membres-case" id="admin-{{ admin.id_utilisateurs }}" 
+                  data-url-base="{{ url_for('static', filename='') }}"
+                  data-photo="{{ admin.photo_de_profil }}"
+                  data-nom="{{ admin.nom }}" data-prenom="{{ admin.prenom }}" 
+                  data-classe="{{ admin.classe }}"
+                  data-numero="{{ admin.numero_de_telephone }}" 
+                  data-mail="{{ admin.mail }}"
+                  data-chesscom="{{ admin.chess_com }}" 
+                  data-lichess="{{ admin.lichess }}"
+                  onclick="changerBoutonMembres(this)"> 
+            <img class="membres-case-photo" 
+                 src="{{ url_for('static', filename=admin.photo_de_profil) }}" 
+                 alt="Photo de profil"/> 
             <div class="membres-case-infos"> 
               <h2 class="membres-nom-prenom">{{ admin.nom }} <br> {{ admin.prenom }}</h2> 
               <h3 class="membres-annee">{{ admin.classe }}</h3> 
             </div> 
-          </div> 
+          </button>
         {% endfor %}
       </div>
     </div>

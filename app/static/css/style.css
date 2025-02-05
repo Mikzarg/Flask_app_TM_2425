@@ -74,8 +74,9 @@ html, body{
     text-decoration: none; 
   }
 /*
-----------------------   Barre du menu   ----------------------
+----------------------   Barre du menu (déco)   ----------------------
 */
+
 #header{
   height: 20%;
   z-index: 10;
@@ -86,9 +87,10 @@ html, body{
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 #lien-accueil{
+  margin-left: 2vw;
   width:10%;
   object-fit: cover;
 }
@@ -122,7 +124,41 @@ html, body{
   position: relative;
   left:1%;
 }
-
+/*
+----------------------   Barre de menu (co)   ----------------------
+*/
+#top-right-co{
+  display: flex;
+  height: 100%;
+  width:11%;
+  flex-direction: column;
+  align-items: flex-end;
+  
+}
+#lien-profil{
+  width:100%;
+}
+#menu-co-profil{
+  position: absolute;
+  top:7vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 25vh;
+  width:11vw;
+}
+#carres_top_right_2{
+  position: relative;
+  height:130%;
+  width: 90%;
+}
+#photo-barre-menu{
+  width:7vw;
+  height:auto;
+}
+.nom-prenom{
+  font-size: 110%;
+}
 /*
 ----------------------   Barre des contacts   ----------------------
 */
@@ -175,7 +211,7 @@ html, body{
 
 
 /*
-----------------------   Page d'accueil (déco)   ----------------------
+----------------------   Page d'accueil      --------------------------
 */
 #fond-accueil{
   position: absolute;
@@ -208,47 +244,7 @@ right:10%;
 font-size: 450%;
 }
 
-/*
-----------------------   Page d'accueil (co)   ----------------------
-*/
-#top-right-co{
-  display: flex;
-  height: 100%;
-  width:11%;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-#lien-profil{
-  width:100%;
 
-}
-#deco{
-  position:absolute;
-  top:50%;
-  left:50%;
-}
-#carres_top_right_2{
-  position: relative;
-  margin-left:14%;
-  height:130%;
-  width: 150%;
-}
-#nom_personne{
-  position: absolute;
-  z-index: 50;
-  top:20%;
-  left:90%;
-  
-}
-#prenom_personne{
-  position: absolute;
-  z-index: 50;
-  top:25%;
-  left:90%;
-}
-.nom-prenom{
-  font-size: 110%;
-}
 /*
 ----------------------   Page se connecter   ----------------------
 */
@@ -942,6 +938,7 @@ tr:nth-child(odd) {
 }
 #infos-texte-sinscrire{
   font-size: 115%;
+  text-decoration: underline;
 }
 
 /*
