@@ -992,6 +992,17 @@ button{
 #bouton-modifier{
   width:15vw;
 }
+.profil-bouton-modifier{
+  width:20vw;
+  color: white;
+  font-weight: lighter;
+}
+#profil-bouton-annuler{
+  background-color: #FF3B30;
+}
+#profil-bouton-confirmer{
+  background-color:#34C759 ;
+}
 .logo-bouton-profil{
   height:65%;
   width:auto;

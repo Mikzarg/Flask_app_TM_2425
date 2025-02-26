@@ -15,23 +15,23 @@
             <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/deconnecter.png')}}" alt="Logo du bouton se déconnecter"/>
           </button> 
         </form>
-        <form action="{{ url_for('auth.logout') }}" method="get">         
+        <a href="{{url_for('user.show_profile_edit')}}">        
           <button type="submit" id="bouton-modifier">
             <span>Modifier</span>
             <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
           </button>
-        </form>
+        </a>
       </div>
     </div>
     <div id="container-profile-profil">
       <div id="container-profile-profil-gauche">
         <div id="q-r-tournoi">
           <label for="tournoi" class="questions-gauche-texte">Tournoi :</label>
-          <input name="tournoi" id="reponses-gauche-boutons-tournoi" class="reponses-gauche-boutons" placeholder="Pas inscrit"> 
+          <input name="tournoi" id="reponses-gauche-boutons-tournoi" class="reponses-gauche-boutons" disabled="disabled" placeholder="Pas inscrit"> 
         </div>
         <div id="q-r-langue">
           <label for="langue" class="questions-gauche-texte">Langue :</label>
-          <input name="langue"class="reponses-gauche-boutons" id="reponses-gauche-bouton-langue" placeholder="Français"> 
+          <input name="langue"class="reponses-gauche-boutons" id="reponses-gauche-bouton-langue" disabled="disabled" placeholder="Français"> 
         </div>
       </div>
       <div id="container-profile-profil-droite">
@@ -49,38 +49,38 @@
         </div>
         <div class="q-r-droite">
           <label for="sexe" class="question-droite">Sexe :</label>
-          <input name="sexe" id="profile-sexe" placeholder="      -">
+          <input name="sexe" id="profile-sexe" disabled="disabled" placeholder="      -">
         </div>
       </div>
     </div>
     <h2 class="titre-profile-contacts-tournois"> CONTACTS</h2>
     <div id="container-profile-contacts">
-      <label for="contacts" class="contacts-label" >N° téléphone :</label>
-      <input name="contacts" id = "telephone-input" class="contacts-input"  placeholder="   -">
-      <label for="contacts" class="contacts-label" >Mail :</label>
-      <input name="contacts" id="mail-input" class="contacts-input"  placeholder="   -">
-      <label for="contacts" class="contacts-label" >Chess.com :</label>
-      <input name="contacts" class="contacts-input"  placeholder="   -">
-      <label for="contacts"  class="contacts-label" >Lichess :</label>
-      <input name="contacts" id="lichess-input" class="contacts-input"  placeholder="   -">
+      <label for="tel" class="contacts-label" >N° téléphone :</label>
+      <input name="tel" id = "telephone-input" class="contacts-input" disabled="disabled" value="{{g.user.numero_de_telephone}}">
+      <label for="mail" class="contacts-label" >Mail :</label>
+      <input name="mail" id="mail-input" class="contacts-input" disabled="disabled" value="{{g.user.mail}}">
+      <label for="chess_com" class="contacts-label" >Chess.com :</label>
+      <input name="chess_com" class="contacts-input" disabled="disabled" value="{{g.user.chess_com}}">
+      <label for="lichess"  class="contacts-label" >Lichess :</label>
+      <input name="lichess" id="lichess-input" class="contacts-input" disabled="disabled" value="{{g.user.lichess}}">
     </div>
     <h2 class="titre-profile-contacts-tournois">TOURNOIS</h2>
     <div id="container-profile-tournois">
       <div id="container-profile-tournois-années">
           <label for="année" id="année-label" >Année</label>
         <ol>
-          <li><input name="année" class="année-input"  placeholder="   -"></li>
-          <li><input name="année" class="année-input"  placeholder="   -"></li>
-          <li><input name="année" class="année-input"  placeholder="   -"></li>
-          <li><input name="année" class="année-input"  placeholder="   -"></li>
+          <li><input name="année1" class="année-input" disabled="disabled" value="{{g.user.classe}}"></li>
+          <li><input name="année2" class="année-input" disabled="disabled" value="{{g.user.classe}}"></li>
+          <li><input name="année3" class="année-input" disabled="disabled" value="{{g.user.classe}}"></li>
+          <li><input name="année4" class="année-input" disabled="disabled" value="{{g.user.classe}}"></li>
         </ol>
       </div>
       <div id="container-profile-tournois-résultat">
         <label for="résultat" id="résultat-label" >Résultat</label>
-        <input name="résultat" class="résultat-input"  placeholder="      -">
-        <input name="résultat" class="résultat-input"  placeholder="      -">
-        <input name="résultat" class="résultat-input"  placeholder="      -">
-        <input name="résultat" class="résultat-input"  placeholder="      -">
+        <input name="résultat1" class="résultat-input" disabled="disabled" value="   {{g.user.classe}}">
+        <input name="résultat2" class="résultat-input" disabled="disabled" value="   {{g.user.classe}}">
+        <input name="résultat3" class="résultat-input" disabled="disabled" value="   {{g.user.classe}}">
+        <input name="résultat4" class="résultat-input" disabled="disabled" value="   {{g.user.classe}}">
       </div>
     </div>
   </div>  
