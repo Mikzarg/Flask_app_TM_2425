@@ -163,7 +163,7 @@ html, body{
 ----------------------   Barre des contacts   ----------------------
 */
 #footer{
-  margin-top: 10%;
+  margin-top: 8%;
   width:100%;
   height:40%;
   z-index: 10;
@@ -229,19 +229,19 @@ html, body{
   font-style:normal;
 }
 #bienvenue{
-color: #8D493A;
-position: relative;
-margin-top:10%;
-right:20%;
-font-size: 200%;
+  color: #8D493A;
+  position: relative;
+  margin-top:10%;
+  right:20%;
+  font-size: 200%;
 }
 #club-echecs-csud{
-color: #76453B;
-position: relative;
-margin-top: -1%;
-margin-bottom: 5.8%;
-right:10%;
-font-size: 450%;
+  color: #76453B;
+  position: relative;
+  margin-top: -1%;
+  margin-bottom: 5.8%;
+  right:10%;
+  font-size: 450%;
 }
 
 
@@ -260,31 +260,29 @@ background-size: cover;
   position: relative;
   width: 150vh;
   flex-direction: column;
-  margin-bottom: 10vh;
-  margin-top: 30vh;
+  margin-top: 15vh;
 }
 #content-register{
-height: 120vh;
-text-align: left;
+  height: 120vh;
+  text-align: left;
 
 }
-
 .titre-se-connecter{
-text-align: center;
-margin-top: 10vh;
-margin-bottom: 10vh;
-color: #76453B;
-font-size: 300%;
+  text-align: center;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  color: #76453B;
+  font-size: 300%;
 }
 form label, form input:not([type="submit"]) { 
   width: 80%; 
 }
 form { 
-display: flex;
-flex-direction: column; 
-align-items: flex-start; 
-width: 100%; 
-}
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  width: 100%; 
+  }
 
 label{
   font-size: 130%;
@@ -305,59 +303,44 @@ border-radius: 5vh;
 height: 12vh;
 margin-bottom: 5vh; 
 }
-.bouton-se-connecter{
-background-color:#76453B;
-font-family: "Aldrich", sans-serif;
-font-weight: 400;
-font-style: normal;
-color:#F8F3E3;
-width:20%;
-border-radius: 5vh;
-outline:none;
-border: none;
-margin-top: 5vh;
-padding-right: 2%;
-margin-left: 70%;
-height:20%;
-font-size: 110%;
+#container-login-boutons{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  white-space: nowrap;
+  margin-top: 5vh;
 }
-
-.souvenir-container { 
-display: flex; 
-position: absolute;
-top:67%;
-left: 10%;
-white-space: nowrap;
-} 
-
-#check-se-souvenir-de-moi{ 
-height: 4vh; 
-position: relative;
-left:3%;
-width: auto; 
-} 
-#se-souvenir-de-moi{
+.bouton-se-connecter{
+  background-color:#76453B;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color:#F8F3E3;
+  width:20%;
+  border-radius: 5vh;
+  outline:none;
+  border: none;
+  padding-right: 2%;
+  margin-left: 25%;
+  height:10vh;
   font-size: 110%;
 }
 
 .boutons-sinscrire-mdp{
-font-family: "Aldrich", sans-serif;
-font-weight: 400;
-font-style: normal;
-color:#8D493A;
-font-size: 100%;
-top:77%;
-text-decoration: none;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color:#8D493A;
+  font-size: 100%;
+  text-decoration: none;
 }
 
 #bouton-sinscrire{
-position: absolute;
-right:80%;
+  margin-left: 10%;
 }
 
 #bouton-mdp-oublié{
-position: absolute;
-right:55%;
+  margin-left: 5%;  
 }
 /*
 ----------------------   Page s'inscrire  ----------------------
@@ -371,10 +354,11 @@ right:55%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height:220vh;
+  height:250vh;
+  margin-top:1vh;
   }
 #container-sinscrire{
-  height:150vh;
+  height:250vh;
 }
 #container-sinscrire-3{
   display: flex;
@@ -388,7 +372,9 @@ right:55%;
 }
 .sinscrire-nom-3{
   position:relative;
+  margin-left: 13%;
   left:5%;
+  height:12vh;
 }
 #input-nom{
   width:90%;
@@ -408,13 +394,72 @@ right:55%;
   margin-right:8.2%;
   width:20%;
 }
-
-#sinscrire{
-  width:20%;
-  margin-left: 70%;
-  height:10%;
+#select-sexe{
+font-family: "Aldrich", sans-serif;
+font-size: large;
+background-color: #F2F2F7;
+box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+border: none;
+margin-left: 10%;
+padding-left: 2%;
+border-radius: 5vh;
+height: 12vh;
+margin-bottom: 5vh; 
+width:20vw;
 }
 
+#sinscrire-texte-facultatif{
+  margin-left: 38%;
+  color: #76453B;
+  font-size: 140%;
+  font-family: "Aldrich", sans-serif;
+  padding: 4%;
+}
+
+#big-container-facultatif-connection{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height:52vh;
+}
+.container-facultatif-connection{
+  display: flex;
+  flex-direction: row;
+}
+#container-facultatif-connection-bas{
+  margin-top: 5vh;
+}
+.facultatif-connection-d{
+  margin-left: 6.5vw;
+  height:11vh;
+}
+.facultatif-connection{
+  width:70%;
+  height:11vh;
+  margin-left: 7vw;
+}
+.label-facultatif{
+  margin-left: 9vw;
+}
+.label-facultatif-d{
+  margin-left:8.5vw;
+}
+.sinscrire{
+  margin-left:47vw;
+  width:20%;
+  height:7%;
+  margin-bottom: 10%;
+}
+.flash{
+  margin-left: 11%;
+  margin-bottom: 4%;
+}
+.avec-flash{
+  margin-top: 2%;
+}
+.sans-flash{
+  margin-top: 7%;
+}
 /*
 ----------------------   Page Membres   ----------------------
 */
@@ -530,7 +575,7 @@ button.membres-case {
   margin-left: 2vw;
   width: 88vw;
   height: 85vh ;
-    transition: all 0.3s ease; /* Transition douce pour le changement de taille */
+  transition: all 0.3s ease; 
 }
 .membre-carte-gauche{
   display: flex;
@@ -638,8 +683,8 @@ button.membres-case {
   display: flex;
   flex-direction: row;
 }
-#tournoi-container-infos{
-  height:140vh;
+.tournoi-container-infos{
+  height:130vh;
   background-color:#D9D9D9;
   width:55vw;
   margin-left: 5vw;
@@ -658,6 +703,36 @@ button.membres-case {
   font-size: 175%;
   margin-bottom: 10vh;
 }
+#container-tournoi-modifier{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 93%;
+  margin-left:7%;
+}
+#container-tournoi-modifier-boutons{
+  display: flex;
+  flex-direction: row;
+  width: 22vw;
+  margin-right: 2%;
+}
+#tournoi-modifier-form{
+  margin-right: 8%;
+}
+#tournoi-bouton-modifier{
+  width: 15vw;
+}
+#tournoi-bouton-ajouter{
+  width:auto;
+  border-radius: 50%;
+}
+
+#image-ajouter{
+  width: 50px;
+  height: auto;
+}
+
 #tournoi-infos-tableau{
   width: 100%;
   border-collapse: collapse;
@@ -693,7 +768,6 @@ tr:nth-child(odd) {
 }
 
 #tournoi-container-boutons{
-  margin-top: 10vh;
   width:40vw;
   height:150vh;
   display: flex;
@@ -722,10 +796,47 @@ tr:nth-child(odd) {
   align-items: center;
   justify-content: center;
 }
+
+/*--------  Tournoi create/edit   ---------*/
+
+.tournoi-container-create-edit{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width:100%;
+}
+#tournoi-infos-create-edit{
+  margin-top: 10vh;
+  width:70vw;
+  height:160vh;
+}
+#container-tournoi-modifier-boutons-create-edit{
+  display: flex;
+  flex-direction: row-reverse;
+  width: 30vw;
+  margin-right: 6%;
+}
+.tournoi-create-edit-boutons{
+  width:15vw;
+  font-family: "Aldrich", sans-serif;
+  color:white;
+}
+#tournoi-create-edit-confirmer{
+  background-color: #34C759;
+}
+#tournoi-create-edit-annuler{
+  background-color: #FF3B30;
+}
+.tournament-ce-input{
+  all: unset;
+  width:100%;
+}
+
+
 /*--------  Bouton tournoi sinscrire   ---------*/
 
-/* Style initial du bouton */
 .tournoi-bouton-script {
+  position: relative;
   z-index: 10;
   border-radius: 5vh;
   background-color: #8D493A;
@@ -738,22 +849,22 @@ tr:nth-child(odd) {
   font-family: "Aldrich", sans-serif;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease; /* Transition douce pour le changement de taille */
+  transition: all 0.3s ease;
+}
+.tournoi-bouton-sinsrire{
+  margin-top: 10vh;
 }
 
-/* Style du bouton après avoir cliqué */
 .tournoi-bouton-script.clicked {
   height: 40vh;
   width: 32vw;
 }
 
-/* Agrandissement du texte avec taille plus raisonnable */
 .tournoi-bouton-script.clicked h3 {
   font-size: 2.5rem;
   transition: font-size 0.3s ease;
 }
 
-/* Centrer le texte "S'INSCRIRE" */
 .tournoi-bouton-script h3 {
   margin: 0;             
   padding: 0;
@@ -772,7 +883,9 @@ tr:nth-child(odd) {
   gap: 1vw; 
   align-items: center; 
 }
-
+#form-tournoi-sinscrire{
+  width: 15vw;
+}
 #text-test {
   color: #DFD3C3;
   font-size: medium;
@@ -807,7 +920,35 @@ tr:nth-child(odd) {
   font-size: 2rem;
 }
 
-/*--------  Bouton tournoi sinscrire   ---------*/
+.tournoi-bouton-inscrit{
+  background-color: #34C759;
+  height:20vh;
+  display: flex;
+  flex-direction: row;
+}
+#h3-inscrit{
+  width:50%;
+  font-size: 170%;
+}
+#vu-inscrit{
+  height:30%;
+  width: auto;
+}
+.tournoi-bouton-annuler{
+       
+  background-color: #D9D9D9;
+  width:10vw;
+  height:8vh;
+  color: black;
+  font-size: 120%;
+}
+#form-annuler-unregister{
+  width: 10vw;
+  top:2%;
+  position: relative;
+  z-index: 30; 
+}
+/*--------  Bouton tournoi liste   ---------*/
 
 .tournoi-bouton-liste{
   z-index: 10;
@@ -923,7 +1064,7 @@ tr:nth-child(odd) {
   width:85vw;
   gap:5%;
   font-family: "Aldrich", sans-serif;
-  ;
+  margin-bottom: 0%;
 }
 #image-infos{
   width:40vw;
@@ -965,7 +1106,7 @@ tr:nth-child(odd) {
 }
 #content-profile-titre-boutons{
   display: flex;
-  flex-direction: row;
+  flex-direction:row-reverse;
   align-self: flex-end;
   margin-left: auto;
   gap:5%;
@@ -994,9 +1135,11 @@ button{
 }
 .profil-bouton-modifier{
   width:20vw;
+  font-family:"Aldrich", sans-serif;
   color: white;
   font-weight: lighter;
 }
+
 #profil-bouton-annuler{
   background-color: #FF3B30;
 }
@@ -1094,6 +1237,17 @@ button{
   padding-left:9%;
   height: 10vh;
   margin-bottom: 0;
+}
+#select-sexe-edit{
+  font-family: "Aldrich", sans-serif;
+  font-size: large;
+  background-color: #F2F2F7;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  border: none;
+  padding-left:9%;
+  border-radius: 5vh;
+  height: 11vh;
+  width: 15vw;
 }
 
 /* Partie contacts*/

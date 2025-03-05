@@ -11,46 +11,71 @@
       <h1 class="titre-page" id="tournoi-titre" >Tournoi</h1>
       <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
     </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
     <div id="tournoi-container-dessous">
       <div id="tournoi-infos">
-        <div id="tournoi-container-infos">
-          <h2 id="tournoi-infos-titre">Informations</h2>
+        <div class="tournoi-container-infos">
+          {% if g.user['role'] == 'Admin'%}
+            <div id="container-tournoi-modifier">
+              <h2 id="tournoi-infos-titre">Informations</h2>
+              <div id="container-tournoi-modifier-boutons">
+                <form id="tournoi-modifier-form" action="{{url_for('tournament.show_edit_tournament')}}" method="get">
+                  <button type="submit" id="tournoi-bouton-modifier">
+                    <span>Modifier</span>
+                    <img id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
+                  </button>
+                </form>
+                <form action="{{url_for('tournament.show_create_tournament')}}" method="get">
+                  <button type="submit" id="tournoi-bouton-ajouter">
+                    <img id="image-ajouter" src="{{url_for('static', filename='imgs/plus.png')}}" alt="Logo du bouton ajouter"/>
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% else %}
+            <h2 id="tournoi-infos-titre">Informations</h2>
+          {% endif %}
           <table id="tournoi-infos-tableau">
             <tr>
               <th class="th-infos">Lieu :</th>
-              <td class="td-infos">Collège du Sud, Salle d’exposition</td>
+              <td class="td-infos">{{tournament['lieu']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Date :</th>
-              <td class="td-infos">Jeudi 26 septembre 2024</td>
+              <td class="td-infos">{{tournament['date_tournoi']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Heure :</th>
-              <td class="td-infos">De 13h20 à 16h00</td>
+              <td class="td-infos">{{tournament['horaire']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Rondes :</th>
-              <td class="td-infos">5 rondes au système suisse <br>(1 ronde de départage, si nécessaire)</td>
+              <td class="td-infos">{{tournament['rondes']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Cadence :</th>
-              <td class="td-infos">10’ + 5” d’incrément par coup</td>
+              <td class="td-infos">{{tournament['cadence']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Arbitre :</th>
-              <td class="td-infos">Nom de l’arbitre</td>
-            </tr>
-            <tr>
-              <th class="th-infos">Résultats :</th>
-              <td class="td-infos">Les résultats sont disponibles en direct sur le site du Club d’échecs du CSUD</td>
+              <td class="td-infos">{{tournament['arbitre']}}</td>
             </tr>
             <tr>
               <th class="th-infos">Prix :</th>
               <td class="td-infos">
-                1er prix : Médaille d’or et inscription du nom sur la coupe du CSUD<br>
-                2ème prix : Médaille d’argent<br>
-                3ème prix : Médaille de bronze<br>
-                Pour tous : Médaille de participation
+                1er prix : {{tournament['prix_1']}}<br>
+                2ème prix : {{tournament['prix_2']}}<br>
+                3ème prix : {{tournament['prix_3']}}<br>
+                Pour tous : {{tournament['prix_de_participation']}}
               </td>
             </tr>
           </table>
@@ -58,9 +83,19 @@
       </div>
       <div id="tournoi-container-boutons">
         <img class="image-roi" src="{{url_for('static', filename='imgs/roi.png')}}" alt="roi">
-        <button class="tournoi-bouton-script" id="btnConnect" onclick="changerBoutonSinscrire()">
-          <h3 id="sinscrireee">S'INSCRIRE</h3>
-        </button>
+        {% if is_registered %}
+          <form method="POST" id="form-annuler-unregister" action="{{ url_for('tournament.unregister_tournament') }}">
+            <button class="tournoi-bouton-script tournoi-bouton-annuler">ANNULER</button>
+          </form>
+          <div class="tournoi-bouton-script tournoi-bouton-inscrit">
+            <img id="vu-inscrit" src="{{url_for('static', filename='imgs/vu.png')}}" alt="vu">
+            <h3 id="h3-inscrit">INSCRIT </h3>
+          </div>
+        {% else %}
+          <button class="tournoi-bouton-script tournoi-bouton-sinsrire" id="btnConnect" onclick="changerBoutonSinscrire()">
+              <h3 id="sinscrireee">S'INSCRIRE</h3>
+          </button>
+        {% endif %}
         <button class="tournoi-bouton">
           <a href="{{url_for('tournament.show_precedents')}}"><h3>TOURNOIS PRECEDENTS</h3></a>
         </button>
@@ -70,6 +105,115 @@
       </div>
     </div>
   </div>
+  <script>
+function changerBoutonSinscrire() {
+        var button = document.getElementById("btnConnect");
+
+        // Vérifie si le bouton a déjà été cliqué
+        if (button.classList.contains("clicked")) {
+            // Réinitialise l'état du bouton
+            button.classList.remove("clicked");
+            button.innerHTML = '<h3>S\'INSCRIRE</h3>';
+        } else {
+            // Ajoute l'état "cliqué"
+            button.classList.add("clicked");
+
+            // Ajouter du texte ou d'autres boutons à l'intérieur du bouton
+            var addedContent = `
+                <h3 id="sinscriree">S'INSCRIRE</h3>
+                <p id="text-test">Souhaitez-vous participer au <br>Tournoi d’échecs du CSUD ?</p>
+                <div id="div-test">
+                  <button class="bouton-test" id="bouton-test-confirmer" type="button" onclick="registerTournament()">
+                    <img class="image-logo" src="{{url_for('static', filename='imgs/vu.png')}}" alt="vu">
+                    <span>CONFIRMER</span>
+                  </button>
+                  <button class="bouton-test" id="bouton-test-annuler">
+                    <img class="image-logo" src="{{url_for('static', filename='imgs/croix.png')}}" alt="croix">
+                    <span>ANNULER</span>
+                  </button>
+                </div>
+            `;
+            button.innerHTML = addedContent; // Ajoute les nouveaux éléments dans le bouton
+        }
+    }
+function registerTournament() {
+    fetch("{{ url_for('tournament.register_tournament') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            tournament_id: "{{ tournament['id'] }}"
+        })
+    })
+    .then(response => {
+        location.reload();
+    })
+}
+function changerBoutonListe() {
+  var button = document.getElementById("bouton-sinscrire-tournoi");
+
+  // Vérifie si le bouton a déjà été cliqué
+  if (button.classList.contains("clicked")) {
+      // Réinitialise l'état du bouton
+      button.classList.remove("clicked");
+      button.innerHTML = '<h3>LISTE DES PARTICIPANTS</h3>';
+  } else {
+      // Ajoute l'état "cliqué"
+      button.classList.add("clicked");
+
+      // Ajouter du texte ou d'autres boutons à l'intérieur du bouton
+      var addedContent = `
+        <h3 >LISTE DES PARTICIPANTS</h3>
+        <table id="tournoi-liste-tableau">
+          <tr>
+            <th class="th-liste">1. </th>
+            <td class="td-liste">Annette Black</td>
+          </tr>
+          <tr>
+            <th class="th-liste">2. </th>
+            <td class="td-liste">Jenny Wilson</td>
+          </tr>
+          <tr>
+            <th class="th-liste">3. </th>
+            <td class="td-liste">Floyd Miles</td>
+          </tr>
+          <tr>
+            <th class="th-liste">4. </th>
+            <td class="td-liste">Arlene McCoy</td>
+          </tr>
+          <tr>
+            <th class="th-liste">5.</th>
+            <td class="td-liste">Eleanor Pena</td>
+          </tr>
+          <tr>
+            <th class="th-liste">6.</th>
+            <td class="td-liste">Darlene Robertson</td>
+          </tr>
+          <tr>
+            <th class="th-liste">7.</th>
+            <td class="td-liste">Dianne Russell</td>
+          </tr>
+          <tr>
+            <th class="th-liste">8.</th>
+            <td class="td-liste">Kristin Watson</td>
+          </tr>
+          <tr>
+            <th class="th-liste">9.</th>
+            <td class="td-liste">Jerome Bell</td>
+          </tr>
+          <tr>
+            <th class="th-liste">10.</th>
+            <td class="td-liste">Leslie Alexander</td>
+          </tr>
+        </table>
+        <img class="fleche" id="fleche-droite" src="{{url_for('static', filename='imgs/right.png')}}" alt="flèche-droite">
+
+      `;
+      button.innerHTML = addedContent; // Ajoute les nouveaux éléments dans le bouton
+  }
+}
+</script>
 </body>
 
 

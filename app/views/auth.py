@@ -15,39 +15,65 @@ def register():
         # On récupère les champs 'username' et 'password' de la requête HTTP
         e_mail = request.form['e_mail']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
         name = request.form['name']
         first_name = request.form['first_name']
         classe = request.form['classe']
+        sexe = request.form['sexe']
+        lichess = request.form['lichess']
+        chess_com = request.form['chesscom']
+        mail = request.form['mail']
+        tel = request.form['tel']
 
         # On récupère la base de donnée
         db = get_db()
 
+        if password != confirm_password:
+            flash("Les mots de passe ne correspondent pas.")
+            return redirect(url_for("auth.register"))
         # Si le nom d'utilisateur et le mot de passe ont bien une valeur
         # on essaie d'insérer l'utilisateur dans la base de données
         if e_mail and password and name and first_name and classe:
-            try:
-                db.execute(""" INSERT INTO Utilisateurs (e_mail, mot_de_passe, nom, prenom, classe) VALUES (?, ?, ?, ?, ?) """, (e_mail, generate_password_hash(password), name, first_name, classe)) 
-                # db.commit() permet de valider une modification de la base de données
-                db.commit()
-                # On ferme la connexion à la base de données pour éviter les fuites de mémoire
-                close_db()
-                
-            except db.IntegrityError:
+            # Dictionnaire pour stocker les champs et valeurs
+            user_data = {
+                "e_mail": e_mail,
+                "mot_de_passe": generate_password_hash(password),
+                "nom": name,
+                "prenom": first_name,
+                "classe": classe,
+                "sexe" : sexe
+            }
 
-                # La fonction flash dans Flask est utilisée pour stocker un message dans la session de l'utilisateur
-                # dans le but de l'afficher ultérieurement, généralement sur la page suivante après une redirection
+            # Ajout des champs facultatifs s'ils sont présents
+            if lichess:
+                user_data["lichess"] = lichess
+            if chess_com:
+                user_data["chess_com"] = chess_com
+            if mail:
+                user_data["mail"] = mail
+            if tel:
+                user_data["numero_de_telephone"] = tel
+
+            # Construction dynamique de la requête SQL
+            columns = ", ".join(user_data.keys())
+            placeholders = ", ".join("?" for _ in user_data.values())
+            values = list(user_data.values())
+
+            try:
+                db.execute(f"INSERT INTO Utilisateurs ({columns}) VALUES ({placeholders})", values)
+                db.commit()
+                close_db()
+            except db.IntegrityError:
                 error = f"Utilisateur {e_mail} déjà enregistré."
                 flash(error)
                 return redirect(url_for("auth.register"))
-            
+
             return redirect(url_for("auth.login"))
-         
         else:
-            error = "Nom d'utilisateur ou mot de passe invalide"
+            error = "Nom d'utilisateur ou mot de passe invalide."
             flash(error)
             return redirect(url_for("auth.login"))
     else:
-        # Si aucune donnée de formulaire n'est envoyée, on affiche le formulaire d'inscription
         return render_template('auth/register.html')
 
 # Route /auth/login
@@ -74,9 +100,9 @@ def login():
         # on crée une variable error 
         error = None
         if user is None:
-            error = "Nom d'utilisateur incorrect"
+            error = "Nom d'utilisateur incorrect."
         elif not check_password_hash(user['mot_de_passe'], password):
-            error = "Mot de passe incorrect"
+            error = "Mot de passe incorrect."
         # S'il n'y pas d'erreur, on ajoute l'id de l'utilisateur dans une variable de session
         # De cette manière, à chaque requête de l'utilisateur, on pourra récupérer l'id dans le cookie session
         if error is None:

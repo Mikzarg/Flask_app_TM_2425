@@ -3,8 +3,6 @@ from flask import (Blueprint, flash, g, redirect, render_template, request, sess
 # Routes /...
 home_bp = Blueprint('home', __name__)
 
-
-
 # Route /
 @home_bp.route('/', methods=('GET', 'POST'))
 def landing_page():

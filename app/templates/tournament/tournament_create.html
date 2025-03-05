@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Création d'un tournoi
+{% endblock %}
+{% block content%}
+
+<body>
+  <div id="tournoi-container">
+    <div id="tournoi-container-titre">
+      <h1 class="titre-page" id="tournoi-titre" >Tournoi</h1>
+      <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+    </div>
+    <div class="tournoi-container-create-edit">
+        <div class="tournoi-container-infos" id="tournoi-infos-create-edit">
+            <div id="container-tournoi-modifier">
+              <h2 id="tournoi-infos-titre">Informations</h2>
+              <div id="container-tournoi-modifier-boutons-create-edit">
+                <form action="{{url_for('tournament.show_tournament')}}" method="get">
+                  <button class="tournoi-create-edit-boutons" id="tournoi-create-edit-annuler" type="submit" >
+                    <span>ANNULER</span>
+                    <img src="{{url_for('static', filename='imgs/croix.png')}}" alt="Logo du bouton modifier"/>
+                  </button>
+                </form>
+                <form id="tournoi-modifier-form" action="{{url_for('tournament.create_tournament')}}" method="post">
+                  <button class="tournoi-create-edit-boutons" id="tournoi-create-edit-confirmer" type="submit" >
+                    <span>CONFIRMER</span>
+                    <img src="{{url_for('static', filename='imgs/vu.png')}}" alt="Logo du bouton modifier"/>
+                  </button>
+              </div>
+            </div>
+          <table id="tournoi-infos-tableau">
+            <tr>
+              <th class="th-infos">Lieu :</th>
+              <td class="td-infos"><input name="lieu" class="tournament-ce-input" required></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Date :</th>
+              <td class="td-infos"><input name="date" class="tournament-ce-input" required></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Heure :</th>
+              <td class="td-infos"><input name="horaire" class="tournament-ce-input" required></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Rondes :</th>
+              <td class="td-infos"><textarea name="rondes" rows="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Cadence :</th>
+              <td class="td-infos"><textarea name="cadence" rows="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Arbitre :</th>
+              <td class="td-infos"><input name="arbitre" class="tournament-ce-input" required></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Prix 1:</th>
+              <td class="td-infos"><textarea name="prix_1" rows ="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Prix 2:</th>
+              <td class="td-infos"><textarea name="prix_2" rows ="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Prix 3:</th>
+              <td class="td-infos"><textarea name="prix_3" rows ="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+            <tr>
+              <th class="th-infos">Prix de participation:</th>
+              <td class="td-infos"><textarea rows name="prix_de_participation" rows="2" class="tournament-ce-input" required></textarea></td>
+            </tr>
+          </table>
+        </form>
+        </div>
+    </div>
+  </div>
+</body>
+
+
+{% endblock %}

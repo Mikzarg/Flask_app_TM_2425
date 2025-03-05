@@ -5,7 +5,7 @@ from app.utils import *
 infos_bp = Blueprint('infos', __name__, url_prefix='/infos')
 
 # Route /infos/infos 
-@infos_bp.route('/infos', methods=('GET', 'POST'))
+@infos_bp.route('/', methods=('GET', 'POST'))
 def show_infos():
     # Affichage de la page des tournois
     return render_template('infos/infos.html')

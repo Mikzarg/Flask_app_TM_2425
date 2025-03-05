@@ -9,18 +9,17 @@
     <div id="content-profile-titre">
       <h1 id="titre-profil">Profil </h1>
       <div id="content-profile-titre-boutons">
+        <a href="{{ url_for('user.show_profile') }}" method="get">         
+          <button type="submit" class="profil-bouton-modifier" id="profil-bouton-annuler">
+            <span>ANNULER</span>
+            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/croix.png')}}" alt="Logo du bouton modifier"/>
+          </button>
+        </a>
         <form action="{{ url_for('user.update_profile') }}" method="post"> 
           <button type="submit" class="profil-bouton-modifier" id="profil-bouton-confirmer">
             <span>CONFIRMER</span>
             <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/vu.png')}}" alt="Logo du bouton se déconnecter"/>
           </button> 
-        </form>
-        <form action="{{ url_for('user.show_profile') }}" method="get">         
-          <button type="submit" class="profil-bouton-modifier" id="profil-bouton-annuler">
-            <span>ANNULER</span>
-            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/croix.png')}}" alt="Logo du bouton modifier"/>
-          </button>
-        </form>
       </div>
     </div>
     <div id="container-profile-profil">
@@ -49,7 +48,11 @@
         </div>
         <div class="q-r-droite">
           <label for="sexe" class="question-droite">Sexe :</label>
-          <input name="sexe" id="profile-sexe" placeholder="      -">
+          <select name="sexe" id="select-sexe-edit">
+            <option value="Non-spécifié" {% if g.user.sexe == "Non-spécifié" %} selected {% endif %}>Non spécifié</option>
+            <option value="Masculin" {% if g.user.sexe == "Masculin" %} selected {% endif %}>Masculin</option>
+            <option value="Féminin" {% if g.user.sexe == "Féminin" %} selected {% endif %}>Féminin</option>
+          </select>
         </div>
       </div>
     </div>
@@ -83,5 +86,6 @@
         <input name="résultat4" class="résultat-input"  placeholder="      -">
       </div>
     </div>
+  </form>
   </div>  
 {% endblock %}

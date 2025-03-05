@@ -9,6 +9,9 @@
   <div id="big-container-sinscrire">
     <div class="box-gris" id="container-sinscrire">
       <h2 class="titre-se-connecter titre-page">S'inscrire</h2>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
       <form method="post">
         <div id="container-sinscrire-3">
           <div id="nom">
@@ -24,17 +27,43 @@
             <input name="classe" id="input-classe" class ="sinscrire-input-3" required placeholder="1GY1">
           </div>
         </div>
+        <label  class="label-connection">Sexe</label>
+        <select name ="sexe" id="select-sexe">
+          <option value="Non-spécifié">Non spécifié</option>
+          <option value="Masculin">Masculin</option>
+          <option value="Féminin">Féminin</option> 
+        </select>
         <label for="e_mail" class="label-connection">Adresse mail</label>
         <input name="e_mail" id="e_mail" required placeholder="test@example.com">
         <label for="password" class="label-connection">Mot de passe</label>
         <input type="password" name="password" id="password" required placeholder="***************">
         <label  class="label-connection">Confirmez le mot de passe</label>
-        <input placeholder="***************">
-        <input class="bouton-se-connecter" id ="sinscrire" type="submit" value="S'inscrire">
+        <input type="password" name="confirm_password" required placeholder="***************">
+        <h3 id="sinscrire-texte-facultatif">Facultatif:</h3>
+        <div id="big-container-facultatif-connection">
+          <div class="container-facultatif-connection">
+            <div>
+              <label class="label-connection label-facultatif">Lichess</label>
+              <input name="lichess" class="facultatif-connection" placeholder=" Pseudo_lichess">
+            </div>
+            <div>
+              <label  class="label-connection label-facultatif-d">Chess.com</label>
+              <input name="chesscom" class="facultatif-connection-d" placeholder=" Pseudo_chesscom">
+            </div>
+          </div>
+          <div class="container-facultatif-connection" id="container-facultatif-connection-bas">
+            <div>
+              <label class="label-connection label-facultatif">Adresse mail visible</label>
+              <input name ="mail" class="facultatif-connection" placeholder=" test-public@example.com">
+            </div>
+            <div>
+              <label  class="label-connection label-facultatif-d">Numéro de téléphone</label>
+              <input name="tel" class="facultatif-connection-d" placeholder=" 079 000 00 00">
+            </div>
+          </div>
+        </div>
+        <input class="bouton-se-connecter sinscrire {% if get_flashed_messages() %}avec-flash{% else %}sans-flash{% endif %}" type="submit" value="S'inscrire">
       </form>
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
     </div>
   </div>
 </body>

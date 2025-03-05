@@ -4,24 +4,22 @@
 <body class="se-connecter">
   <div class="box-gris" id="content-register">
     <h2 class="titre-se-connecter titre-page">Se connecter</h2>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
     <form method="post">
       <label for="e_mail" class="label-connection">Adresse mail</label>
       <input name="e_mail" id="e_mail" required placeholder="test@example.com">
       <label for="password" class="label-connection">Mot de passe</label>
       <input type="password" name="password" id="password" required placeholder="***************">
-      <input class="bouton-se-connecter" type="submit" value="Se connecter">
-    </form>
-    <div class="parent-container">
-      <div class="souvenir-container">
-        <img id="check-se-souvenir-de-moi" src="{{url_for('static', filename='imgs/check-se-souvenir-de-moi.png')}}" alt="check-se-souvenir-de-moi">
-        <label  id="se-souvenir-de-moi" for="souvenir" class="label-connection">Se souvenir de moi</label>
+      <div id="container-login-boutons">
+        <a class="boutons-sinscrire-mdp" id="bouton-sinscrire" href="{{ url_for('auth.register') }}">S'inscrire</a>
+        <h3 class="boutons-sinscrire-mdp" id="bouton-mdp-oublié">Mot de passe oublié</h3>
+        <input class="bouton-se-connecter" type="submit" value="Se connecter">
       </div>
-    </div>
-    <a class="boutons-sinscrire-mdp" id="bouton-sinscrire" href="{{ url_for('auth.register') }}">S'inscrire</a>
-    <h3 class="boutons-sinscrire-mdp" id="bouton-mdp-oublié">Mot de passe oublié</h3>
-    {% for message in get_flashed_messages() %}
-      <div>{{ message }}</div>
-    {% endfor %}
+    </form>
+    
+    
   </div>
 </body>
 {% endblock %}

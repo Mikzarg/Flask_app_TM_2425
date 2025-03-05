@@ -9,18 +9,18 @@
     <div id="content-profile-titre">
       <h1 id="titre-profil">Profil </h1>
       <div id="content-profile-titre-boutons">
-        <form action="{{ url_for('auth.logout') }}" method="get"> 
+        <form action="{{url_for('user.show_profile_edit')}}" method="get">        
+          <button type="submit" id="bouton-modifier">
+            <span>Modifier</span>
+            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
+          </button>
+        </form>
+        <form action="{{url_for('auth.logout') }}" method="get"> 
           <button type="submit" id="bouton-se-deco">
             <span>Se déconnecter</span>
             <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/deconnecter.png')}}" alt="Logo du bouton se déconnecter"/>
           </button> 
         </form>
-        <a href="{{url_for('user.show_profile_edit')}}">        
-          <button type="submit" id="bouton-modifier">
-            <span>Modifier</span>
-            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
-          </button>
-        </a>
       </div>
     </div>
     <div id="container-profile-profil">
@@ -49,7 +49,7 @@
         </div>
         <div class="q-r-droite">
           <label for="sexe" class="question-droite">Sexe :</label>
-          <input name="sexe" id="profile-sexe" disabled="disabled" placeholder="      -">
+          <input name="sexe" id="profile-sexe" disabled="disabled" value="{{g.user.sexe}}">
         </div>
       </div>
     </div>
