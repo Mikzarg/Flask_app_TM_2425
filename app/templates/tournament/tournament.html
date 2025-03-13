@@ -9,18 +9,11 @@
   <div id="tournoi-container">
     <div id="tournoi-container-titre">
       <h1 class="titre-page" id="tournoi-titre" >Tournoi</h1>
-      <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+      <img class="image-pion" src="{{url_for('static', filename='imgs/imgs-site/pion.png')}}" alt="pion">
     </div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="flash-message {{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
     <div id="tournoi-container-dessous">
       <div id="tournoi-infos">
         <div class="tournoi-container-infos">
@@ -31,12 +24,12 @@
                 <form id="tournoi-modifier-form" action="{{url_for('tournament.show_edit_tournament')}}" method="get">
                   <button type="submit" id="tournoi-bouton-modifier">
                     <span>Modifier</span>
-                    <img id="image-modifier" src="{{url_for('static', filename='imgs/modifier.png')}}" alt="Logo du bouton modifier"/>
+                    <img id="image-modifier" src="{{url_for('static', filename='imgs/imgs-site/modifier.png')}}" alt="Logo du bouton modifier"/>
                   </button>
                 </form>
                 <form action="{{url_for('tournament.show_create_tournament')}}" method="get">
                   <button type="submit" id="tournoi-bouton-ajouter">
-                    <img id="image-ajouter" src="{{url_for('static', filename='imgs/plus.png')}}" alt="Logo du bouton ajouter"/>
+                    <img id="image-ajouter" src="{{url_for('static', filename='imgs/imgs-site/plus.png')}}" alt="Logo du bouton ajouter"/>
                   </button>
                 </form>
               </div>
@@ -51,7 +44,7 @@
             </tr>
             <tr>
               <th class="th-infos">Date :</th>
-              <td class="td-infos">{{tournament['date_tournoi']}}</td>
+              <td class="td-infos">{{date_lisible_tournoi}}</td>
             </tr>
             <tr>
               <th class="th-infos">Heure :</th>
@@ -70,6 +63,10 @@
               <td class="td-infos">{{tournament['arbitre']}}</td>
             </tr>
             <tr>
+              <th class="th-infos">Date limite d'inscription :</th>
+              <td class="td-infos">{{date_lisible_limite}}</td>
+            </tr>
+            <tr>
               <th class="th-infos">Prix :</th>
               <td class="td-infos">
                 1er prix : {{tournament['prix_1']}}<br>
@@ -82,13 +79,13 @@
         </div>
       </div>
       <div id="tournoi-container-boutons">
-        <img class="image-roi" src="{{url_for('static', filename='imgs/roi.png')}}" alt="roi">
+        <img class="image-roi" src="{{url_for('static', filename='imgs/imgs-site/roi.png')}}" alt="roi">
         {% if is_registered %}
           <form method="POST" id="form-annuler-unregister" action="{{ url_for('tournament.unregister_tournament') }}">
             <button class="tournoi-bouton-script tournoi-bouton-annuler">ANNULER</button>
           </form>
           <div class="tournoi-bouton-script tournoi-bouton-inscrit">
-            <img id="vu-inscrit" src="{{url_for('static', filename='imgs/vu.png')}}" alt="vu">
+            <img id="vu-inscrit" src="{{url_for('static', filename='imgs/imgs-site/vu.png')}}" alt="vu">
             <h3 id="h3-inscrit">INSCRIT </h3>
           </div>
         {% else %}
@@ -96,9 +93,9 @@
               <h3 id="sinscrireee">S'INSCRIRE</h3>
           </button>
         {% endif %}
-        <button class="tournoi-bouton">
-          <a href="{{url_for('tournament.show_precedents')}}"><h3>TOURNOIS PRECEDENTS</h3></a>
-        </button>
+          <a class="tournoi-bouton" href="{{url_for('tournament.show_precedents')}}">
+            <h3>TOURNOIS PRECEDENTS</h3>
+          </a>
         <button class="tournoi-bouton-liste tournoi-bouton" id="bouton-sinscrire-tournoi" onclick="changerBoutonListe()">
           <h3>LISTE DES PARTICIPANTS</h3>
         </button>
@@ -121,17 +118,21 @@ function changerBoutonSinscrire() {
             // Ajouter du texte ou d'autres boutons à l'intérieur du bouton
             var addedContent = `
                 <h3 id="sinscriree">S'INSCRIRE</h3>
-                <p id="text-test">Souhaitez-vous participer au <br>Tournoi d’échecs du CSUD ?</p>
-                <div id="div-test">
-                  <button class="bouton-test" id="bouton-test-confirmer" type="button" onclick="registerTournament()">
-                    <img class="image-logo" src="{{url_for('static', filename='imgs/vu.png')}}" alt="vu">
-                    <span>CONFIRMER</span>
-                  </button>
-                  <button class="bouton-test" id="bouton-test-annuler">
-                    <img class="image-logo" src="{{url_for('static', filename='imgs/croix.png')}}" alt="croix">
-                    <span>ANNULER</span>
-                  </button>
-                </div>
+                {% if g.user %}
+                  <p id="text-test">Souhaitez-vous participer au <br>Tournoi d’échecs du CSUD ?</p>
+                  <div id="div-test">
+                    <button class="bouton-test" id="bouton-test-confirmer" type="button" onclick="registerTournament()">
+                      <img class="image-logo" src="{{url_for('static', filename='imgs/imgs-site/vu.png')}}" alt="vu">
+                      <span>CONFIRMER</span>
+                    </button>
+                    <button class="bouton-test" id="bouton-test-annuler">
+                      <img class="image-logo" src="{{url_for('static', filename='imgs/imgs-site/croix.png')}}" alt="croix">
+                      <span>ANNULER</span>
+                    </button>
+                  </div>
+                {% else %}
+                    <h3 id="texte-non-inscrit">Vous devez être connecté pour vous inscrire.</h3>
+                {% endif %}
             `;
             button.innerHTML = addedContent; // Ajoute les nouveaux éléments dans le bouton
         }
@@ -153,7 +154,6 @@ function registerTournament() {
 function changerBoutonListe() {
   var button = document.getElementById("bouton-sinscrire-tournoi");
 
-  // Vérifie si le bouton a déjà été cliqué
   if (button.classList.contains("clicked")) {
       // Réinitialise l'état du bouton
       button.classList.remove("clicked");
@@ -162,57 +162,27 @@ function changerBoutonListe() {
       // Ajoute l'état "cliqué"
       button.classList.add("clicked");
 
-      // Ajouter du texte ou d'autres boutons à l'intérieur du bouton
       var addedContent = `
-        <h3 >LISTE DES PARTICIPANTS</h3>
-        <table id="tournoi-liste-tableau">
-          <tr>
-            <th class="th-liste">1. </th>
-            <td class="td-liste">Annette Black</td>
-          </tr>
-          <tr>
-            <th class="th-liste">2. </th>
-            <td class="td-liste">Jenny Wilson</td>
-          </tr>
-          <tr>
-            <th class="th-liste">3. </th>
-            <td class="td-liste">Floyd Miles</td>
-          </tr>
-          <tr>
-            <th class="th-liste">4. </th>
-            <td class="td-liste">Arlene McCoy</td>
-          </tr>
-          <tr>
-            <th class="th-liste">5.</th>
-            <td class="td-liste">Eleanor Pena</td>
-          </tr>
-          <tr>
-            <th class="th-liste">6.</th>
-            <td class="td-liste">Darlene Robertson</td>
-          </tr>
-          <tr>
-            <th class="th-liste">7.</th>
-            <td class="td-liste">Dianne Russell</td>
-          </tr>
-          <tr>
-            <th class="th-liste">8.</th>
-            <td class="td-liste">Kristin Watson</td>
-          </tr>
-          <tr>
-            <th class="th-liste">9.</th>
-            <td class="td-liste">Jerome Bell</td>
-          </tr>
-          <tr>
-            <th class="th-liste">10.</th>
-            <td class="td-liste">Leslie Alexander</td>
-          </tr>
-        </table>
-        <img class="fleche" id="fleche-droite" src="{{url_for('static', filename='imgs/right.png')}}" alt="flèche-droite">
-
+          <h3 id="titre-liste-clicked">LISTE DES PARTICIPANTS</h3>
+          <div id="liste-participants-conteneur">
+            {% if participants %}
+              <table id="tournoi-liste-tableau">
+                {% for participant in participants %}
+                  <tr>
+                    <th class="th-liste">{{loop.index}}.</th>
+                    <td class="td-liste">{{ participant.nom }} {{ participant.prenom }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            {% else %}
+              <p>Aucun participant inscrit pour ce tournoi.</p>
+            {% endif %}
+          </div>
       `;
-      button.innerHTML = addedContent; // Ajoute les nouveaux éléments dans le bouton
+      button.innerHTML = addedContent;
   }
 }
+  
 </script>
 </body>
 

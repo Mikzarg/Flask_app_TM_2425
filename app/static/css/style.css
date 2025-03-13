@@ -122,7 +122,6 @@ html, body{
 #carres_top_right_1{
   height:120%;
   position: relative;
-  left:1%;
 }
 /*
 ----------------------   Barre de menu (co)   ----------------------
@@ -154,7 +153,9 @@ html, body{
 }
 #photo-barre-menu{
   width:7vw;
-  height:auto;
+  height:7vw;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .nom-prenom{
   font-size: 110%;
@@ -227,6 +228,7 @@ html, body{
   align-items: center; 
   position: relative;
   font-style:normal;
+  padding-bottom: 4.4vh;
 }
 #bienvenue{
   color: #8D493A;
@@ -249,7 +251,7 @@ html, body{
 ----------------------   Page se connecter   ----------------------
 */
 .se-connecter{
-background-image: url("/static/imgs/echecs-se-connecter.JPG");
+background-image: url("/static/imgs/imgs-site/echecs-se-connecter.JPG");
 background-size: cover;
 }
 
@@ -324,6 +326,7 @@ margin-bottom: 5vh;
   margin-left: 25%;
   height:10vh;
   font-size: 110%;
+  cursor: pointer;
 }
 
 .boutons-sinscrire-mdp{
@@ -406,6 +409,7 @@ border-radius: 5vh;
 height: 12vh;
 margin-bottom: 5vh; 
 width:20vw;
+cursor: pointer;
 }
 
 #sinscrire-texte-facultatif{
@@ -527,6 +531,7 @@ width:20vw;
   gap: 3vw; 
   width: 100vw; 
   flex-wrap: wrap;
+  cursor: pointer;
 }
 .membres-ligne{
   display: flex;
@@ -550,7 +555,9 @@ button.membres-case {
 
 .membres-case-photo {
   width:9vw;
-  height:auto;
+  height:9vw;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .membres-case-infos {
@@ -589,6 +596,7 @@ button.membres-case {
   margin-top:10%;
   height:50vh;
   width:auto;
+  border-radius: 50%;
 }
 .membre-carte-nom-prenom{
   margin-top: 4%;
@@ -617,10 +625,12 @@ button.membres-case {
 #membre-container-brun1{
   margin-top: 3%;
   height:40%;
+  border-top-right-radius: 50px;
 }
 #membre-container-brun2{
   margin-top:5%;
   height:45%;
+  border-bottom-right-radius: 50px;
 }
 .membre-container-brun-tot{
   display: flex;
@@ -652,6 +662,9 @@ button.membres-case {
 .tabulation_droite{
   margin-left: 3vw;
 }
+#aucun-tournoi-precedent{
+  margin-top: 6vh;
+}
 /*
 ----------------------   Page Tournoi  --------------------
 */
@@ -663,6 +676,7 @@ button.membres-case {
   flex-direction: column;
   align-items:flex-start;
 }
+
 #tournoi-container-titre{
   position: relative;
   left:5vw;
@@ -722,10 +736,12 @@ button.membres-case {
 }
 #tournoi-bouton-modifier{
   width: 15vw;
+  cursor: pointer;
 }
 #tournoi-bouton-ajouter{
   width:auto;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 #image-ajouter{
@@ -749,7 +765,7 @@ tr:nth-child(odd) {
   background-color: #E5E5EA;
 }
 .th-infos{
-  width:20%;
+  width:22%;
   text-align: left;
   padding-left: 20px;
   font-weight: lighter;
@@ -817,6 +833,7 @@ tr:nth-child(odd) {
   margin-right: 6%;
 }
 .tournoi-create-edit-boutons{
+  cursor: pointer;
   width:15vw;
   font-family: "Aldrich", sans-serif;
   color:white;
@@ -831,7 +848,6 @@ tr:nth-child(odd) {
   all: unset;
   width:100%;
 }
-
 
 /*--------  Bouton tournoi sinscrire   ---------*/
 
@@ -853,6 +869,7 @@ tr:nth-child(odd) {
 }
 .tournoi-bouton-sinsrire{
   margin-top: 10vh;
+  cursor: pointer;
 }
 
 .tournoi-bouton-script.clicked {
@@ -900,6 +917,7 @@ tr:nth-child(odd) {
   justify-content: flex-start;
   width: 15vw;
   color: white;
+  cursor: pointer;
 }
 
 .image-logo {
@@ -935,7 +953,7 @@ tr:nth-child(odd) {
   width: auto;
 }
 .tournoi-bouton-annuler{
-       
+  cursor: pointer;
   background-color: #D9D9D9;
   width:10vw;
   height:8vh;
@@ -947,9 +965,24 @@ tr:nth-child(odd) {
   top:2%;
   position: relative;
   z-index: 30; 
+  cursor: pointer;
+}
+#texte-non-inscrit{
+  font-size: medium;
+  margin-bottom: 5vh;
 }
 /*--------  Bouton tournoi liste   ---------*/
 
+#titre-liste-clicked{
+  margin-top:5vh;
+}
+#liste-participants-conteneur {
+  height: 70%; 
+  overflow-y: auto;
+  margin-top: 2vh;
+  width:95%;
+  margin-left:1vw;
+}
 .tournoi-bouton-liste{
   z-index: 10;
   border-radius: 5vh;
@@ -959,16 +992,17 @@ tr:nth-child(odd) {
   font-size: medium;
   display: flex;
   flex-direction: column;
+  justify-content: baseline;
   color: #F8F3E3;
   font-family: "Aldrich", sans-serif;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .tournoi-bouton-liste.clicked {
   height: 90vh;
   width: 32vw;
 }
 #tournoi-liste-tableau{
-  height:60vh;
   width: 95%;
   border-collapse: collapse;
   background-color: #E5E5EA;
@@ -981,19 +1015,17 @@ tr:nth-child(odd) {
   height:6vh;
   color:black;
   font-size: 110%;
+  padding-left: 20px;
 }
 .th-liste{
   color:black;
   font-weight: lighter;
-  width:20%;
+  width:6vh;
   text-align: left;
   padding-left: 20px;
   font-size: 110%;
 }
-#fleche-droite{
-  position: relative;
-  left: 30%;
-}
+
 /*
 ----------------  Page Tournois précédants   ---------------
 */
@@ -1029,6 +1061,45 @@ tr:nth-child(odd) {
 #precedants-texte{
   align-self: center;
   font-size: 130%;
+}
+#annees{
+  width: 100%;
+  margin-top: 10vh;
+
+}
+.annee {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10vw;
+  margin-bottom: 2vh;
+  font-size: larger;
+}
+.fleche {
+  width: 10px;
+  height: auto;
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+.fleche.tourne{
+  transform: rotate(90deg);
+}
+.contenu-annee {
+  width:90%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: row;
+
+}
+.contenu-annee-partie{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.boutons-slideshow{
+  display: flex;
+  flex-direction: row;
 }
 
 /*
@@ -1092,6 +1163,12 @@ tr:nth-child(odd) {
   height:295vh;
 
 }
+#content-profile-edit{
+  margin-top: 18vh;
+  width:80vw;
+  height:210vh;
+
+}
 #content-profile-titre{
   margin-top: 6%;
   height:25vh;
@@ -1132,9 +1209,14 @@ button{
 }
 #bouton-modifier{
   width:15vw;
+  cursor: pointer;
+}
+#bouton-se-deco{
+  cursor: pointer;
 }
 .profil-bouton-modifier{
-  width:20vw;
+  cursor: pointer;
+  width:17vw;
   font-family:"Aldrich", sans-serif;
   color: white;
   font-weight: lighter;
@@ -1182,25 +1264,32 @@ button{
   margin-bottom: 10vh;
   padding-left: 3vw;
 }
+#reponses-gauche-bouton-role{
+  margin-left: 7vw;
+  padding-left: 4vw;
+}
 #q-r-tournoi{
   height: 60%;
 }
-#reponses-gauche-bouton-langue{
-  padding-left: 3.8vw;
-}
+
 .questions-gauche-texte{
   margin-top: 1vh;
   margin-left:5vw;
 }
 .reponses-gauche-boutons::placeholder{
-  color: black;
+  color:white;
 }
-#reponses-gauche-boutons-tournoi{
+#rouge{
   background-color:#FF3B30 ;
+  padding-left: 3vw;
 }
-#reponses-gauche-boutons-tournoi::placeholder{
-  color:white
+
+#vert{
+  background-color: #34C759;
+  padding-left: 4.5vw;
 }
+
+  
 
 /* Droite*/
 
@@ -1218,18 +1307,58 @@ button{
   margin-right:10vw;
 }
 #profile-photo{
-  width:30%;
-  height:auto;
+  width:13vw;
+  height:13vw;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#profile-photo-container {
+  position: relative;
+  width: 150px; 
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#profile-photo-edit {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#profile-photo-container:hover #profile-photo {
+  opacity: 0.5; /* Assombrit l'image au survol */
+}
+
+#profile-photo-edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px; /* Ajuste selon la taille de ton icône */
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#profile-photo-container:hover #profile-photo-edit-icon {
+  opacity: 1; /* Affiche l'icône au survol */
+}
+
+.input-pdp{
+  display: none;
 }
 #profile-nom{
-  margin-left:13%;
+  margin-left:8%;
   font-family: "Aldrich", sans-serif;
   font-weight: normal;
 }
 #profile-classe{
-  margin-left:9%;
-  font-family: "Aldrich", sans-serif;
-  font-weight: normal;
+  width:10vw;
+  padding-left: 3vw;
+  margin-left: 1vw;
 }
 #profile-sexe{
   width:35%;
@@ -1248,6 +1377,7 @@ button{
   border-radius: 5vh;
   height: 11vh;
   width: 15vw;
+  cursor: pointer;
 }
 
 /* Partie contacts*/
@@ -1324,7 +1454,7 @@ ol{
   margin-left: 0;
   width:60%;
   font-size: 130%;
-  padding-left: 21%;
+  padding-left: 20%;
   height:10vh;
   margin-top: 3%;
   margin-bottom: 0;

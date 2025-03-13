@@ -5,20 +5,21 @@
 {% endblock %}
 
 {% block content %}
-  <div class="box-gris"  id="content-profile">
+<body>
+  <div class="box-gris"  id="content-profile-edit">
     <div id="content-profile-titre">
       <h1 id="titre-profil">Profil </h1>
       <div id="content-profile-titre-boutons">
         <a href="{{ url_for('user.show_profile') }}" method="get">         
           <button type="submit" class="profil-bouton-modifier" id="profil-bouton-annuler">
             <span>ANNULER</span>
-            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/croix.png')}}" alt="Logo du bouton modifier"/>
+            <img class="logo-bouton-profil" id="image-modifier" src="{{url_for('static', filename='imgs/imgs-site/croix.png')}}" alt="Logo du bouton modifier"/>
           </button>
         </a>
-        <form action="{{ url_for('user.update_profile') }}" method="post"> 
+        <form action="{{ url_for('user.update_profile') }}" method="post" enctype="multipart/form-data"> 
           <button type="submit" class="profil-bouton-modifier" id="profil-bouton-confirmer">
             <span>CONFIRMER</span>
-            <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/vu.png')}}" alt="Logo du bouton se déconnecter"/>
+            <img class="logo-bouton-profil" id="image-se-deco" src="{{url_for('static', filename='imgs/imgs-site/vu.png')}}" alt="Logo du bouton se déconnecter"/>
           </button> 
       </div>
     </div>
@@ -26,25 +27,32 @@
       <div id="container-profile-profil-gauche">
         <div id="q-r-tournoi">
           <label for="tournoi" class="questions-gauche-texte">Tournoi :</label>
-          <input name="tournoi" id="reponses-gauche-boutons-tournoi" class="reponses-gauche-boutons" placeholder="Pas inscrit"> 
-        </div>
-        <div id="q-r-langue">
-          <label for="langue" class="questions-gauche-texte">Langue :</label>
-          <input name="langue"class="reponses-gauche-boutons" id="reponses-gauche-bouton-langue" placeholder="Français"> 
+          {% if is_registered %}
+            <input name="tournoi" id="vert" class="reponses-gauche-boutons" disabled="disabled" placeholder="Inscrit"> 
+          {% else%}
+            <input name="tournoi" id="rouge" class="reponses-gauche-boutons" disabled="disabled" placeholder="Pas inscrit"> 
+          {% endif%}        </div>
+        <div id="q-r-role">
+          <label for="role" class="questions-gauche-texte">Rôle :</label>
+          <input name="role"class="reponses-gauche-boutons" id="reponses-gauche-bouton-role" disabled="disabled" value="{{g.user['role']}}"> 
         </div>
       </div>
       <div id="container-profile-profil-droite">
         <div class="q-r-droite">
           <h3 class="question-droite">Photo :</h3>
-          <img id="profile-photo" src="{{url_for('static', filename=g.user['photo_de_profil'])}}" alt="Photo de profil"/>
+          <div id="profile-photo-container">
+            <img id="profile-photo-edit" src="{{ url_for('static', filename=g.user['photo_de_profil']) }}" alt="Photo de profil"/>
+            <img id="profile-photo-edit-icon" src="{{ url_for('static', filename='imgs/imgs-site/modifier.png') }}" alt="Modifier"/>
+            <input type="file" name="photo_de_profil" id="input-pdp" class="input-pdp" accept="image/*">
+          </div>
         </div>
         <div class="q-r-droite">
           <h3 class="question-droite">Nom :</h3>
-          <h3 id="profile-nom">{{g.user.prenom}}</h3>
+          <h3 id="profile-nom">{{g.user.nom}} {{g.user.prenom}}</h3>
         </div>
         <div class="q-r-droite">
           <h3 class="question-droite">Classe :</h3>
-          <h3 id="profile-classe">{{g.user.classe}}</h3>
+          <input id="profile-classe" name="classe" value="{{g.user.classe}}">
         </div>
         <div class="q-r-droite">
           <label for="sexe" class="question-droite">Sexe :</label>
@@ -67,25 +75,31 @@
       <label for="lichess"  class="contacts-label" >Lichess :</label>
       <input name="lichess" id="lichess-input" class="contacts-input" value="{{g.user.lichess}}">
     </div>
-    <h2 class="titre-profile-contacts-tournois">TOURNOIS</h2>
-    <div id="container-profile-tournois">
-      <div id="container-profile-tournois-années">
-          <label for="année" id="année-label" >Année</label>
-        <ol>
-          <li><input name="année1" class="année-input"  placeholder="   -"></li>
-          <li><input name="année2" class="année-input"  placeholder="   -"></li>
-          <li><input name="année3" class="année-input"  placeholder="   -"></li>
-          <li><input name="année4" class="année-input"  placeholder="   -"></li>
-        </ol>
-      </div>
-      <div id="container-profile-tournois-résultat">
-        <label for="résultat" id="résultat-label" >Résultat</label>
-        <input name="résultat1" class="résultat-input"  placeholder="      -">
-        <input name="résultat2" class="résultat-input"  placeholder="      -">
-        <input name="résultat3" class="résultat-input"  placeholder="      -">
-        <input name="résultat4" class="résultat-input"  placeholder="      -">
-      </div>
-    </div>
   </form>
-  </div>  
+  </div> 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const profilePhotoContainer = document.getElementById("profile-photo-container");
+    const profilePhoto = document.getElementById("profile-photo-edit");
+    const fileInput = document.getElementById("input-pdp");
+
+    // Ouvrir la boîte de sélection de fichier au clic sur l'image
+    profilePhotoContainer.addEventListener("click", function () {
+        fileInput.click();
+    });
+
+    // Mettre à jour l'image après sélection d'un fichier
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profilePhoto.src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+});
+
+  </script>
+</body> 
 {% endblock %}

@@ -2,6 +2,8 @@ from flask import (Blueprint, flash, g, redirect, render_template, request, sess
 from app.db.db import get_db, close_db
 from app.utils import *
 import sqlite3
+from datetime import datetime
+import locale
 
 
 # Routes /tournament/...
@@ -20,10 +22,29 @@ def load_tournament():
 # Route /tournament/tournament 
 @tournament_bp.route('/', methods=['GET', 'POST'])
 def show_tournament():
+    db = get_db()
     user_id = session.get('user_id')
     tournament_id = g.tournament['id_tournoi'] if g.tournament else None
 
-    db = get_db()
+    participants = db.execute(
+        "SELECT u.prenom, u.nom FROM Participe p JOIN Utilisateurs u ON p.FK_utilisateur = u.id_utilisateurs WHERE p.FK_tournoi = ?",
+        (tournament_id,)
+    ).fetchall()
+    # Définit la langue française pour le formatage
+    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+
+    # Convertir la chaîne en un objet date
+    date_obj = datetime.strptime(g.tournament['date_limite'], "%Y-%m-%d")
+
+    # Formater la date en mots
+    date_lisible_limite = date_obj.strftime("%A %d %B %Y")
+    date_lisible_limite = date_lisible_limite.capitalize()
+
+    date_obj1 = datetime.strptime(g.tournament['date_tournoi'], "%Y-%m-%d")
+
+    # Formater la date en mots
+    date_lisible_tournoi = date_obj1.strftime("%A %d %B %Y")
+    date_lisible_tournoi = date_lisible_tournoi.capitalize()
 
     # Vérifier si l'utilisateur est inscrit
     is_registered = False
@@ -33,13 +54,7 @@ def show_tournament():
             (user_id, tournament_id)
         ).fetchone()
         is_registered = bool(existing_entry)
-    return render_template('tournament/tournament.html', tournament=g.tournament, is_registered=is_registered)
-
-
-@tournament_bp.route('/precedents', methods=('GET', 'POST'))
-def show_precedents():
-    # Affichage de la page des tournois précédents
-    return render_template('tournament/precedents.html')
+    return render_template('tournament/tournament.html', tournament=g.tournament,participants=participants, is_registered=is_registered, date_lisible_limite=date_lisible_limite, date_lisible_tournoi=date_lisible_tournoi)
 
 @tournament_bp.route('/create', methods=('GET', 'POST'))
 def show_create_tournament():
@@ -57,18 +72,24 @@ def create_tournament():
     rondes = request.form.get('rondes')
     cadence  = request.form.get('cadence')
     arbitre  = request.form.get('arbitre')
+    date_limite = request.form.get('date_limite')
     prix_1  = request.form.get('prix_1')
     prix_2  = request.form.get('prix_2')
     prix_3  = request.form.get('prix_3')
     prix_de_participation = request.form.get('prix_de_participation')
+
+    # Vérification : la date limite ne doit pas être après la date du tournoi
+    if date_limite > date:
+        flash("Erreur : La date limite d'inscription ne peut pas être après la date du tournoi.", "error")
+        return redirect(url_for('tournament.show_create_tournament'))
     # Connexion à la base de données
     db = get_db()
-
+    
     # Insérer les données dans la base de données sans spécifier id_tournoi
     db.execute("""
-        INSERT INTO Tournois (lieu, date_tournoi, horaire, rondes, cadence, arbitre, prix_1, prix_2, prix_3, prix_de_participation)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (lieu, date, horaire, rondes, cadence, arbitre, prix_1, prix_2, prix_3, prix_de_participation))
+        INSERT INTO Tournois (lieu, date_tournoi, horaire, rondes, cadence, arbitre, date_limite, prix_1, prix_2, prix_3, prix_de_participation)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+    """, (lieu, date, horaire, rondes, cadence, arbitre, date_limite, prix_1, prix_2, prix_3, prix_de_participation))
 
     # Sauvegarder les modifications
     db.commit()
@@ -84,18 +105,25 @@ def edit_tournament():
     rondes = request.form.get('rondes')
     cadence  = request.form.get('cadence')
     arbitre  = request.form.get('arbitre')
+    date_limite = request.form.get('date_limite')
     prix_1  = request.form.get('prix_1')
     prix_2  = request.form.get('prix_2')
     prix_3  = request.form.get('prix_3')
     prix_de_participation  = request.form.get('prix_de_participation')
-    # Connexion à la base de données
+
+    # Vérification : la date limite ne doit pas être après la date du tournoi
+    if date_limite > date:
+        flash("Erreur : La date limite d'inscription ne peut pas être après la date du tournoi.", "error")
+        return redirect(url_for('tournament.show_edit_tournament'))
+    
     db = get_db()
+
     try:
         db.execute('''
             UPDATE Tournois
-            SET date_tournoi = ?, lieu = ?, horaire = ?, rondes= ?, cadence = ?, arbitre= ?, prix_1= ?, prix_2= ?, prix_3= ?, prix_de_participation= ?
+            SET  lieu = ?, date_tournoi = ?, horaire = ?, rondes= ?, cadence = ?, arbitre= ?, date_limite= ?, prix_1= ?, prix_2= ?, prix_3= ?, prix_de_participation= ?
             WHERE id_tournoi = ?
-        ''', (lieu, date, horaire, rondes, cadence, arbitre, prix_1, prix_2, prix_3, prix_de_participation, g.tournament['id_tournoi']))
+        ''', (lieu, date, horaire, rondes, cadence, arbitre, date_limite, prix_1, prix_2, prix_3, prix_de_participation, g.tournament['id_tournoi']))
         db.commit()
         flash("Tournoi mis à jour avec succès !", "success")
     except Exception as e:
@@ -109,11 +137,6 @@ def edit_tournament():
 def register_tournament():
     user_id = session.get('user_id') 
     tournament_id = g.tournament['id_tournoi']
-
-    if not user_id:
-        flash("Vous devez être connecté pour vous inscrire à un tournoi.", "error")
-        return redirect(url_for('auth.login'))  # Redirige vers la connexion si l'utilisateur n'est pas authentifié
-
     db = get_db()
 
     # Vérifier si l'utilisateur est déjà inscrit
@@ -121,6 +144,17 @@ def register_tournament():
         "SELECT * FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?",
         (user_id, tournament_id)
     ).fetchone()
+    # Récupérer la date limite du tournoi
+    date_limite_str = g.tournament['date_limite']  # Assurez-vous que c'est une chaîne au format "YYYY-MM-DD"
+    date_limite = datetime.strptime(date_limite_str, "%Y-%m-%d").date()
+
+    # Récupérer la date actuelle
+    date_actuelle = datetime.now().date()
+
+    # Vérifier si la date actuelle est au-delà de la date limite
+    if date_actuelle > date_limite:
+        flash("Les inscriptions pour ce tournoi sont closes.", "warning")
+        return redirect(url_for('tournament.show_tournament'))
 
     if existing_entry:
         flash("Vous êtes déjà inscrit à ce tournoi.", "warning")
@@ -157,3 +191,11 @@ def unregister_tournament():
             return redirect(url_for('error_page'))  # L'utilisateur n'est pas inscrit
     else:
         return redirect(url_for('error_page'))  # Pas de session ou tournoi trouvé
+
+
+# --------- Precedants -----------
+
+@tournament_bp.route('/precedents', methods=('GET', 'POST'))
+def show_precedents():
+    # Affichage de la page des tournois précédents
+    return render_template('tournament/precedents.html')

@@ -14,11 +14,12 @@
         <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Admin</h2>
         <div class="ligne" id="ligne-droite1"></div>
-        <img class="image-pion" src="{{ url_for('static', filename='imgs/pion.png') }}" alt="pion">
+        <img class="image-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
       </div>
       <div class="membres-cases">
         {% for admin in admins %}
           <button class="membres-case" id="admin-{{ admin.id_utilisateurs }}" 
+                  data-id="{{ admin.id_utilisateurs }}"
                   data-url-base="{{ url_for('static', filename='') }}"
                   data-photo="{{ admin.photo_de_profil }}"
                   data-nom="{{ admin.nom }}" data-prenom="{{ admin.prenom }}" 
@@ -28,9 +29,7 @@
                   data-chesscom="{{ admin.chess_com }}" 
                   data-lichess="{{ admin.lichess }}"
                   onclick="changerBoutonMembres(this)"> 
-            <img class="membres-case-photo" 
-                 src="{{ url_for('static', filename=admin.photo_de_profil) }}" 
-                 alt="Photo de profil"/> 
+            <img class="membres-case-photo" src="{{ url_for('static', filename=admin.photo_de_profil) }}" alt="Photo de profil"/> 
             <div class="membres-case-infos"> 
               <h2 class="membres-nom-prenom">{{ admin.nom }} <br> {{ admin.prenom }}</h2> 
               <h3 class="membres-annee">{{ admin.classe }}</h3> 
@@ -45,11 +44,12 @@
         <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Membres</h2>
         <div class="ligne" id="ligne-droite2"></div>
-        <img class="image-pion" src="{{ url_for('static', filename='imgs/pion.png') }}" alt="pion">
+        <img class="image-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
       </div>
       <div class="membres-cases">
         {% for membre in members %}
           <button class="membres-case" id="membre-{{ membre.id_utilisateurs }}" 
+                  data-id="{{ membre.id_utilisateurs }}"
                   data-url-base="{{ url_for('static', filename='') }}"
                   data-photo="{{ membre.photo_de_profil }}"
                   data-nom="{{ membre.nom }}" data-prenom="{{ membre.prenom }}" 
@@ -59,9 +59,7 @@
                   data-chesscom="{{ membre.chess_com }}" 
                   data-lichess="{{ membre.lichess }}"
                   onclick="changerBoutonMembres(this)"> 
-            <img class="membres-case-photo" 
-                 src="{{ url_for('static', filename=membre.photo_de_profil) }}" 
-                 alt="Photo de profil"/> 
+            <img class="membres-case-photo" src="{{ url_for('static', filename=membre.photo_de_profil) }}" alt="Photo de profil"/> 
             <div class="membres-case-infos"> 
               <h2 class="membres-nom-prenom">{{ membre.nom }} <br> {{ membre.prenom }}</h2> 
               <h3 class="membres-annee">{{ membre.classe }}</h3> 
@@ -73,6 +71,7 @@
   </div>
 
   <script>
+    
     function changerBoutonMembres(button) {
       // Vérifier si le bouton cliqué a déjà la classe 'big-grey-rectangle'
       var isButtonActivated = button.classList.contains('big-grey-rectangle');
@@ -98,6 +97,7 @@
       button.dataset.originalText = button.innerHTML;
 
       // Récupérer les données du membre à partir des attributs de données
+      var memberId = button.dataset.id;y
       var urlBase = button.dataset.urlBase;
       var memberPhoto = button.dataset.photo;
       var memberNom = button.dataset.nom;
@@ -116,8 +116,19 @@
             <h4 class="membre-carte-classe">${memberClasse}</h4>
           </div>
           <div class="membre-carte-droite">
-            <div class="membre-container-brun" id="membre-container-brun1">
+            <div class="membre-container-brun" id="membre-container-brun${memberId}">
               <h4 class="membre-case-titre">TOURNOIS<br>PRECEDENTS</h4>
+              {% if ${memberId} in user_tournaments %}
+                <div class="membre-tournois-container">
+                  {% for tournament in user_tournaments[${memberId}] %}
+                    <div>
+                      <h3>{{ tournament['annee'] }}: {{ tournament['place'] }}</h3>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <h3 id="aucun-tournoi-precedent">Aucun tournoi précédent.</h3>
+              {% endif %}
             </div>
             <div class="membre-container-brun" id="membre-container-brun2">
               <h3 class="membre-case-titre">INFOS</h3>
@@ -135,8 +146,6 @@
           </div>
       `;
       button.innerHTML = addedContent;
-
-      // Ajouter la classe 'big-grey-rectangle'
       button.classList.add('big-grey-rectangle');
     }
   </script>

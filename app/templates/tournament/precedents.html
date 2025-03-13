@@ -16,21 +16,72 @@
       <br>Chaque année, le nom du gagnant est inscrit sur la Coupe d’échecs du CSUD, dans le hall 
       <br>d’entrée.
     </h3>
-    <div id="annees">
-      <div id="2024">
 
+    <div id="annees">
+      {% for annee in range(2024, 2017, -1) %}
+      <div class="annee" onclick="toggleYear('{{ annee }}')">
+        <h3>{{ annee }}</h3>
+        <img class="fleche" src="{{ url_for('static', filename='imgs/imgs-site/droite.png') }}">
       </div>
-      <div id="2023">
-        
+      <div class="contenu-annee" id="contenu-{{ annee }}" style="display: none;">
+        <div class="contenu-annee-partie contenu-gauche">
+          <img class="classement" src="{{ url_for('static', filename='imgs/imgs-classements/{{annee}}.png') }}" alt="Classement {{ annee }}">
+        </div>
+        <div class="contenu-annee-partie contenu-droite">
+          <div class="slideshow">
+              {% for i in range(1, 6) %}
+              <img class="slide-{{ annee }}" src="{{ url_for('static', filename='tournoi/{{ annee }}/image' ~ i ~ '.jpg') }}" style="display: none;">
+              {% endfor %}
+          </div>
+          <div class="boutons-slideshow">
+            <button class="prev" onclick="changeSlide('{{ annee }}', -1)">❮</button>
+            <button class="next" onclick="changeSlide('{{ annee }}', 1)">❯</button>
+          </div>
+        </div>
       </div>
-      <div id="2022"></div>
-      <div id="2021"></div>
-      <div id="2020"></div>
-      <div id="2019"></div>
-      <div id="2018"></div>
-      <div id="2017"></div>
+      {% endfor %}
     </div>
   </div>
+  <script>
+    function toggleYear(year) {
+    let content = document.getElementById('contenu-' + year);
+    let anneeDiv = document.querySelector('.annee[onclick="toggleYear(\'' + year + '\')"]'); // Sélectionne l'élément cliqué
+    let fleche = anneeDiv.querySelector('.fleche'); // Sélectionne la flèche
+
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'flex';
+        fleche.classList.add("tourne"); 
+    } else {
+        content.style.display = 'none';
+        fleche.classList.remove("tourne"); 
+    }
+}
+
+// Gérer le diaporama
+let currentSlideIndex = {};
+
+function changeSlide(year, step) {
+    if (!currentSlideIndex[year]) {
+        currentSlideIndex[year] = 0;
+    }
+    
+    let slides = document.querySelectorAll('.slide-' + year);
+    slides[currentSlideIndex[year]].style.display = "none"; // Cache l'ancienne image
+    
+    currentSlideIndex[year] += step;
+    if (currentSlideIndex[year] >= slides.length) {
+        currentSlideIndex[year] = 0; // Revient à la première image
+    } else if (currentSlideIndex[year] < 0) {
+        currentSlideIndex[year] = slides.length - 1; // Va à la dernière image
+    }
+    
+    slides[currentSlideIndex[year]].style.display = "block"; // Affiche la nouvelle image
+}
+
+
+
+
+  </script>
 </body>
 
 {% endblock %}

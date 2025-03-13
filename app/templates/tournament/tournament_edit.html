@@ -9,7 +9,7 @@
   <div id="tournoi-container">
     <div id="tournoi-container-titre">
       <h1 class="titre-page" id="tournoi-titre" >Tournoi</h1>
-      <img class="image-pion" src="{{url_for('static', filename='imgs/pion.png')}}" alt="pion">
+      <img class="image-pion" src="{{url_for('static', filename='imgs/imgs-site/pion.png')}}" alt="pion">
     </div>
     <div class="tournoi-container-create-edit">
         <div class="tournoi-container-infos" id="tournoi-infos-create-edit">
@@ -19,13 +19,13 @@
                 <form action="{{url_for('tournament.show_tournament')}}" method="get">
                   <button class="tournoi-create-edit-boutons" id="tournoi-create-edit-annuler" type="submit" >
                     <span>ANNULER</span>
-                    <img src="{{url_for('static', filename='imgs/croix.png')}}" alt="Logo du bouton modifier"/>
+                    <img src="{{url_for('static', filename='imgs/imgs-site/croix.png')}}" alt="Logo du bouton modifier"/>
                   </button>
                 </form>
                 <form id="tournoi-modifier-form" action="{{url_for('tournament.edit_tournament')}}" method="post">
                   <button class="tournoi-create-edit-boutons" id="tournoi-create-edit-confirmer" type="submit" >
                     <span>CONFIRMER</span>
-                    <img src="{{url_for('static', filename='imgs/vu.png')}}" alt="Logo du bouton modifier"/>
+                    <img src="{{url_for('static', filename='imgs/imgs-site/vu.png')}}" alt="Logo du bouton modifier"/>
                   </button>
               </div>
             </div>
@@ -64,6 +64,12 @@
               <th class="th-infos">Arbitre :</th>
               <td class="td-infos">
                 <input name="arbitre" class="tournament-ce-input" required value="{{tournament['arbitre']}}">
+              </td>
+            </tr>
+            <tr>
+              <th class="th-infos">Date limite d'inscription :</th>
+              <td class="td-infos">
+                <input name="date_limite" class="tournament-ce-input" required value="{{tournament['date_limite']}}">
               </td>
             </tr>
             <tr>
