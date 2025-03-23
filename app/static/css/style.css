@@ -345,9 +345,11 @@ margin-bottom: 5vh;
 #bouton-mdp-oublié{
   margin-left: 5%;  
 }
+
 /*
 ----------------------   Page s'inscrire  ----------------------
 */
+
 .titre-page{
   color: #76453B;
   font-size: 350%;
@@ -464,6 +466,7 @@ cursor: pointer;
 .sans-flash{
   margin-top: 7%;
 }
+
 /*
 ----------------------   Page Membres   ----------------------
 */
@@ -664,6 +667,33 @@ button.membres-case {
 }
 #aucun-tournoi-precedent{
   margin-top: 6vh;
+}
+.membre-tournois-container{
+  width:100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+.membre-tournois-container-enfant{
+  height:18vh;
+}
+.coupe-trophee{
+  height:7vw;
+  width: auto;
+  z-index: 40000;
+}
+.membre-tournois-container-enfant-h3{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  width:12vw;
+}
+.aucun-tournoi-h3{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
 }
 /*
 ----------------------   Page Tournoi  --------------------
@@ -871,6 +901,10 @@ tr:nth-child(odd) {
   margin-top: 10vh;
   cursor: pointer;
 }
+.tournoi-div-ferme{
+  margin-top: 10vh;
+  text-align: center;
+}
 
 .tournoi-bouton-script.clicked {
   height: 40vh;
@@ -1027,16 +1061,23 @@ tr:nth-child(odd) {
 }
 
 /*
-----------------  Page Tournois précédants   ---------------
+----------------  Page Tournois précédents   ---------------
 */
-#precedants-container{
+#precedents-bouton-ajouter{
+  margin-left: 60vw;
+  margin-top: 5vw;
+  width:25vw;
+  border-radius: 30px;
+  cursor: pointer;
+}
+#precedents-container{
   height: 200vh;
   width:100vw;
   display: flex;
   flex-direction: column;
   align-items:flex-start;
 }
-#precedants-container-titre{
+#precedents-container-titre{
   margin-top: 8vh;
   display: flex;
   flex-direction: column;
@@ -1047,18 +1088,18 @@ tr:nth-child(odd) {
   margin-bottom: 5vh;
   white-space:nowrap;
 }
-#precedants-lien-tournoi{
+#precedents-lien-tournoi{
   position:relative;
   right:33vw;
   color: #D0B8A8;
   font-size: 1.5rem;
   margin-bottom: -2vh;
 }
-#precedants-titre{
+#precedents-titre{
   position:relative;
   right:16vw;
 }
-#precedants-texte{
+#precedents-texte{
   align-self: center;
   font-size: 130%;
 }
@@ -1100,6 +1141,142 @@ tr:nth-child(odd) {
 .boutons-slideshow{
   display: flex;
   flex-direction: row;
+  margin-bottom: 5vh;
+}
+
+.slideshow {
+  width: 100%; 
+  height: 450px;
+  overflow: hidden; 
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.slide-container {
+  display: none;
+}
+
+.slide-container img {
+  margin-top: 3vh;
+  height: 350px; 
+  width: auto; 
+  max-width: 100%; 
+  object-fit: contain; 
+  border: 5px solid rgba(0, 0, 0, 0.7);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+/* Afficher uniquement le premier élément au chargement */
+.slideshow .slide-container:first-child {
+  display: block;
+}
+.photo-description {
+  position: absolute;
+  left: 50%;
+  bottom: 1.6vh;
+  transform: translateX(-50%); /* Centrer exactement */
+  height: 12vh;
+  font-size: medium;
+  width: 32vw;
+  margin-top: 3vh;
+  border: 3px solid #ccc;
+
+  border-radius: 8px;
+  background-color: #E5E5EA;
+  text-align: center; 
+  padding: 5px;
+  overflow-y:scroll;
+}
+
+/*
+----------------  Page Ajouter des photos   ---------------
+*/
+
+#ajouter-container-titre{
+  position: relative;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height:30vh;
+  width:65vw;
+  margin-bottom: 5vh;
+}
+#precedents-add-lien-precedents{
+  position:relative;
+  color: #D0B8A8;
+  font-size: 1.5rem;
+  right:10vw;
+  margin-bottom: -2vh;
+}
+.ajouter-container-bas{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height:150vh;
+}
+#container-ajouter{
+  height:125vh;
+}
+.ajouter-selects{
+  display: flex;
+  flex-direction: row;
+  margin-top:10vh;
+  margin-left: 4vw;
+}
+.label-annee{
+  margin-left: 5vw;
+}
+#description{
+  all: unset;
+  font-family: "Aldrich", sans-serif;
+  font-size: large;
+  background-color: #F2F2F7;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  border: none;
+  margin-left: 10%;
+  padding-left: 2%;
+  padding-top: 1vh;
+  border-radius: 5vh;
+  height: 25vh;
+  width: 80%;
+  margin-bottom: 5vh; 
+}
+.bouton-ajouter{
+  margin-top: 4vh;
+  margin-left: 48vw;
+}
+.h3-photo{
+  margin-left: 9vw;
+  margin-bottom: 1vh;
+}
+.upload-btn {
+  all: unset;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color:#8D493A;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px; 
+  width: auto;
+  height: auto;
+  margin-left: 7vw;
+  margin-bottom: 5vh;
+}
+
+
+.upload-btn:hover {
+  background-color:#76453B;
+}
+.flash-prececents-add{
+  margin-left: 11%;
+  margin-top: 5%;
 }
 
 /*
@@ -1151,6 +1328,14 @@ tr:nth-child(odd) {
 #infos-texte-sinscrire{
   font-size: 115%;
   text-decoration: underline;
+}
+.ajouter-photo{
+  display: flex;
+  flex-direction: row;
+}
+#file-link{
+  margin-top: 2vh;
+  margin-left: 4vw;
 }
 
 /*

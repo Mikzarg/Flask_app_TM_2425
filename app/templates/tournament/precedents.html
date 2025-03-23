@@ -5,83 +5,151 @@
 {% endblock %}
 
 {% block content %}
-
 <body>
-  <div id="precedants-container">
-    <div id="precedants-container-titre">
-      <a id="precedants-lien-tournoi" href="{{ url_for('tournament.show_tournament') }}">> Tournoi</a>
-      <h1 class="titre-page" id="precedants-titre" >Tournois précédants</h1>
+  <div id="precedents-container">
+    <div id="precedents-container-titre">
+      <a id="precedents-lien-tournoi" href="{{ url_for('tournament.show_tournament') }}">> Tournoi</a>
+      <h1 class="titre-page" id="precedents-titre" >Tournois précédents</h1>
     </div>
-    <h3 id="precedants-texte">Au CSUD, un tournoi d’échecs est organisé chaque année, depuis 2020 jusqu’à aujourd’hui !
+    <h3 id="precedents-texte">
+      Au CSUD, un tournoi d’échecs est organisé chaque année, depuis 2020 jusqu’à aujourd’hui ! 
       <br>Chaque année, le nom du gagnant est inscrit sur la Coupe d’échecs du CSUD, dans le hall 
       <br>d’entrée.
     </h3>
 
+    {% if g.user['role'] == 'Admin' %}
+      <form action="{{ url_for('tournament.show_add_precedents') }}" method="get">
+        <button type="submit" id="precedents-bouton-ajouter">
+          <h3>Ajouter une photo</h3>
+          <img id="image-ajouter" src="{{ url_for('static', filename='imgs/imgs-site/plus.png') }}" alt="Logo du bouton ajouter"/>
+        </button>
+      </form>
+    {% endif %}
+    
     <div id="annees">
-      {% for annee in range(2024, 2017, -1) %}
-      <div class="annee" onclick="toggleYear('{{ annee }}')">
-        <h3>{{ annee }}</h3>
-        <img class="fleche" src="{{ url_for('static', filename='imgs/imgs-site/droite.png') }}">
-      </div>
-      <div class="contenu-annee" id="contenu-{{ annee }}" style="display: none;">
-        <div class="contenu-annee-partie contenu-gauche">
-          <img class="classement" src="{{ url_for('static', filename='imgs/imgs-classements/{{annee}}.png') }}" alt="Classement {{ annee }}">
+      {% for annee, tournoi in tournois.items() | sort(reverse=True) %}
+        <div class="annee" onclick="toggleYear('{{ annee }}')">
+          <h3>{{ annee }}</h3>
+          <img class="fleche" src="{{ url_for('static', filename='imgs/imgs-site/droite.png') }}">
         </div>
-        <div class="contenu-annee-partie contenu-droite">
-          <div class="slideshow">
-              {% for i in range(1, 6) %}
-              <img class="slide-{{ annee }}" src="{{ url_for('static', filename='tournoi/{{ annee }}/image' ~ i ~ '.jpg') }}" style="display: none;">
-              {% endfor %}
+
+        <div class="contenu-annee" id="contenu-{{ annee }}" style="display: none;">
+          <div class="contenu-annee-partie contenu-gauche">
+            {% if tournoi.photos_classement %}
+              <div class="slideshow slideshow1">
+                {% for photo in tournoi.photos_classement %}
+                  <div class="slide-container slide-classement-{{ annee }}">
+                    <img src="{{ url_for('static', filename=photo.chemin_vers_la_photo) }}" alt="Classement {{ annee }}">
+                    <h3 class="photo-description">{{ photo.description }}</h3>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="boutons-slideshow">
+                <button class="switch" onclick="changeSlide('{{ annee }}', 'classement', -1)">❮</button>
+                <button class="switch" onclick="changeSlide('{{ annee }}', 'classement', 1)">❯</button>
+              </div>
+            {% else %}
+              <p class="aucune-photo">Aucun classement disponible pour cette année.</p>
+            {% endif %}
           </div>
-          <div class="boutons-slideshow">
-            <button class="prev" onclick="changeSlide('{{ annee }}', -1)">❮</button>
-            <button class="next" onclick="changeSlide('{{ annee }}', 1)">❯</button>
+          
+          <div class="contenu-annee-partie contenu-droite">
+            {% if tournoi.photos_galerie %}
+              <div class="slideshow slideshow2">
+                {% for photo in tournoi.photos_galerie %}
+                  <div class="slide-container slide-galerie-{{ annee }}">
+                    <img src="{{ url_for('static', filename=photo.chemin_vers_la_photo) }}" alt="Photo {{ annee }}">
+                    <h3 class="photo-description">{{ photo.description }}</h3>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="boutons-slideshow">
+                <button class="switch" onclick="changeSlide('{{ annee }}', 'galerie', -1)">❮</button>
+                <button class="switch" onclick="changeSlide('{{ annee }}', 'galerie', 1)">❯</button>
+              </div>
+            {% else %}
+              <p class="aucune-photo">Aucune photo disponible pour cette année.</p>
+            {% endif %}
           </div>
+          
+          
+          
         </div>
-      </div>
       {% endfor %}
     </div>
   </div>
+
   <script>
     function toggleYear(year) {
-    let content = document.getElementById('contenu-' + year);
-    let anneeDiv = document.querySelector('.annee[onclick="toggleYear(\'' + year + '\')"]'); // Sélectionne l'élément cliqué
-    let fleche = anneeDiv.querySelector('.fleche'); // Sélectionne la flèche
+      let content = document.getElementById('contenu-' + year);
+      let anneeDiv = document.querySelector('.annee[onclick="toggleYear(\'' + year + '\')"]');
+      let fleche = anneeDiv.querySelector('.fleche');
 
-    if (content.style.display === 'none' || content.style.display === '') {
+      // Fermer toutes les autres années
+      document.querySelectorAll('.contenu-annee').forEach(el => {
+        if (el.id !== 'contenu-' + year) {
+          el.style.display = 'none';
+        }
+      });
+
+      document.querySelectorAll('.fleche').forEach(el => {
+        if (el !== fleche) {
+          el.classList.remove("tourne");
+        }
+      });
+
+      // Vérifier si l'année est déjà ouverte
+      let isCurrentlyOpen = content.style.display === 'flex';
+
+      // Fermer toutes les années
+      document.querySelectorAll('.contenu-annee').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.fleche').forEach(el => el.classList.remove("tourne"));
+
+      // Ouvrir seulement si elle n'était pas déjà ouverte
+      if (!isCurrentlyOpen) {
         content.style.display = 'flex';
-        fleche.classList.add("tourne"); 
-    } else {
-        content.style.display = 'none';
-        fleche.classList.remove("tourne"); 
+        fleche.classList.add("tourne");
+      }
     }
+
+    let currentSlideIndex = {
+  classement: {},
+  galerie: {}
+};
+
+function changeSlide(year, type, step) {
+  if (!currentSlideIndex[type][year]) {
+    currentSlideIndex[type][year] = 0;
+  }
+
+  let slides = document.querySelectorAll('.slide-' + type + '-' + year);
+  
+  // Cache l'ancienne diapositive
+  slides[currentSlideIndex[type][year]].style.display = "none";
+
+  // Change l'index
+  currentSlideIndex[type][year] += step;
+  if (currentSlideIndex[type][year] >= slides.length) {
+    currentSlideIndex[type][year] = 0;
+  } else if (currentSlideIndex[type][year] < 0) {
+    currentSlideIndex[type][year] = slides.length - 1;
+  }
+
+  // Affiche la nouvelle diapositive
+  slides[currentSlideIndex[type][year]].style.display = "block";
 }
 
-// Gérer le diaporama
-let currentSlideIndex = {};
-
-function changeSlide(year, step) {
-    if (!currentSlideIndex[year]) {
-        currentSlideIndex[year] = 0;
+// Afficher la première diapositive au chargement
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".slideshow").forEach(slideshow => {
+    let slides = slideshow.querySelectorAll(".slide-container");
+    if (slides.length > 0) {
+      slides[0].style.display = "block";
     }
-    
-    let slides = document.querySelectorAll('.slide-' + year);
-    slides[currentSlideIndex[year]].style.display = "none"; // Cache l'ancienne image
-    
-    currentSlideIndex[year] += step;
-    if (currentSlideIndex[year] >= slides.length) {
-        currentSlideIndex[year] = 0; // Revient à la première image
-    } else if (currentSlideIndex[year] < 0) {
-        currentSlideIndex[year] = slides.length - 1; // Va à la dernière image
-    }
-    
-    slides[currentSlideIndex[year]].style.display = "block"; // Affiche la nouvelle image
-}
-
-
+  });
+});
 
 
   </script>
 </body>
-
 {% endblock %}

@@ -14,7 +14,7 @@
         <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Admin</h2>
         <div class="ligne" id="ligne-droite1"></div>
-        <img class="image-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
+        <img class="-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
       </div>
       <div class="membres-cases">
         {% for admin in admins %}
@@ -22,7 +22,8 @@
                   data-id="{{ admin.id_utilisateurs }}"
                   data-url-base="{{ url_for('static', filename='') }}"
                   data-photo="{{ admin.photo_de_profil }}"
-                  data-nom="{{ admin.nom }}" data-prenom="{{ admin.prenom }}" 
+                  data-nom="{{ admin.nom }}" 
+                  data-prenom="{{ admin.prenom }}" 
                   data-classe="{{ admin.classe }}"
                   data-numero="{{ admin.numero_de_telephone }}" 
                   data-mail="{{ admin.mail }}"
@@ -44,7 +45,7 @@
         <div class="ligne ligne-gauche"></div>
         <h2 class="membres-barre-titre">Membres</h2>
         <div class="ligne" id="ligne-droite2"></div>
-        <img class="image-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
+        <img class="-pion" src="{{ url_for('static', filename='imgs/imgs-site/pion.png') }}" alt="pion">
       </div>
       <div class="membres-cases">
         {% for membre in members %}
@@ -52,7 +53,8 @@
                   data-id="{{ membre.id_utilisateurs }}"
                   data-url-base="{{ url_for('static', filename='') }}"
                   data-photo="{{ membre.photo_de_profil }}"
-                  data-nom="{{ membre.nom }}" data-prenom="{{ membre.prenom }}" 
+                  data-nom="{{ membre.nom }}" 
+                  data-prenom="{{ membre.prenom }}" 
                   data-classe="{{ membre.classe }}"
                   data-numero="{{ membre.numero_de_telephone }}" 
                   data-mail="{{ membre.mail }}"
@@ -71,82 +73,100 @@
   </div>
 
   <script>
+
+  var user_tournaments = {{ user_tournaments | tojson | safe }};
+
+  function changerBoutonMembres(button) {
     
-    function changerBoutonMembres(button) {
-      // Vérifier si le bouton cliqué a déjà la classe 'big-grey-rectangle'
-      var isButtonActivated = button.classList.contains('big-grey-rectangle');
+    // Vérifier si le bouton cliqué a déjà la classe 'big-grey-rectangle'
+    var isButtonActivated = button.classList.contains('big-grey-rectangle');
+    
+    // Retirer la classe 'big-grey-rectangle' de tous les boutons
+    var buttons = document.querySelectorAll('.membres-case');
+    buttons.forEach(function(btn) {
+      btn.classList.remove('big-grey-rectangle');
 
-      // Retirer la classe 'big-grey-rectangle' de tous les boutons
-      var buttons = document.querySelectorAll('.membres-case');
-      buttons.forEach(function(btn) {
-        btn.classList.remove('big-grey-rectangle');
-
-        // Restaurer le texte original
-        if (btn.dataset.originalText) {
-          btn.innerHTML = btn.dataset.originalText;
-        }
-      });
-
-      // Si le bouton cliqué était déjà activé, ne rien faire de plus
-      if (isButtonActivated) {
-        return;
+      // Restaurer le texte original
+      if (btn.dataset.originalText) {
+        btn.innerHTML = btn.dataset.originalText;
       }
-
-      // Si le bouton cliqué n'était pas activé, ajouter la classe et changer le texte
-      // Stocker le texte original
-      button.dataset.originalText = button.innerHTML;
-
-      // Récupérer les données du membre à partir des attributs de données
-      var memberId = button.dataset.id;y
-      var urlBase = button.dataset.urlBase;
-      var memberPhoto = button.dataset.photo;
-      var memberNom = button.dataset.nom;
-      var memberPrenom = button.dataset.prenom;
-      var memberClasse = button.dataset.classe;
-      var memberNumero = button.dataset.numero;
-      var memberMail = button.dataset.mail;
-      var memberChesscom = button.dataset.chesscom;
-      var memberLichess = button.dataset.lichess;
-
-      // Changer le texte du bouton
-      var addedContent = `
-          <div class="membre-carte-gauche">
-            <img class="membre-carte-photo" src="${urlBase}${memberPhoto}" alt="Photo de profil"/>
-            <h3 class="membre-carte-nom-prenom">${memberNom} ${memberPrenom}</h3>
-            <h4 class="membre-carte-classe">${memberClasse}</h4>
+    });
+    
+    // Si le bouton cliqué était déjà activé, ne rien faire de plus
+    if (isButtonActivated) {
+      return;
+    }
+    
+    // Si le bouton cliqué n'était pas activé, ajouter la classe et changer le texte
+    // Stocker le texte original
+    button.dataset.originalText = button.innerHTML;
+    var memberId = button.dataset.id;
+    
+    
+    
+    // Création de la partie de la carte qui ne change pas
+    var addedContent = `
+      <div class="membre-carte-gauche">
+        <img class="membre-carte-photo" src="${button.dataset.urlBase}${button.dataset.photo}" alt="Photo de profil"/>
+        <h3 class="membre-carte-nom-prenom">${button.dataset.nom} ${button.dataset.prenom}</h3>
+        <h4 class="membre-carte-classe">${button.dataset.classe}</h4>
+      </div>
+      <div class="membre-carte-droite">
+        <div class="membre-container-brun" id="membre-container-brun1">
+          <h4 class="membre-case-titre">TOURNOIS<br>PRÉCÉDENTS</h4>`;
+    // Récupérer les tournois de l'utilisateur (ou un tableau vide s'il n'a pas de tournoi)
+    var tournaments = user_tournaments[memberId] || [];
+    // Si l'utilisateur a des tournois
+    if (tournaments.length > 0) {
+      addedContent += `
+        <div class="membre-tournois-container">
+      ${tournaments.map(tournament => {
+        
+        var place = '';
+        if (tournament.place_au_classement === 1) {
+          place = '<img class="coupe-trophee" src="' + button.dataset.urlBase + 'imgs/imgs-site/coupe-or.png" alt="Coupe Or" />';
+        } else if (tournament.place_au_classement === 2) {
+          place = '<img class="coupe-trophee" src="' + button.dataset.urlBase + 'imgs/imgs-site/coupe-argent.png" alt="Coupe Argent" />';
+        } else if (tournament.place_au_classement === 3) {
+          place = '<img class="coupe-trophee" src="' + button.dataset.urlBase + 'imgs/imgs-site/coupe-bronze.png" alt="Coupe Bronze" />';
+        } else {
+          place = tournament.place_au_classement + 'e'; 
+        }
+        return `
+          <div class="membre-tournois-container-enfant">
+            <h3 class="membre-tournois-container-enfant-h3">${tournament.annee_tournoi}: ${place}</h3>
           </div>
-          <div class="membre-carte-droite">
-            <div class="membre-container-brun" id="membre-container-brun${memberId}">
-              <h4 class="membre-case-titre">TOURNOIS<br>PRECEDENTS</h4>
-              {% if ${memberId} in user_tournaments %}
-                <div class="membre-tournois-container">
-                  {% for tournament in user_tournaments[${memberId}] %}
-                    <div>
-                      <h3>{{ tournament['annee'] }}: {{ tournament['place'] }}</h3>
-                    </div>
-                  {% endfor %}
-                </div>
-              {% else %}
-                <h3 id="aucun-tournoi-precedent">Aucun tournoi précédent.</h3>
-              {% endif %}
+        `;
+      }).join('')}
+    </div>`;
+    } else {
+      // Si l'utilisateur n'a pas de tournois
+      addedContent += `<h3 class="aucun-tournoi-h3">Aucun tournoi précédent.</h3>`;
+    }
+
+    // Fermer la structure HTML commune
+    addedContent += `
+        </div>
+        <div class="membre-container-brun" id="membre-container-brun2">
+          <h3 class="membre-case-titre">INFOS</h3>
+          <div class="membre-container-brun-tot">
+            <div class="membre-container-brun-cote membre-container-brun-gauche">
+              <h4>Num. : <br><span class="tabulation_droite">${button.dataset.numero}</span></h4>
+              <h4>Mail : <br><span class="tabulation_droite">${button.dataset.mail}</span></h4>
             </div>
-            <div class="membre-container-brun" id="membre-container-brun2">
-              <h3 class="membre-case-titre">INFOS</h3>
-              <div class="membre-container-brun-tot">
-                <div class="membre-container-brun-cote membre-container-brun-gauche">
-                  <h4>Num. : <br><span class="tabulation_droite"> ${memberNumero}</span></h4>
-                  <h4>Mail : <br><span class="tabulation_droite"> ${memberMail}</span></h4>
-                </div>
-                <div class="membre-container-brun-cote membre-container-brun-droite">
-                  <h4>Chess.com : <br><span class="tabulation_droite"> ${memberChesscom}</span></h4>
-                  <h4>Lichess : <br><span class="tabulation_droite"> ${memberLichess}</span></h4>
-                </div>
-              </div>
+            <div class="membre-container-brun-cote membre-container-brun-droite">
+              <h4>Chess.com : <br><span class="tabulation_droite">${button.dataset.chesscom}</span></h4>
+              <h4>Lichess : <br><span class="tabulation_droite">${button.dataset.lichess}</span></h4>
             </div>
           </div>
-      `;
-      button.innerHTML = addedContent;
-      button.classList.add('big-grey-rectangle');
+        </div>
+      </div>
+    `;
+
+    // Modifier le contenu du bouton pour afficher ces nouvelles informations
+    button.innerHTML = addedContent;
+    button.classList.add('big-grey-rectangle');
+      
     }
   </script>
 </body>

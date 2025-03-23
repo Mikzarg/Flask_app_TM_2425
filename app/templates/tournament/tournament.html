@@ -80,7 +80,11 @@
       </div>
       <div id="tournoi-container-boutons">
         <img class="image-roi" src="{{url_for('static', filename='imgs/imgs-site/roi.png')}}" alt="roi">
-        {% if is_registered %}
+        {% if inscriptions_fermees %}
+          <div class="tournoi-bouton-script tournoi-div-ferme">
+            <h3>Les inscriptions pour ce tournoi sont closes.</h3>
+          </div>
+        {% elif is_registered %}
           <form method="POST" id="form-annuler-unregister" action="{{ url_for('tournament.unregister_tournament') }}">
             <button class="tournoi-bouton-script tournoi-bouton-annuler">ANNULER</button>
           </form>

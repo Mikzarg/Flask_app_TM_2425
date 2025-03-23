@@ -1,10 +1,31 @@
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
+from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app)
 from app.db.db import get_db, close_db
 from app.utils import *
 import sqlite3
 from datetime import datetime
 import locale
 
+import os
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+
+# Définition des dossiers d'upload
+UPLOAD_FOLDER = 'static/imgs/'  # Dossier principal
+CLASS_FOLDER = os.path.join(UPLOAD_FOLDER, 'imgs-classement')  # Dossier pour classement
+GALLERY_FOLDER = os.path.join(UPLOAD_FOLDER, 'imgs-galerie')  # Dossier pour galerie
+
+# Assurez-vous que ces dossiers existent
+os.makedirs(CLASS_FOLDER, exist_ok=True)
+os.makedirs(GALLERY_FOLDER, exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Routes /tournament/...
 tournament_bp = Blueprint('tournament', __name__, url_prefix='/tournament')
@@ -25,36 +46,43 @@ def show_tournament():
     db = get_db()
     user_id = session.get('user_id')
     tournament_id = g.tournament['id_tournoi'] if g.tournament else None
+    if g.tournament:
+        participants = db.execute(
+            "SELECT u.prenom, u.nom FROM Participe p JOIN Utilisateurs u ON p.FK_utilisateur = u.id_utilisateurs WHERE p.FK_tournoi = ?",
+            (tournament_id,)
+        ).fetchall()
+        # Définit la langue française pour le formatage
+        locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
 
-    participants = db.execute(
-        "SELECT u.prenom, u.nom FROM Participe p JOIN Utilisateurs u ON p.FK_utilisateur = u.id_utilisateurs WHERE p.FK_tournoi = ?",
-        (tournament_id,)
-    ).fetchall()
-    # Définit la langue française pour le formatage
-    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+        # Convertir la chaîne en un objet date
+        date_obj = datetime.strptime(g.tournament['date_limite'], "%Y-%m-%d")
 
-    # Convertir la chaîne en un objet date
-    date_obj = datetime.strptime(g.tournament['date_limite'], "%Y-%m-%d")
+        # Formater la date en mots
+        date_lisible_limite = date_obj.strftime("%A %d %B %Y")
+        date_lisible_limite = date_lisible_limite.capitalize()
 
-    # Formater la date en mots
-    date_lisible_limite = date_obj.strftime("%A %d %B %Y")
-    date_lisible_limite = date_lisible_limite.capitalize()
+        date_obj1 = datetime.strptime(g.tournament['date_tournoi'], "%Y-%m-%d")
 
-    date_obj1 = datetime.strptime(g.tournament['date_tournoi'], "%Y-%m-%d")
+        # Formater la date en mots
+        date_lisible_tournoi = date_obj1.strftime("%A %d %B %Y")
+        date_lisible_tournoi = date_lisible_tournoi.capitalize()
 
-    # Formater la date en mots
-    date_lisible_tournoi = date_obj1.strftime("%A %d %B %Y")
-    date_lisible_tournoi = date_lisible_tournoi.capitalize()
+        # Vérifier si l'utilisateur est inscrit
+        is_registered = False
+        if user_id and tournament_id:
+            existing_entry = db.execute(
+                "SELECT 1 FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?",
+                (user_id, tournament_id)
+            ).fetchone()
+            is_registered = bool(existing_entry)
 
-    # Vérifier si l'utilisateur est inscrit
-    is_registered = False
-    if user_id and tournament_id:
-        existing_entry = db.execute(
-            "SELECT 1 FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?",
-            (user_id, tournament_id)
-        ).fetchone()
-        is_registered = bool(existing_entry)
-    return render_template('tournament/tournament.html', tournament=g.tournament,participants=participants, is_registered=is_registered, date_lisible_limite=date_lisible_limite, date_lisible_tournoi=date_lisible_tournoi)
+        date_limite = g.tournament['date_limite']
+        date_actuelle = datetime.now()
+        inscriptions_fermees = date_actuelle > datetime.strptime(date_limite, "%Y-%m-%d")
+        return render_template('tournament/tournament.html', tournament=g.tournament,participants=participants, is_registered=is_registered, date_lisible_limite=date_lisible_limite, date_lisible_tournoi=date_lisible_tournoi, inscriptions_fermees=inscriptions_fermees)
+    else:
+        flash("Aucun tournoi en cours.", "warning")
+        return render_template('tournament/tournament.html', tournament=None)
 
 @tournament_bp.route('/create', methods=('GET', 'POST'))
 def show_create_tournament():
@@ -148,14 +176,6 @@ def register_tournament():
     date_limite_str = g.tournament['date_limite']  # Assurez-vous que c'est une chaîne au format "YYYY-MM-DD"
     date_limite = datetime.strptime(date_limite_str, "%Y-%m-%d").date()
 
-    # Récupérer la date actuelle
-    date_actuelle = datetime.now().date()
-
-    # Vérifier si la date actuelle est au-delà de la date limite
-    if date_actuelle > date_limite:
-        flash("Les inscriptions pour ce tournoi sont closes.", "warning")
-        return redirect(url_for('tournament.show_tournament'))
-
     if existing_entry:
         flash("Vous êtes déjà inscrit à ce tournoi.", "warning")
     else:
@@ -193,9 +213,135 @@ def unregister_tournament():
         return redirect(url_for('error_page'))  # Pas de session ou tournoi trouvé
 
 
-# --------- Precedants -----------
+# --------- Precedents -----------
 
-@tournament_bp.route('/precedents', methods=('GET', 'POST'))
+@tournament_bp.route('/precedents', methods=['GET'])
 def show_precedents():
-    # Affichage de la page des tournois précédents
-    return render_template('tournament/precedents.html')
+    db = get_db()
+    
+    # Trouver l'ID du dernier tournoi en date
+    dernier_tournoi = db.execute(
+        "SELECT id_tournoi FROM Tournois ORDER BY date_tournoi DESC LIMIT 1"
+    ).fetchone()
+
+    id_dernier = dernier_tournoi['id_tournoi'] if dernier_tournoi else None
+
+    # Récupérer les tournois restants (sauf le dernier)
+    query = """
+    SELECT Tournois.id_tournoi, Tournois.date_tournoi, Photos.description, Photos.chemin_vers_la_photo, Photos.id_photos, Photos.type_photo
+    FROM Tournois
+    LEFT JOIN Photos ON Tournois.id_tournoi = Photos.id_tournoi
+    WHERE Tournois.id_tournoi != ?
+    ORDER BY Tournois.date_tournoi DESC
+    """
+    params = (id_dernier,) if id_dernier else ()  # Évite une erreur SQL si aucun tournoi n'existe encore
+
+    tournois = db.execute(query, params).fetchall()
+
+    tournois_dict = {}
+
+    for tournoi in tournois:
+        annee = datetime.strptime(tournoi['date_tournoi'], '%Y-%m-%d').year
+
+        if annee not in tournois_dict:
+            tournois_dict[annee] = {
+                'id_tournoi': tournoi['id_tournoi'],
+                'photos_classement': [],  # Liste pour les photos de classement
+                'photos_galerie': []     # Liste pour les photos de galerie
+            }
+
+        # Ajouter la photo à la liste appropriée en fonction de son type
+        if tournoi['type_photo'] == 'classement':
+            tournois_dict[annee]['photos_classement'].append({
+                'id_photo': tournoi['id_photos'],
+                'chemin_vers_la_photo': tournoi['chemin_vers_la_photo'],
+                'description': tournoi['description']  # Ajouter la description
+            })
+        elif tournoi['type_photo'] == 'galerie':
+            tournois_dict[annee]['photos_galerie'].append({
+                'id_photo': tournoi['id_photos'],
+                'chemin_vers_la_photo': tournoi['chemin_vers_la_photo'],
+                'description': tournoi['description']  # Ajouter la description
+            })
+
+
+
+    return render_template('tournament/precedents.html', tournois=tournois_dict)
+
+@tournament_bp.route('/precedents/add', methods=['GET'])
+def show_add_precedents():
+    db = get_db()
+
+    # Récupérer les dates complètes des tournois précédents (sauf le dernier)
+    query = """
+    SELECT date_tournoi
+    FROM Tournois
+    WHERE id_tournoi != (SELECT id_tournoi FROM Tournois ORDER BY date_tournoi DESC LIMIT 1)
+    ORDER BY date_tournoi DESC
+    """
+    
+    tournois = db.execute(query).fetchall()
+
+    dates_tournois = [tournoi['date_tournoi'] for tournoi in tournois]
+
+    return render_template('tournament/precedents_add.html',dates_tournois=dates_tournois)
+
+@tournament_bp.route('/precedents/adding', methods=['POST'])
+def add_precedents():
+    annee = request.form['annee']
+    type_photo = request.form['type'] 
+    description = request.form['description']
+
+    db = get_db()
+    
+    tournoi = db.execute('''
+            SELECT id_tournoi FROM Tournois WHERE date_tournoi = ?
+            ''', (annee,)).fetchone()
+    
+    if not tournoi:
+        flash("Aucun tournoi trouvé pour cette année.", "error")
+        return redirect(url_for('tournament.show_add_precedents')) 
+
+    tournoi_id = tournoi['id_tournoi']
+
+    photo = None
+    file = request.files.get('photo')  
+    if file is None or file.filename == '':
+        flash("Veuillez sélectionner une image avant de continuer !", "error")
+        return redirect(url_for('tournament.show_add_precedents'))  
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+
+        folder = 'imgs-classement' if type_photo == 'classement' else 'imgs-galerie'
+        upload_folder = os.path.join(current_app.root_path, 'static', 'imgs', folder)
+
+        os.makedirs(upload_folder, exist_ok=True)
+
+        filepath = os.path.join(upload_folder, filename)
+        file.save(filepath)
+
+        photo = f"imgs/{folder}/{filename}"
+    else:
+        flash("Le fichier choisi n'est pas valide. Veuillez sélectionner une image valide.", "error")
+        return redirect(url_for('tournament.show_add_precedents'))  
+
+    try:
+        db.execute('''
+            INSERT INTO Photos (id_tournoi, type_photo, description, chemin_vers_la_photo)
+            VALUES (?, ?, ?, ?)
+        ''', (tournoi_id, type_photo, description, photo))
+
+        db.commit()  
+        flash("Photo ajoutée avec succès !", "success")  
+    except Exception as e:
+        db.rollback()  
+        flash(f"Une erreur est survenue : {str(e)}", "error")  
+    finally:
+        close_db()  
+
+    return redirect(url_for('tournament.show_add_precedents'))
+
+
+
+

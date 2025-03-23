@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Ajout d'images à un tournoi
+{% endblock %}
+{% block content%}
+
+<body>
+  <div id="tournoi-container">
+    <div id="ajouter-container-titre">
+      <a id="precedents-add-lien-precedents" href="{{ url_for('tournament.show_precedents') }}">> Tournois précédents</a>
+      <h1 class="titre-page">Ajouter des photos</h1>
+    </div>
+    <div class="ajouter-container-bas">
+        <div class="box-gris" id="container-ajouter">
+            {% for message in get_flashed_messages() %}
+            <div class="flash-prececents-add">{{ message }}</div>
+            {% endfor %}
+            <form action="{{url_for('tournament.add_precedents')}}" method="post" enctype="multipart/form-data">
+              <div class="ajouter-selects">
+                <div class="ajouter-select">
+                  <label class="label-connection label-annee">Année</label>
+                  <select name="annee" id="select-sexe">
+                    {% for date in dates_tournois | sort(reverse=True) %}
+                    <option value="{{date}}">{{ date[:4] }}</option>
+                    {% endfor %}
+                  </select>   
+                </div>   
+                <div class="ajouter-select">     
+                  <label class="label-connection">Type de photo</label>
+                  <select name="type" id="select-sexe">
+                    <option value="galerie">Galerie</option> 
+                    <option value="classement">Classement</option>
+                  </select>
+                </div>
+              </div>
+              
+              <h3 class="h3-photo">Photo :</h3>
+              <div class="ajouter-photo">
+                <input type="file" name="photo" id="input-pdp" class="input-pdp" accept="image/*">
+                <label for="input-pdp" class="upload-btn">Choisir une photo</label>
+                <h4 id="file-link" class="file-link"></h4>
+              </div>
+              
+              <label for="description" class="label-connection">Description</label>
+              <textarea name="description" id="description" required></textarea>
+              
+              <input class="bouton-se-connecter bouton-ajouter" type="submit" value="Ajouter">
+            </form>            
+        </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("input-pdp").addEventListener("change", function(event) {
+        let file = event.target.files[0];
+        if (file) {
+            let fileURL = URL.createObjectURL(file);
+            document.getElementById("file-link").innerHTML = `Lien : <a href="${fileURL}" target="_blank">${file.name}</a>`;
+        } else {
+            document.getElementById("file-link").innerHTML = "";
+        }
+    });
+
+  </script>
+  
+</body>
+
+
+{% endblock %}
