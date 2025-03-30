@@ -600,6 +600,7 @@ button.membres-case {
   height:50vh;
   width:50vh;
   border-radius: 50%;
+  object-fit: cover;
 }
 .membre-carte-nom-prenom{
   margin-top: 4%;
@@ -1069,6 +1070,11 @@ tr:nth-child(odd) {
   width:25vw;
   border-radius: 30px;
   cursor: pointer;
+}
+.aucun-tournoi{
+  position:relative;
+  top:10vh;
+  left:30vw;
 }
 #precedents-container{
   height: 200vh;

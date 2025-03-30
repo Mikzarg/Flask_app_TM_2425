@@ -1,4 +1,4 @@
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app)
+from flask import (Flask, Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app)
 from app.db.db import get_db, close_db
 from app.utils import *
 import sqlite3
@@ -6,7 +6,6 @@ from datetime import datetime
 import locale
 
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -126,17 +125,21 @@ def create_tournament():
 
 @tournament_bp.route('/update', methods=['POST'])
 def edit_tournament():
+    if not g.tournament:
+        flash("Erreur : Aucun tournoi en cours à modifier.", "error")
+        return redirect(url_for('tournament.show_tournament'))
+
     lieu = request.form.get('lieu')
     date = request.form.get('date')
     horaire = request.form.get('horaire')
     rondes = request.form.get('rondes')
-    cadence  = request.form.get('cadence')
-    arbitre  = request.form.get('arbitre')
+    cadence = request.form.get('cadence')
+    arbitre = request.form.get('arbitre')
     date_limite = request.form.get('date_limite')
-    prix_1  = request.form.get('prix_1')
-    prix_2  = request.form.get('prix_2')
-    prix_3  = request.form.get('prix_3')
-    prix_de_participation  = request.form.get('prix_de_participation')
+    prix_1 = request.form.get('prix_1')
+    prix_2 = request.form.get('prix_2')
+    prix_3 = request.form.get('prix_3')
+    prix_de_participation = request.form.get('prix_de_participation')
 
     # Vérification : la date limite ne doit pas être après la date du tournoi
     if date_limite > date:
@@ -148,9 +151,11 @@ def edit_tournament():
     try:
         db.execute('''
             UPDATE Tournois
-            SET  lieu = ?, date_tournoi = ?, horaire = ?, rondes= ?, cadence = ?, arbitre= ?, date_limite= ?, prix_1= ?, prix_2= ?, prix_3= ?, prix_de_participation= ?
+            SET lieu = ?, date_tournoi = ?, horaire = ?, rondes = ?, cadence = ?, arbitre = ?, 
+                date_limite = ?, prix_1 = ?, prix_2 = ?, prix_3 = ?, prix_de_participation = ?
             WHERE id_tournoi = ?
         ''', (lieu, date, horaire, rondes, cadence, arbitre, date_limite, prix_1, prix_2, prix_3, prix_de_participation, g.tournament['id_tournoi']))
+        
         db.commit()
         flash("Tournoi mis à jour avec succès !", "success")
     except Exception as e:
@@ -158,7 +163,9 @@ def edit_tournament():
         flash(f"Une erreur est survenue : {str(e)}", "error")
     finally:
         close_db()
+
     return redirect(url_for('tournament.show_tournament'))
+
 
 @tournament_bp.route('/register', methods=['POST'])
 def register_tournament():
@@ -198,18 +205,28 @@ def show_precedents():
 
     id_dernier = dernier_tournoi['id_tournoi'] if dernier_tournoi else None
 
-    # Récupérer les tournois restants (sauf le dernier)
-    query = """
-    SELECT Tournois.id_tournoi, Tournois.date_tournoi, Photos.description, Photos.chemin_vers_la_photo, Photos.id_photos, Photos.type_photo
-    FROM Tournois
-    LEFT JOIN Photos ON Tournois.id_tournoi = Photos.id_tournoi
-    WHERE Tournois.id_tournoi != ?
-    ORDER BY Tournois.date_tournoi DESC
-    """
-    params = (id_dernier,) if id_dernier else ()  # Évite une erreur SQL si aucun tournoi n'existe encore
+    # Construire la requête SQL de manière conditionnelle
+    if id_dernier:
+        query = """
+        SELECT Tournois.id_tournoi, Tournois.date_tournoi, Photos.description, Photos.chemin_vers_la_photo, Photos.id_photos, Photos.type_photo
+        FROM Tournois
+        LEFT JOIN Photos ON Tournois.id_tournoi = Photos.id_tournoi
+        WHERE Tournois.id_tournoi != ?
+        ORDER BY Tournois.date_tournoi DESC
+        """
+        params = (id_dernier,)
+    else:
+        query = """
+        SELECT Tournois.id_tournoi, Tournois.date_tournoi, Photos.description, Photos.chemin_vers_la_photo, Photos.id_photos, Photos.type_photo
+        FROM Tournois
+        LEFT JOIN Photos ON Tournois.id_tournoi = Photos.id_tournoi
+        ORDER BY Tournois.date_tournoi DESC
+        """
+        params = ()
 
     tournois = db.execute(query, params).fetchall()
 
+    # Construction du dictionnaire des tournois
     tournois_dict = {}
 
     for tournoi in tournois:
@@ -218,27 +235,25 @@ def show_precedents():
         if annee not in tournois_dict:
             tournois_dict[annee] = {
                 'id_tournoi': tournoi['id_tournoi'],
-                'photos_classement': [],  # Liste pour les photos de classement
-                'photos_galerie': []     # Liste pour les photos de galerie
+                'photos_classement': [],  
+                'photos_galerie': []     
             }
 
-        # Ajouter la photo à la liste appropriée en fonction de son type
         if tournoi['type_photo'] == 'classement':
             tournois_dict[annee]['photos_classement'].append({
                 'id_photo': tournoi['id_photos'],
                 'chemin_vers_la_photo': tournoi['chemin_vers_la_photo'],
-                'description': tournoi['description']  # Ajouter la description
+                'description': tournoi['description']
             })
         elif tournoi['type_photo'] == 'galerie':
             tournois_dict[annee]['photos_galerie'].append({
                 'id_photo': tournoi['id_photos'],
                 'chemin_vers_la_photo': tournoi['chemin_vers_la_photo'],
-                'description': tournoi['description']  # Ajouter la description
+                'description': tournoi['description']
             })
 
-
-
     return render_template('tournament/precedents.html', tournois=tournois_dict)
+
 
 @tournament_bp.route('/precedents/add', methods=['GET'])
 def show_add_precedents():

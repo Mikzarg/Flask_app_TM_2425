@@ -18,12 +18,16 @@
     </h3>
 
     {% if g.user['role'] == 'Admin' %}
+      {% if dates_tournois %}
       <form action="{{ url_for('tournament.show_add_precedents') }}" method="get">
         <button type="submit" id="precedents-bouton-ajouter">
           <h3>Ajouter une photo</h3>
           <img id="image-ajouter" src="{{ url_for('static', filename='imgs/imgs-site/plus.png') }}" alt="Logo du bouton ajouter"/>
         </button>
       </form>
+      {% else %}
+      <p class="aucun-tournoi">Aucun tournoi enregistré, impossible d'ajouter des photos.</p>
+      {% endif %}
     {% endif %}
     
     <div id="annees">
