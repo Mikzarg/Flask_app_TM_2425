@@ -40,7 +40,6 @@ def load_tournament():
     else:
         g.tournament = None
 
-# Route /tournament/tournament 
 @tournament_bp.route('/', methods=['GET', 'POST'])
 def show_tournament():
     db = get_db()
@@ -166,51 +165,24 @@ def register_tournament():
     user_id = session.get('user_id') 
     tournament_id = g.tournament['id_tournoi']
     db = get_db()
-
-    # Vérifier si l'utilisateur est déjà inscrit
-    existing_entry = db.execute(
-        "SELECT * FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?",
+    db.execute(
+        "INSERT INTO Participe (FK_utilisateur, FK_tournoi, points_obtenus, place_au_classement) VALUES (?, ?, 0, NULL)",
         (user_id, tournament_id)
-    ).fetchone()
-    # Récupérer la date limite du tournoi
-    date_limite_str = g.tournament['date_limite']  # Assurez-vous que c'est une chaîne au format "YYYY-MM-DD"
-    date_limite = datetime.strptime(date_limite_str, "%Y-%m-%d").date()
-
-    if existing_entry:
-        flash("Vous êtes déjà inscrit à ce tournoi.", "warning")
-    else:
-        db.execute(
-            "INSERT INTO Participe (FK_utilisateur, FK_tournoi, points_obtenus, place_au_classement) VALUES (?, ?, 0, NULL)",
-            (user_id, tournament_id)
-        )
-        db.commit()
-        flash("Inscription réussie !", "success")
+    )
+    db.commit()
+    flash("Inscription réussie !", "success")
     return redirect(url_for('tournament.show_tournament'))
 
 @tournament_bp.route('/unregister_tournament', methods=['POST'])
 def unregister_tournament():
     user_id = session.get('user_id')
     tournament_id = g.tournament['id_tournoi']
-
-    if user_id and tournament_id:
-        db = get_db()  # Récupère la connexion à la base de données SQLite
-        cursor = db.cursor()
-
-        # Vérifie si l'utilisateur est inscrit à ce tournoi
-        cursor.execute('SELECT * FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?', (user_id, tournament_id))
-        participation = cursor.fetchone()
-
-        if participation:
-            # Si l'utilisateur est inscrit, on le supprime
-            cursor.execute('DELETE FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?', (user_id, tournament_id))
-            db.commit()  # Commit les changements
-
-            # Redirige vers la page du tournoi après désinscription
-            return redirect(url_for('tournament.show_tournament', tournament_id=tournament_id))
-        else:
-            return redirect(url_for('error_page'))  # L'utilisateur n'est pas inscrit
-    else:
-        return redirect(url_for('error_page'))  # Pas de session ou tournoi trouvé
+    db = get_db()  
+    db.execute(
+        'DELETE FROM Participe WHERE FK_utilisateur = ? AND FK_tournoi = ?', 
+        (user_id, tournament_id))
+    db.commit()  
+    return redirect(url_for('tournament.show_tournament', tournament_id=tournament_id))
 
 
 # --------- Precedents -----------
