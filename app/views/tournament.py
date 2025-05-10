@@ -251,8 +251,13 @@ def show_precedents():
                 'chemin_vers_la_photo': tournoi['chemin_vers_la_photo'],
                 'description': tournoi['description']
             })
-
-    return render_template('tournament/precedents.html', tournois=tournois_dict)
+    dates_tournois = db.execute("""
+        SELECT date_tournoi
+        FROM Tournois
+        WHERE id_tournoi != (SELECT id_tournoi FROM Tournois ORDER BY date_tournoi DESC LIMIT 1)
+        ORDER BY date_tournoi DESC
+    """).fetchall()
+    return render_template('tournament/precedents.html', tournois=tournois_dict, dates_tournois=dates_tournois)
 
 
 @tournament_bp.route('/precedents/add', methods=['GET'])

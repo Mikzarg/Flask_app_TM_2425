@@ -21,12 +21,14 @@
             <div id="container-tournoi-modifier">
               <h2 id="tournoi-infos-titre">Informations</h2>
               <div id="container-tournoi-modifier-boutons">
+                {% if tournament %}
                 <form id="tournoi-modifier-form" action="{{url_for('tournament.show_edit_tournament')}}" method="get">
                   <button type="submit" id="tournoi-bouton-modifier">
                     <span>Modifier</span>
                     <img id="image-modifier" src="{{url_for('static', filename='imgs/imgs-site/modifier.png')}}" alt="Logo du bouton modifier"/>
                   </button>
                 </form>
+                {%endif%}
                 <form action="{{url_for('tournament.show_create_tournament')}}" method="get">
                   <button type="submit" id="tournoi-bouton-ajouter">
                     <img id="image-ajouter" src="{{url_for('static', filename='imgs/imgs-site/plus.png')}}" alt="Logo du bouton ajouter"/>
