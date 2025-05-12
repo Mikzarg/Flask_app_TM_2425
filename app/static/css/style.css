@@ -1461,7 +1461,6 @@ button{
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   border: none;
   margin-left: 10%;
-
 }
 #reponses-gauche-bouton-role{
   margin-left: 7vw;
@@ -1473,7 +1472,6 @@ button{
   font-size: 110%;
   border-radius: 100px;
   margin-bottom: 10vh;
-  cursor: pointer;
 }
 #q-r-tournoi{
   height: 60%;
@@ -1485,6 +1483,9 @@ button{
 }
 .reponses-gauche-boutons::placeholder{
   color:white;
+}
+.no-pointer{
+  cursor: default;
 }
 #rouge{
   background-color:#FF3B30 ;
